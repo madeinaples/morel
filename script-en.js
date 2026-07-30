@@ -167,9 +167,3 @@ dialog.querySelector('.reader-close').addEventListener('click', () => dialog.clo
 dialog.addEventListener('click', (event) => {
   if (event.target === dialog) dialog.close();
 });
-
-document.querySelector('#newsletter-form').addEventListener('submit', (event) => {
-  event.preventDefault();
-  event.target.reset();
-  document.querySelector('.form-note').textContent = 'Thank you. The next letter will arrive here.';
-});

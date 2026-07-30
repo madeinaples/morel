@@ -666,12 +666,14 @@ body {
   margin: 50px auto 70px;
 }
 .newsletter form {
-  display: flex;
-  max-width: 620px;
+  max-width: 680px;
   margin: auto;
+}
+.newsletter-signup-row {
+  display: flex;
   border-bottom: 1px solid rgba(255, 255, 255, 0.7);
 }
-.newsletter input {
+.newsletter input[type="email"] {
   flex: 1;
   background: none;
   border: 0;
@@ -680,7 +682,7 @@ body {
   font: italic 22px var(--serif);
   outline: none;
 }
-.newsletter input::placeholder { color: rgba(255, 255, 255, 0.58); }
+.newsletter input[type="email"]::placeholder { color: rgba(255, 255, 255, 0.58); }
 .newsletter button {
   background: none;
   border: 0;
@@ -689,6 +691,33 @@ body {
   font: 10px var(--sans);
   letter-spacing: 0.16em;
   cursor: pointer;
+}
+.newsletter-consent {
+  display: grid;
+  grid-template-columns: 18px 1fr;
+  gap: 12px;
+  margin: 22px auto 0;
+  text-align: left;
+  color: rgba(255, 255, 255, 0.72);
+  font: 12px/1.55 var(--sans);
+}
+.newsletter-consent input {
+  width: 16px;
+  height: 16px;
+  margin: 2px 0 0;
+  accent-color: var(--paper);
+}
+.newsletter-consent a {
+  color: var(--white);
+  text-underline-offset: 3px;
+}
+.newsletter-honeypot {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  white-space: nowrap !important;
 }
 .form-note {
   font: 10px var(--sans);
@@ -721,6 +750,52 @@ footer > div {
 }
 footer > div span { margin-right: auto; }
 footer a { color: inherit; text-decoration: none; }
+
+.legal-page {
+  min-height: 100vh;
+  background: var(--paper);
+  color: var(--reader-ink);
+  padding: 180px 7vw 120px;
+}
+.legal-hero,
+.legal-copy {
+  width: min(860px, 100%);
+  margin: 0 auto;
+}
+.legal-hero {
+  padding-bottom: 65px;
+  border-bottom: 1px solid rgba(20, 23, 22, 0.22);
+}
+.legal-hero h1 {
+  margin: 24px 0 20px;
+  font: clamp(62px, 10vw, 132px)/0.9 var(--display);
+  letter-spacing: -0.055em;
+}
+.legal-hero p:last-child,
+.legal-copy {
+  font: 19px/1.65 var(--serif);
+}
+.legal-copy {
+  padding-top: 65px;
+}
+.legal-copy h2 {
+  margin: 58px 0 18px;
+  font: 38px/1.05 var(--display);
+  letter-spacing: -0.025em;
+}
+.legal-copy p,
+.legal-copy li { margin: 0 0 18px; }
+.legal-copy ul { padding-left: 22px; }
+.legal-copy a {
+  color: inherit;
+  text-underline-offset: 4px;
+}
+.legal-note {
+  margin-top: 70px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(20, 23, 22, 0.22);
+  font-size: 15px;
+}
 
 dialog {
   width: min(850px, 94vw);
@@ -1048,12 +1123,16 @@ dialog::backdrop {
   .site-share { padding: 95px 7vw; }
   .site-share-actions { grid-template-columns: 1fr; }
   .newsletter { padding: 100px 7vw; }
-  .newsletter form { flex-direction: column; border: 0; }
-  .newsletter input {
+  .newsletter-signup-row { flex-direction: column; border: 0; }
+  .newsletter input[type="email"] {
     border-bottom: 1px solid rgba(255, 255, 255, 0.7);
     text-align: center;
   }
   .newsletter button { padding: 25px; }
+  .newsletter-consent { font-size: 11px; }
+  .legal-page { padding: 140px 7vw 90px; }
+  .legal-hero h1 { font-size: 18vw; }
+  .legal-copy { font-size: 17px; }
   .footer-name { font-size: 20vw; }
   .article-header nav {
     position: static;
