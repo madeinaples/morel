@@ -156,4 +156,32 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://www.andreamorel.com/manifesto-en.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.andreamorel.com/manifesto-en.html" />
   </url>
+  <url>
+    <loc>https://www.andreamorel.com/archivio.html</loc>
+    <lastmod>2026-07-30</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.andreamorel.com/archivio.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.andreamorel.com/archive.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.andreamorel.com/archive.html" />
+  </url>
+  <url>
+    <loc>https://www.andreamorel.com/archive.html</loc>
+    <lastmod>2026-07-30</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.andreamorel.com/archivio.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.andreamorel.com/archive.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.andreamorel.com/archive.html" />
+  </url>
+  <url>
+    <loc>https://www.andreamorel.com/storie/earls-court-prima-che-londra-diventasse-gentile.html</loc>
+    <lastmod>2026-07-30</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.andreamorel.com/storie/earls-court-prima-che-londra-diventasse-gentile.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.andreamorel.com/stories/earls-court-before-london-became-kind.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.andreamorel.com/stories/earls-court-before-london-became-kind.html" />
+  </url>
+  <url>
+    <loc>https://www.andreamorel.com/stories/earls-court-before-london-became-kind.html</loc>
+    <lastmod>2026-07-30</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.andreamorel.com/storie/earls-court-prima-che-londra-diventasse-gentile.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.andreamorel.com/stories/earls-court-before-london-became-kind.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.andreamorel.com/stories/earls-court-before-london-became-kind.html" />
+  </url>
 </urlset>
