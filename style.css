@@ -900,6 +900,10 @@ dialog::backdrop {
 .article-passing-lives .article-hero::before {
   background-image: url("assets/vite-di-passaggio-facebook.jpg");
 }
+.article-earls-court .article-hero::before {
+  background-image: url("assets/andrea-london-noir.webp");
+  background-position: 50% 42%;
+}
 .section-article .article-hero { min-height: 62vh; }
 .section-article .article-body { min-height: 48vh; }
 .article-hero::after {
