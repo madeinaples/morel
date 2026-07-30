@@ -1,34 +1,33 @@
-(() => {
-  const pageUrl = window.location.href;
-  const pageTitle = document.title;
+const canonical = document.querySelector('link[rel="canonical"]');
+const shareUrl = canonical?.href || window.location.href;
+const shareTitle = document.querySelector('h1')?.textContent.trim() || document.title;
 
-  document.querySelectorAll('[data-share="facebook"]').forEach((link) => {
-    link.href = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(pageUrl)}`;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-  });
+document.querySelector('[data-share="facebook"]')?.addEventListener('click', (event) => {
+  event.preventDefault();
+  const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
+  window.open(url, 'facebook-share', 'width=680,height=720,noopener,noreferrer');
+});
 
-  document.querySelectorAll('[data-share="whatsapp"]').forEach((link) => {
-    link.href = `https://wa.me/?text=${encodeURIComponent(`${pageTitle} ${pageUrl}`)}`;
-  });
+const whatsapp = document.querySelector('[data-share="whatsapp"]');
+if (whatsapp) {
+  whatsapp.href = `https://wa.me/?text=${encodeURIComponent(`${shareTitle} — ${shareUrl}`)}`;
+}
 
-  document.querySelectorAll('[data-share="copy"]').forEach((button) => {
-    button.addEventListener('click', async () => {
-      const status = button.closest('section')?.querySelector('.copy-status');
-      try {
-        await navigator.clipboard.writeText(pageUrl);
-        if (status) status.textContent = document.documentElement.lang === 'en' ? 'Link copied.' : 'Link copiato.';
-      } catch {
-        if (status) status.textContent = pageUrl;
-      }
-    });
-  });
-
-  const footerLinks = document.querySelector('footer div');
-  if (footerLinks && !footerLinks.querySelector('a[href="/legal.html"]')) {
-    const legal = document.createElement('a');
-    legal.href = '/legal.html';
-    legal.textContent = document.documentElement.lang === 'en' ? 'Privacy & Legal' : 'Privacy e note legali';
-    footerLinks.appendChild(legal);
+document.querySelector('[data-share="copy"]')?.addEventListener('click', async () => {
+  const status = document.querySelector('.copy-status');
+  try {
+    await navigator.clipboard.writeText(shareUrl);
+    status.textContent = document.documentElement.lang === 'it' ? 'Link copiato.' : 'Link copied.';
+  } catch {
+    const input = document.createElement('textarea');
+    input.value = shareUrl;
+    input.setAttribute('readonly', '');
+    input.style.position = 'fixed';
+    input.style.opacity = '0';
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    input.remove();
+    status.textContent = document.documentElement.lang === 'it' ? 'Link copiato.' : 'Link copied.';
   }
-})();
+});

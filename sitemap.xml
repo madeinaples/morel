@@ -3,14 +3,14 @@
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://www.andreamorel.com/</loc>
-    <lastmod>2026-07-29</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <xhtml:link rel="alternate" hreflang="it" href="https://www.andreamorel.com/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.andreamorel.com/index-en" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.andreamorel.com/" />
   </url>
   <url>
     <loc>https://www.andreamorel.com/index-en</loc>
-    <lastmod>2026-07-24</lastmod>
+    <lastmod>2026-07-30</lastmod>
     <xhtml:link rel="alternate" hreflang="it" href="https://www.andreamorel.com/" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.andreamorel.com/index-en" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.andreamorel.com/" />
@@ -113,5 +113,19 @@
     <xhtml:link rel="alternate" hreflang="it" href="https://www.andreamorel.com/non-sei-invisibile.html" />
     <xhtml:link rel="alternate" hreflang="en" href="https://www.andreamorel.com/non-sei-invisibile.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://www.andreamorel.com/non-sei-invisibile.html" />
+  </url>
+  <url>
+    <loc>https://www.andreamorel.com/privacy.html</loc>
+    <lastmod>2026-07-30</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.andreamorel.com/privacy.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.andreamorel.com/privacy-en.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.andreamorel.com/privacy-en.html" />
+  </url>
+  <url>
+    <loc>https://www.andreamorel.com/privacy-en.html</loc>
+    <lastmod>2026-07-30</lastmod>
+    <xhtml:link rel="alternate" hreflang="it" href="https://www.andreamorel.com/privacy.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://www.andreamorel.com/privacy-en.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://www.andreamorel.com/privacy-en.html" />
   </url>
 </urlset>
