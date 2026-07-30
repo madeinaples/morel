@@ -32,18 +32,27 @@ document.querySelector('[data-share="copy"]')?.addEventListener('click', async (
   }
 });
 
-// Keep the editorial manifesto visible without overloading the homepage markup.
 const isItalian = document.documentElement.lang === 'it';
 const manifestoHref = isItalian ? '/manifesto.html' : '/manifesto-en.html';
-const manifestoLabel = isItalian ? 'Manifesto' : 'Manifesto';
+const archiveHref = isItalian ? '/archivio.html' : '/archive.html';
 
 const mainNav = document.querySelector('#main-nav');
-if (mainNav && !mainNav.querySelector(`a[href="${manifestoHref}"]`)) {
-  const manifestoLink = document.createElement('a');
-  manifestoLink.href = manifestoHref;
-  manifestoLink.textContent = manifestoLabel;
+if (mainNav) {
   const languageLink = mainNav.querySelector('.language');
-  mainNav.insertBefore(manifestoLink, languageLink || null);
+
+  if (!mainNav.querySelector(`a[href="${archiveHref}"]`)) {
+    const archiveLink = document.createElement('a');
+    archiveLink.href = archiveHref;
+    archiveLink.textContent = isItalian ? 'Archivio' : 'Archive';
+    mainNav.insertBefore(archiveLink, languageLink || null);
+  }
+
+  if (!mainNav.querySelector(`a[href="${manifestoHref}"]`)) {
+    const manifestoLink = document.createElement('a');
+    manifestoLink.href = manifestoHref;
+    manifestoLink.textContent = 'Manifesto';
+    mainNav.insertBefore(manifestoLink, languageLink || null);
+  }
 }
 
 const aboutCopy = document.querySelector('.about-copy');
