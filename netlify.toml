@@ -1,0 +1,4 @@
+[build]
+  command = "python3 scripts/sync-archives.py"
+  publish = "."
+
