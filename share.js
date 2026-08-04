@@ -75,24 +75,13 @@ if (aboutCopy && !aboutCopy.querySelector(`a[href="${manifestoHref}"]`)) {
 }
 
 const footer = document.querySelector('footer');
-const footerCredit = footer?.querySelector(':scope > div > span');
-if (footer && footerCredit) {
+const footerMeta = footer?.querySelector(':scope > div');
+const footerCredit = footerMeta?.querySelector(':scope > span');
+if (footer && footerMeta && footerCredit) {
   footer.querySelector('.human-edit-signature')?.remove();
 
   const signature = document.createElement('div');
   signature.className = 'human-edit-signature';
-  signature.style.cssText = [
-    'margin:56px 0 8px',
-    'padding:0',
-    'border:0',
-    'display:flex',
-    'flex-direction:column',
-    'align-items:flex-start',
-    'gap:10px',
-    'color:inherit',
-    'text-transform:none',
-    'letter-spacing:normal'
-  ].join(';');
 
   const logo = document.createElement('img');
   logo.src = '/assets/human-edit-studio-white.svg';
@@ -100,16 +89,79 @@ if (footer && footerCredit) {
   logo.width = 220;
   logo.height = 110;
   logo.loading = 'lazy';
-  logo.style.cssText = 'display:block;width:min(220px,58vw);height:auto;opacity:.9';
 
   const tagline = document.createElement('p');
   tagline.textContent = 'Websites. Content. Care.';
-  tagline.style.cssText = 'margin:0;color:#9b9d97;font:10px DM Sans,Arial,sans-serif;letter-spacing:.18em;text-transform:uppercase';
 
   signature.append(logo, tagline);
-  footer.insertBefore(signature, footer.querySelector(':scope > div'));
+  footer.insertBefore(signature, footerMeta);
 
+  footerMeta.classList.add('human-edit-footer-meta');
   footerCredit.textContent = isItalian
     ? '© 2026 Andrea Morel · Un progetto di Human Edit Studio'
     : '© 2026 Andrea Morel · A project by Human Edit Studio';
+
+  if (!document.querySelector('#human-edit-footer-styles')) {
+    const style = document.createElement('style');
+    style.id = 'human-edit-footer-styles';
+    style.textContent = `
+      .human-edit-signature {
+        width: 100%;
+        margin: 64px auto 34px;
+        padding: 0;
+        border: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 18px;
+        color: inherit;
+        text-align: center;
+        text-transform: none;
+        letter-spacing: normal;
+      }
+      .human-edit-signature img {
+        display: block;
+        width: min(210px, 52vw);
+        height: auto;
+        margin: 0 auto;
+        opacity: .94;
+      }
+      .human-edit-signature p {
+        margin: 0;
+        color: #9b9d97;
+        font: 10px/1.4 "DM Sans", Arial, sans-serif;
+        letter-spacing: .22em;
+        text-align: center;
+        text-transform: uppercase;
+      }
+      footer > .human-edit-footer-meta {
+        align-items: center;
+      }
+      @media (max-width: 700px) {
+        .human-edit-signature {
+          margin: 54px auto 42px;
+          gap: 20px;
+        }
+        .human-edit-signature img {
+          width: min(190px, 56vw);
+        }
+        footer > .human-edit-footer-meta {
+          display: grid;
+          grid-template-columns: repeat(3, auto);
+          justify-content: center;
+          gap: 18px 28px;
+          text-align: center;
+        }
+        footer > .human-edit-footer-meta > span {
+          grid-column: 1 / -1;
+          width: 100%;
+          margin: 0;
+          line-height: 1.7;
+          text-align: center;
+        }
+      }
+    `;
+    document.head.appendChild(style);
+  }
 }
