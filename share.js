@@ -73,3 +73,10 @@ if (aboutCopy && !aboutCopy.querySelector(`a[href="${manifestoHref}"]`)) {
   aboutCopy.insertBefore(manifestoIntro, emailLink || null);
   aboutCopy.insertBefore(manifestoLink, emailLink || null);
 }
+
+const footerCredit = document.querySelector('footer > div > span');
+if (footerCredit) {
+  footerCredit.textContent = isItalian
+    ? '© 2026 Andrea Morel · Progetto editoriale e sito curati da Cristiano Maiello'
+    : '© 2026 Andrea Morel · Editorial project and website curated by Cristiano Maiello';
+}
