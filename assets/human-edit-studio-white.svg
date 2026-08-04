@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 360" role="img" aria-labelledby="title desc">
+  <title id="title">Human Edit Studio</title>
+  <desc id="desc">White Human Edit Studio monogram and wordmark on a transparent background.</desc>
+  <g fill="#fff">
+    <text x="360" y="158" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="150" letter-spacing="-18">HES</text>
+    <text x="360" y="250" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="54" letter-spacing="10">HUMAN EDIT</text>
+    <line x1="142" y1="292" x2="278" y2="292" stroke="#fff" stroke-width="3"/>
+    <text x="360" y="309" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="34" letter-spacing="12">STUDIO</text>
+    <line x1="442" y1="292" x2="578" y2="292" stroke="#fff" stroke-width="3"/>
+  </g>
+</svg>
