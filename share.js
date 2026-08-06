@@ -35,6 +35,7 @@ document.querySelector('[data-share="copy"]')?.addEventListener('click', async (
 const isItalian = document.documentElement.lang === 'it';
 const manifestoHref = isItalian ? '/manifesto.html' : '/manifesto-en.html';
 const archiveHref = isItalian ? '/archivio.html' : '/archive.html';
+const aiNoticeHref = isItalian ? '/nota-ai.html' : '/ai-use-notice.html';
 
 const mainNav = document.querySelector('#main-nav');
 if (mainNav) {
@@ -79,6 +80,14 @@ const footerMeta = footer?.querySelector(':scope > div');
 const footerCredit = footerMeta?.querySelector(':scope > span');
 if (footer && footerMeta && footerCredit) {
   footer.querySelector('.human-edit-signature')?.remove();
+
+  if (!footerMeta.querySelector(`a[href="${aiNoticeHref}"]`)) {
+    const aiLink = document.createElement('a');
+    aiLink.href = aiNoticeHref;
+    aiLink.textContent = isItalian ? 'Uso dell’AI' : 'AI use';
+    const instagramLink = footerMeta.querySelector('a[href*="instagram.com"]');
+    footerMeta.insertBefore(aiLink, instagramLink || null);
+  }
 
   const signature = document.createElement('div');
   signature.className = 'human-edit-signature';
@@ -148,7 +157,7 @@ if (footer && footerMeta && footerCredit) {
         }
         footer > .human-edit-footer-meta {
           display: grid;
-          grid-template-columns: repeat(3, auto);
+          grid-template-columns: repeat(2, auto);
           justify-content: center;
           gap: 18px 28px;
           text-align: center;
