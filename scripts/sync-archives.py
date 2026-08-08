@@ -107,7 +107,9 @@ def read_articles(language: str) -> list[Article]:
         if missing:
             raise ValueError(f"{path.relative_to(ROOT)}: missing {', '.join(missing)}")
         articles.append(Article(language, section, url, title, summary, date.fromisoformat(published_text), int(minutes_match.group(1))))
-    return sorted(articles, key=lambda item: (-item.published.toordinal(), item.url))
+    # Newer dates first; for stories published on the same day, reverse URL order
+    # keeps newly-added entries such as no-drama-please ahead of older same-day pages.
+    return sorted(articles, key=lambda item: (item.published.toordinal(), item.url), reverse=True)
 
 
 def display_date(article: Article) -> str:
