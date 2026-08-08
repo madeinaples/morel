@@ -57,22 +57,53 @@ if (mainNav) {
 }
 
 const aboutCopy = document.querySelector('.about-copy');
-if (aboutCopy && !aboutCopy.querySelector(`a[href="${manifestoHref}"]`)) {
-  const manifestoIntro = document.createElement('p');
-  manifestoIntro.className = 'manifesto-intro';
-  manifestoIntro.textContent = isItalian
-    ? 'Andrea Morel non racconta una categoria. Racconta esseri umani, memoria e libertà conquistata.'
-    : 'Andrea Morel does not tell the story of a category. He writes about human beings, memory and hard-won freedom.';
+if (aboutCopy) {
+  const aboutTitle = aboutCopy.querySelector('h2');
+  const bioText = aboutCopy.querySelector('.bio-text');
 
-  const manifestoLink = document.createElement('a');
-  manifestoLink.href = manifestoHref;
-  manifestoLink.innerHTML = isItalian
-    ? 'Leggi il manifesto editoriale <span>↗</span>'
-    : 'Read the editorial manifesto <span>↗</span>';
+  if (aboutTitle) {
+    aboutTitle.innerHTML = isItalian
+      ? 'Una vita, molti luoghi.<br>Una casa scelta.'
+      : 'One life, many places.<br>One chosen home.';
+  }
 
-  const emailLink = aboutCopy.querySelector('a[href^="mailto:"]');
-  aboutCopy.insertBefore(manifestoIntro, emailLink || null);
-  aboutCopy.insertBefore(manifestoLink, emailLink || null);
+  if (bioText) {
+    bioText.innerHTML = isItalian
+      ? `
+          <p>Sono Andrea Morel. Sono italiano di nascita, ma ho sempre avuto poca simpatia per i confini quando diventano definizioni.</p>
+          <p>Ho viaggiato abbastanza da sentirmi a casa in più di un luogo e straniero in molti altri. Alcuni posti si attraversano. Altri rimangono dentro: città, isole, strade, persone e culture che continuano a viaggiare con noi anche quando siamo già altrove.</p>
+          <p>Ho scelto di mettere radici nel Regno Unito perché qui, con il tempo, ho riconosciuto una sensazione semplice: casa.</p>
+          <p>Scrivo in italiano perché è la lingua in cui sono nato. Scrivo anche in inglese perché è una lingua capace di attraversare confini e portare una storia molto più lontano dal luogo in cui è cominciata.</p>
+          <p>Non mi interessa raccontare il mondo attraverso nazionalità contrapposte. Mi interessano le persone, le città, le culture, le differenze e ciò che succede quando smettiamo di considerare il nostro modo di vivere come l’unico possibile.</p>
+          <p>Ho incontrato persone improbabili, vissuto amori, errori, partenze e qualche ritorno che avrei potuto tranquillamente evitare. Scrivo di ciò che vivo, di quello che osservo e delle storie che gli altri mi affidano. Con malinconia, quando serve. Con ironia, molto più spesso. Perché la vita può essere profonda senza essere continuamente pesante.</p>
+        `
+      : `
+          <p>I am Andrea Morel. I was born Italian, but I have never had much affection for borders when they become definitions.</p>
+          <p>I have travelled enough to feel at home in more than one place and foreign in many others. Some places are simply crossed. Others stay with you: cities, islands, streets, people and cultures that keep travelling with us long after we have moved on.</p>
+          <p>I chose to put down roots in the United Kingdom because, over time, I recognised a simple feeling here: home.</p>
+          <p>I write in Italian because it is the language I was born into. I also write in English because it can cross borders and carry a story much further from the place where it began.</p>
+          <p>I am not interested in describing the world through competing national identities. I am interested in people, cities, cultures, differences and what happens when we stop treating our own way of living as the only possible one.</p>
+          <p>I have met improbable people, lived through loves, mistakes, departures and a few returns I could quite happily have avoided. I write about what I live, what I observe and the stories other people entrust to me. With melancholy, when it is needed. With irony, far more often. Because life can be profound without being relentlessly heavy.</p>
+        `;
+  }
+
+  if (!aboutCopy.querySelector(`a[href="${manifestoHref}"]`)) {
+    const manifestoIntro = document.createElement('p');
+    manifestoIntro.className = 'manifesto-intro';
+    manifestoIntro.textContent = isItalian
+      ? 'Andrea Morel non racconta una categoria. Racconta esseri umani, memoria e libertà conquistata.'
+      : 'Andrea Morel does not tell the story of a category. He writes about human beings, memory and hard-won freedom.';
+
+    const manifestoLink = document.createElement('a');
+    manifestoLink.href = manifestoHref;
+    manifestoLink.innerHTML = isItalian
+      ? 'Leggi il manifesto editoriale <span>↗</span>'
+      : 'Read the editorial manifesto <span>↗</span>';
+
+    const emailLink = aboutCopy.querySelector('a[href^="mailto:"]');
+    aboutCopy.insertBefore(manifestoIntro, emailLink || null);
+    aboutCopy.insertBefore(manifestoLink, emailLink || null);
+  }
 }
 
 const footer = document.querySelector('footer');
