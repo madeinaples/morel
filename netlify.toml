@@ -1,4 +1,4 @@
 [build]
-  command = "python3 scripts/normalize-no-drama.py && python3 scripts/sync-archives.py && python3 scripts/brand-footer.py"
+  command = "python3 scripts/normalize-no-drama.py && python3 scripts/sync-archives.py && python3 scripts/site-structure.py && python3 scripts/brand-footer.py"
   publish = "."
 
