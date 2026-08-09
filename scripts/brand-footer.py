@@ -18,19 +18,7 @@ for path in ROOT.rglob("*.html"):
     privacy = '/privacy-en.html' if lang_en else '/privacy.html'
     manifesto_href = '/manifesto-en.html' if lang_en else '/manifesto.html'
 
-    # The build had accumulated duplicate Manifesto links in the main navigation.
-    # Keep exactly one, immediately before the language switcher.
-    nav = re.search(r'(<nav\s+id="main-nav".*?>)(.*?)(</nav>)', source, flags=re.S | re.I)
-    if nav:
-        body = nav.group(2)
-        body = re.sub(r'<a\s+href=["\']/?manifesto(?:-en)?\.html["\'][^>]*>Manifesto</a>', '', body, flags=re.I)
-        language = re.search(r'<a\s+class="language"[^>]*>.*?</a>', body, flags=re.S | re.I)
-        manifesto = f'<a href="{manifesto_href}">Manifesto</a>'
-        if language:
-            body = body[:language.start()] + manifesto + body[language.start():]
-        else:
-            body += manifesto
-        source = source[:nav.start()] + nav.group(1) + body + nav.group(3) + source[nav.end():]
+
 
     footer = re.search(r'<footer>.*?</footer>', source, flags=re.S | re.I)
     if not footer:
