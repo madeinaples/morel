@@ -168,10 +168,3 @@ dialog.addEventListener('click', (event) => {
   if (event.target === dialog) dialog.close();
 });
 
-const footerCredit = document.querySelector('footer > div > span');
-if (footerCredit) {
-  const isItalianPage = document.documentElement.lang === 'it';
-  footerCredit.textContent = isItalianPage
-    ? '© 2026 Andrea Morel · Progetto editoriale e sito curati da Cristiano Maiello'
-    : '© 2026 Andrea Morel · Editorial project and website curated by Cristiano Maiello';
-}
