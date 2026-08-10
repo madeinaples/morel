@@ -40,15 +40,28 @@ const aiNoticeHref = isItalian ? '/nota-ai.html' : '/ai-use-notice.html';
 const mainNav = document.querySelector('#main-nav');
 if (mainNav) {
   const languageLink = mainNav.querySelector('.language');
+  const existingNavLinks = Array.from(mainNav.querySelectorAll('a'));
 
-  if (!mainNav.querySelector(`a[href="${archiveHref}"]`)) {
+  const hasArchiveLink = existingNavLinks.some((a) => {
+    const href = a.getAttribute('href') || '';
+    const text = (a.textContent || '').trim().toLowerCase();
+    return href.includes('archive') || href.includes('archivio') || text === 'archive' || text === 'archivio';
+  });
+
+  if (!hasArchiveLink) {
     const archiveLink = document.createElement('a');
     archiveLink.href = archiveHref;
     archiveLink.textContent = isItalian ? 'Archivio' : 'Archive';
     mainNav.insertBefore(archiveLink, languageLink || null);
   }
 
-  if (!mainNav.querySelector(`a[href="${manifestoHref}"]`)) {
+  const hasManifestoLink = existingNavLinks.some((a) => {
+    const href = a.getAttribute('href') || '';
+    const text = (a.textContent || '').trim().toLowerCase();
+    return href.includes('manifesto') || text === 'manifesto';
+  });
+
+  if (!hasManifestoLink) {
     const manifestoLink = document.createElement('a');
     manifestoLink.href = manifestoHref;
     manifestoLink.textContent = 'Manifesto';
