@@ -112,7 +112,15 @@ const footerCredit = footerMeta?.querySelector(':scope > span');
 if (footer && footerMeta && footerCredit) {
   footer.querySelector('.human-edit-signature')?.remove();
 
-  if (!footerMeta.querySelector(`a[href="${aiNoticeHref}"]`)) {
+  const expectedAiPath = aiNoticeHref.replace(/\.html$/, '');
+  const hasAiNoticeLink = Array.from(footerMeta.querySelectorAll('a')).some((link) => {
+    const linkPath = new URL(link.href, window.location.origin).pathname
+      .replace(/\.html$/, '')
+      .replace(/\/$/, '');
+    return linkPath === expectedAiPath;
+  });
+
+  if (!hasAiNoticeLink) {
     const aiLink = document.createElement('a');
     aiLink.href = aiNoticeHref;
     aiLink.textContent = isItalian ? 'Uso dell’AI' : 'AI use';
