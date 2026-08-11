@@ -292,13 +292,10 @@ function showCookieBanner() {
   });
 }
 
-const consent = localStorage.getItem('analytics-consent');
+consconst consent = localStorage.getItem('analytics-consent');
 
 if (consent === 'accepted') {
   loadGoogleAnalytics();
 } else if (!consent) {
   showCookieBanner();
-}/
-
-} else if (!consent) {
-  showCookieBanner();
+}
