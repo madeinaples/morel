@@ -165,5 +165,5 @@
 const buttons=document.querySelectorAll('[data-lang]');
 buttons.forEach(button=>button.addEventListener('click',()=>{const lang=button.dataset.lang;buttons.forEach(b=>b.classList.toggle('active',b===button));document.querySelector('#it').hidden=lang!=='it';document.querySelector('#en').hidden=lang!=='en';document.querySelector('#hero-it').hidden=lang!=='it';document.querySelector('#hero-en').hidden=lang!=='en';document.querySelector('#sub-it').hidden=lang!=='it';document.querySelector('#sub-en').hidden=lang!=='en';document.documentElement.lang=lang;}));
 </script>
-</body>
+<script src="/cookie-consent.js"></script></body>
 </html>
