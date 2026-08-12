@@ -19,15 +19,16 @@ for path in ROOT.rglob('*.html'):
     privacy = '/privacy-en.html' if is_en else '/privacy.html'
     manifesto_href = '/manifesto-en.html' if is_en else '/manifesto.html'
 
-    # Remove the complete legacy personal-credit text, including punctuation and
-    # wording around the name. This deliberately works across whitespace/newlines.
+    # Load the footer adjustment as a separate stylesheet so the main design
+    # system is never overwritten while we refine footer proportions.
+    if 'footer-refine.css' not in source:
+        source = re.sub(r'</head>', '  <link rel="stylesheet" href="/footer-refine.css?v=1">\n</head>', source, count=1, flags=re.I)
+
     source = re.sub(
         r'\s*[·|—-]?\s*(?:PROGETTO\s+EDITORIALE\s+E\s+SITO\s+CURATI\s+DA|EDITORIAL\s+PROJECT\s+AND\s+SITE\s+CURATED\s+BY)\s+CRISTIANO\s+MAIELLO',
         '', source, flags=re.I | re.S)
     source = re.sub(r'CRISTIANO\s+MAIELLO', '', source, flags=re.I)
 
-    # Main navigation: remove every Manifesto anchor regardless of attribute
-    # order/classes/whitespace, then insert exactly one before the language link.
     nav = re.search(r'(<nav\b[^>]*\bid=["\']main-nav["\'][^>]*>)(.*?)(</nav>)', source, re.I | re.S)
     if nav:
         body = nav.group(2)
@@ -42,8 +43,6 @@ for path in ROOT.rglob('*.html'):
             body += manifest
         source = source[:nav.start()] + nav.group(1) + body + nav.group(3) + source[nav.end():]
 
-    # Replace ALL footer blocks, not merely the last match. This prevents an old
-    # footer from surviving beside the approved footer.
     footer = (f'<footer><a class="footer-name" href="{home}">Andrea Morel</a><div>'
               f'{HES}<span>© 2026</span>'
               f'<a href="{privacy}">Privacy</a>'
@@ -55,8 +54,6 @@ for path in ROOT.rglob('*.html'):
     if source != original:
         changed += 1
 
-    # Build-time assertions: fail the Netlify build rather than silently publish
-    # a page that still contains the bugs we are trying to remove.
     if re.search(r'CRISTIANO\s+MAIELLO', source, re.I):
         raise RuntimeError(f'Legacy Cristiano Maiello credit survived in {path.relative_to(ROOT)}')
     if nav:
