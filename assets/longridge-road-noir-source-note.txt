@@ -1,0 +1,1 @@
+Source image for homepage hero: Longridge Road noir photograph uploaded by repository owner on 2026-08-12. The active hero asset is stored as assets/andrea-london-portrait.webp for compatibility with the existing stylesheet.
