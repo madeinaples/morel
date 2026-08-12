@@ -1,4 +1,9 @@
 [build]
-  command = "python3 scripts/normalize-no-drama.py && python3 scripts/sync-archives.py && python3 scripts/site-structure.py && python3 scripts/photo-originality.py && python3 scripts/final-normalize.py"
+  command = "python3 scripts/normalize-no-drama.py && python3 scripts/sync-archives.py && python3 scripts/site-structure.py && python3 scripts/photo-originality.py && python3 scripts/final-normalize.py && python3 scripts/pseudonym-identity.py"
   publish = "."
 
+[[redirects]]
+  from = "/"
+  to = "/index-en.html"
+  status = 200
+  force = true
