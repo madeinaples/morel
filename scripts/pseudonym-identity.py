@@ -1,16 +1,19 @@
 #!/usr/bin/env python3
 from pathlib import Path
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def replace_once_or_keep(source: str, old: str, new: str, label: str) -> str:
-    """Replace an expected old block once, or accept the already-patched block."""
-    if new in source:
-        return source
-    if old in source:
-        return source.replace(old, new, 1)
-    raise SystemExit(f"Missing expected block: {label}")
+def replace_if_present(source: str, old: str, new: str) -> str:
+    return source.replace(old, new, 1) if old in source else source
+
+
+def replace_about_section(source: str, section_id: str, new_block: str) -> str:
+    pattern = rf'<section class="about" id="{re.escape(section_id)}">.*?</section>'
+    if re.search(pattern, source, flags=re.S):
+        return re.sub(pattern, new_block, source, count=1, flags=re.S)
+    return source
 
 
 def patch_english() -> None:
@@ -21,18 +24,19 @@ def patch_english() -> None:
         '<link rel="canonical" href="https://www.andreamorel.com/index-en">',
         '<link rel="canonical" href="https://www.andreamorel.com/">'
     )
+    source = replace_if_present(
+        source,
+        '<div class="hero-image" role="img" aria-label="Portrait of Andrea Morel on a London street after the rain"></div>',
+        '<div class="hero-image" role="img" aria-label="Longridge Road in London after the rain, photographed by the author"></div>'
+    )
+    source = replace_if_present(
+        source,
+        '<p class="hero-description">Andrea Morel is a bilingual narrative project about relationships, desire, age, loneliness and contemporary life, told through personal experience, unfiltered thoughts and stories entrusted by others.</p>',
+        '<p class="hero-description"><strong>Andrea Morel is a pseudonym.</strong> The stories are rooted in lived experience, real encounters and memory; names and identifying details may be changed to protect the people involved. All photographs in the archive are original. <strong>The name is fictional. The experiences are not.</strong></p>'
+    )
 
-    old_img = '<div class="hero-image" role="img" aria-label="Portrait of Andrea Morel on a London street after the rain"></div>'
-    new_img = '<div class="hero-image" role="img" aria-label="Longridge Road in London after the rain, photographed by the author"></div>'
-    source = replace_once_or_keep(source, old_img, new_img, "English hero image")
-
-    old_hero = '<p class="hero-description">Andrea Morel is a bilingual narrative project about relationships, desire, age, loneliness and contemporary life, told through personal experience, unfiltered thoughts and stories entrusted by others.</p>'
-    new_hero = '<p class="hero-description"><strong>Andrea Morel is a pseudonym.</strong> The stories are rooted in lived experience, real encounters and memory; names and identifying details may be changed to protect the people involved. All photographs in the archive are original. <strong>The name is fictional. The experiences are not.</strong></p>'
-    source = replace_once_or_keep(source, old_hero, new_hero, "English hero statement")
-
-    old_about = '<section class="about" id="author"><div class="chapter-mark"><span>Interlude</span><strong>A</strong></div><div class="about-copy reveal"><p class="kicker">The author</p><h2>One life, many cities.<br>And a few avoidable returns.</h2><div class="bio-text"><p>I am Andrea Morel. I am Italian, and I chose the United Kingdom as home. I have lived and travelled enough to feel more at ease between cultures than inside a geographical label — and I have learned that changing address does not solve everything, but at least it changes the view from the window.</p><p>I have travelled widely, met improbable people and lived almost everything without holding back: loves, mistakes, departures and a few returns I could quite happily have avoided.</p><p>Even at the most difficult moments, I have always found a way to begin again — sometimes through courage, and sometimes simply because there was no better alternative.</p><p>I write about what I live, what I observe and the stories other people entrust to me. With melancholy, when it is needed. With irony, far more often. Because life can be profound without being relentlessly heavy.</p></div><a href="mailto:andreamoreluk@gmail.com">Write me a letter <span>↗</span></a></div></section>'
     new_about = '<section class="about" id="author"><div class="chapter-mark"><span>Interlude</span><strong>A</strong></div><div class="about-copy reveal"><p class="kicker">About the name</p><h2>A real voice.<br>A chosen name.</h2><div class="bio-text"><p>Andrea Morel is a pen name used by a real author who prefers to keep a private identity separate from the work.</p><p>The writing begins with lived experience: relationships, desire, ageing, solitude, cities, mistakes, encounters and the stories people choose to entrust to the author. Memory is subjective, and identifying details may sometimes be changed for privacy, but the emotional and experiential core is real.</p><p>The photographs are original images from the author’s own archive. They are not a simulated biography of Andrea Morel; they are part of the same lived world from which the writing comes.</p><p>The pseudonym is not intended to impersonate a fictional person. It creates the distance needed to write openly while leaving the private individual behind the name private.</p></div><a href="mailto:andreamoreluk@gmail.com">Write me a letter <span>↗</span></a></div></section>'
-    source = replace_once_or_keep(source, old_about, new_about, "English about block")
+    source = replace_about_section(source, "author", new_about)
 
     path.write_text(source, encoding="utf-8")
     print("index-en.html")
@@ -50,29 +54,17 @@ def patch_italian() -> None:
         '<link rel="alternate" hreflang="it" href="https://www.andreamorel.com/" />',
         '<link rel="alternate" hreflang="it" href="https://www.andreamorel.com/index.html" />'
     )
+    source = replace_if_present(
+        source,
+        '<div class="hero-image" role="img" aria-label="Ritratto di Andrea Morel in una strada londinese dopo la pioggia"></div>',
+        '<div class="hero-image" role="img" aria-label="Longridge Road a Londra dopo la pioggia, fotografata dall’autore"></div>'
+    )
+    source = replace_if_present(
+        source,
+        '<p class="hero-description">Andrea Morel è un progetto narrativo bilingue su relazioni, desiderio, età, solitudine e vita contemporanea, raccontati attraverso esperienze personali, pensieri senza filtro e storie affidate da altri.</p>',
+        '<p class="hero-description"><strong>Andrea Morel è uno pseudonimo.</strong> Le storie nascono da esperienze vissute, incontri reali e memoria; nomi e dettagli identificativi possono essere modificati per proteggere le persone coinvolte. Tutte le fotografie dell’archivio sono originali. <strong>Il nome è fittizio. Le esperienze no.</strong></p>'
+    )
 
-    old_img = '<div class="hero-image" role="img" aria-label="Ritratto di Andrea Morel in una strada londinese dopo la pioggia"></div>'
-    new_img = '<div class="hero-image" role="img" aria-label="Longridge Road a Londra dopo la pioggia, fotografata dall’autore"></div>'
-    source = replace_once_or_keep(source, old_img, new_img, "Italian hero image")
-
-    old_hero = '<p class="hero-description">Andrea Morel è un progetto narrativo bilingue su relazioni, desiderio, età, solitudine e vita contemporanea, raccontati attraverso esperienze personali, pensieri senza filtro e storie affidate da altri.</p>'
-    new_hero = '<p class="hero-description"><strong>Andrea Morel è uno pseudonimo.</strong> Le storie nascono da esperienze vissute, incontri reali e memoria; nomi e dettagli identificativi possono essere modificati per proteggere le persone coinvolte. Tutte le fotografie dell’archivio sono originali. <strong>Il nome è fittizio. Le esperienze no.</strong></p>'
-    source = replace_once_or_keep(source, old_hero, new_hero, "Italian hero statement")
-
-    old_about = '''<section class="about" id="autore">
-      <div class="chapter-mark"><span>Interludio</span><strong>A</strong></div>
-      <div class="about-copy reveal">
-        <p class="kicker">L'autore</p>
-        <h2>Una vita, molte città.<br>E qualche ritorno evitabile.</h2>
-        <div class="bio-text">
-          <p>Sono Andrea Morel. Ho origini italiane e inglesi e ho vissuto in abbastanza città da sapere che cambiare indirizzo non risolve tutto — ma almeno cambia la vista dalla finestra.</p>
-          <p>Ho viaggiato molto, incontrato persone improbabili e vissuto quasi ogni cosa senza risparmiarmi: gli amori, gli errori, le partenze e qualche ritorno che avrei potuto tranquillamente evitare.</p>
-          <p>Anche nei momenti più difficili ho sempre trovato il modo di ricominciare, qualche volta con coraggio, altre semplicemente perché non c’era un’alternativa migliore.</p>
-          <p>Scrivo di ciò che vivo, di quello che osservo e delle storie che gli altri mi affidano. Con malinconia, quando serve. Con ironia, molto più spesso. Perché la vita può essere profonda senza essere continuamente pesante.</p>
-        </div>
-        <a href="mailto:andreamoreluk@gmail.com">Scrivimi una lettera <span>↗</span></a>
-      </div>
-    </section>'''
     new_about = '''<section class="about" id="autore">
       <div class="chapter-mark"><span>Interludio</span><strong>A</strong></div>
       <div class="about-copy reveal">
@@ -87,7 +79,7 @@ def patch_italian() -> None:
         <a href="mailto:andreamoreluk@gmail.com">Scrivimi una lettera <span>↗</span></a>
       </div>
     </section>'''
-    source = replace_once_or_keep(source, old_about, new_about, "Italian about block")
+    source = replace_about_section(source, "autore", new_about)
 
     path.write_text(source, encoding="utf-8")
     print("index.html")
