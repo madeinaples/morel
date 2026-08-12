@@ -37,6 +37,17 @@ const manifestoHref = isItalian ? '/manifesto.html' : '/manifesto-en.html';
 const archiveHref = isItalian ? '/archivio.html' : '/archive.html';
 const aiNoticeHref = isItalian ? '/nota-ai.html' : '/ai-use-notice.html';
 
+const normalizePath = (href) => {
+  try {
+    return new URL(href, window.location.origin).pathname
+      .replace(/\/index\.html$/, '/')
+      .replace(/\.html$/, '')
+      .replace(/\/$/, '');
+  } catch {
+    return href;
+  }
+};
+
 const mainNav = document.querySelector('#main-nav');
 if (mainNav) {
   const languageLink = mainNav.querySelector('.language');
@@ -48,11 +59,23 @@ if (mainNav) {
     mainNav.insertBefore(archiveLink, languageLink || null);
   }
 
-  if (!mainNav.querySelector(`a[href="${manifestoHref}"]`)) {
+  // Manifesto is part of the static home navigation. Normalise any legacy/runtime
+  // variants first, then keep exactly one link. This prevents duplicates whether
+  // the source uses /manifesto, /manifesto.html or an absolute URL.
+  const expectedManifestoPath = normalizePath(manifestoHref);
+  const manifestoLinks = Array.from(mainNav.querySelectorAll('a')).filter(
+    (link) => normalizePath(link.getAttribute('href') || link.href) === expectedManifestoPath
+  );
+
+  if (manifestoLinks.length === 0) {
     const manifestoLink = document.createElement('a');
     manifestoLink.href = manifestoHref;
     manifestoLink.textContent = 'Manifesto';
     mainNav.insertBefore(manifestoLink, languageLink || null);
+  } else {
+    manifestoLinks[0].href = manifestoHref;
+    manifestoLinks[0].textContent = 'Manifesto';
+    manifestoLinks.slice(1).forEach((link) => link.remove());
   }
 }
 
@@ -87,7 +110,12 @@ if (aboutCopy) {
         `;
   }
 
-  if (!aboutCopy.querySelector(`a[href="${manifestoHref}"]`)) {
+  const expectedManifestoPath = normalizePath(manifestoHref);
+  const aboutManifestoLinks = Array.from(aboutCopy.querySelectorAll('a')).filter(
+    (link) => normalizePath(link.getAttribute('href') || link.href) === expectedManifestoPath
+  );
+
+  if (aboutManifestoLinks.length === 0) {
     const manifestoIntro = document.createElement('p');
     manifestoIntro.className = 'manifesto-intro';
     manifestoIntro.textContent = isItalian
@@ -103,6 +131,8 @@ if (aboutCopy) {
     const emailLink = aboutCopy.querySelector('a[href^="mailto:"]');
     aboutCopy.insertBefore(manifestoIntro, emailLink || null);
     aboutCopy.insertBefore(manifestoLink, emailLink || null);
+  } else {
+    aboutManifestoLinks.slice(1).forEach((link) => link.remove());
   }
 }
 
