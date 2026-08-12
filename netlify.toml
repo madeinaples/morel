@@ -1,5 +1,5 @@
 [build]
-  command = "python3 scripts/normalize-no-drama.py && python3 scripts/sync-archives.py && python3 scripts/site-structure.py && python3 scripts/photo-originality.py && python3 scripts/final-normalize.py && python3 scripts/pseudonym-identity.py && python3 scripts/article-style.py"
+  command = "python3 scripts/normalize-no-drama.py && python3 scripts/sync-archives.py && python3 scripts/site-structure.py && python3 scripts/photo-originality.py && python3 scripts/final-normalize.py && python3 scripts/article-style.py"
   publish = "."
 
 [[redirects]]
