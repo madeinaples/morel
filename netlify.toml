@@ -2,6 +2,7 @@
   command = "python3 scripts/normalize-no-drama.py && python3 scripts/sync-archives.py && python3 scripts/site-structure.py && python3 scripts/photo-originality.py && python3 scripts/final-normalize.py && python3 scripts/article-style.py"
   publish = "."
 
+# Homepage v2 redeploy trigger: 2026-08-12
 [[redirects]]
   from = "/"
   to = "/index-en.html"
