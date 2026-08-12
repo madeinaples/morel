@@ -4,18 +4,15 @@
 .home-v2 .hero-description { max-width: 720px; }
 .home-v2 .hero-description strong { color: var(--white); font-weight: 500; }
 .home-v2 .hero-actions { margin-top: 28px; }
-
 .home-trust { padding: 95px 9vw 80px; background: var(--night); border-top: 1px solid rgba(238,233,222,.08); display: grid; grid-template-columns: minmax(0,1.25fr) minmax(260px,.75fr); gap: 8vw; align-items: end; }
 .home-trust h2 { margin: 18px 0 22px; font: clamp(48px,6vw,94px)/.92 var(--display); letter-spacing: -.05em; color: var(--white); }
 .home-trust p { color: #c4c0b7; line-height: 1.55; max-width: 760px; }
 .home-trust-note { border-top: 1px solid var(--line); padding-top: 18px; font: 13px/1.6 var(--sans); color: var(--muted); }
 .home-trust-note strong { color: var(--ink); font-weight: 500; }
-
 .reading-hint { padding: 24px 9vw 28px; background: var(--night-soft); border-top: 1px solid rgba(238,233,222,.08); border-bottom: 1px solid rgba(238,233,222,.08); display: flex; justify-content: space-between; gap: 30px; align-items: center; }
 .reading-hint p { margin: 0; color: var(--muted); font-size: 15px; line-height: 1.5; }
 .reading-hint strong { color: var(--ink); font-weight: 400; }
 .reading-modes { white-space: nowrap; font: 10px var(--sans); letter-spacing: .2em; text-transform: uppercase; color: #b9aa87; }
-
 .collections { padding: 75px 4vw 120px; background: var(--night-soft); color: var(--white); }
 .collections-intro { margin: 0 5vw 58px; max-width: 900px; }
 .collections-intro h2 { margin: 20px 0 16px; font: clamp(58px,7.5vw,112px)/.88 var(--display); letter-spacing: -.055em; }
@@ -29,38 +26,33 @@
 .collection-card h3 { margin: 22px 0; font: clamp(38px,4vw,64px)/.94 var(--display); letter-spacing: -.045em; }
 .collection-card > p:not(.kicker) { color: rgba(244,240,231,.72); line-height: 1.5; margin: 0 0 36px; }
 .collection-card .read-link { margin-top: auto; }
-
-.featured-flow { padding: 110px 9vw; background: var(--night); display: grid; grid-template-columns: minmax(0,1.15fr) minmax(280px,.55fr); gap: 9vw; align-items: start; }
+.featured-flow { padding: 110px 9vw; background: var(--night); }
+.featured-story-only > div { max-width: 920px; }
 .featured-flow h2 { margin: 22px 0 26px; font: clamp(58px,7vw,106px)/.88 var(--display); letter-spacing: -.055em; color: var(--white); }
-.featured-flow .lead { margin-bottom: 32px; }
-.flow-side { border-top: 1px solid var(--line); padding-top: 16px; }
-.flow-side h3 { margin: 20px 0 12px; font: 32px/1 var(--display); color: var(--white); }
-.flow-side p { color: var(--muted); line-height: 1.5; }
-.module-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 22px; }
-.module-chip { border: 1px solid var(--line); padding: 9px 11px; font: 9px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: #b9aa87; }
-
+.featured-flow .lead { margin-bottom: 32px; max-width: 760px; }
+.photo-interlude { position: relative; min-height: min(78vh,820px); overflow: hidden; background: #090b0b; color: var(--white); }
+.photo-interlude-image { position: absolute; inset: 0; background-image: linear-gradient(90deg,rgba(5,7,7,.16),rgba(5,7,7,.25) 48%,rgba(5,7,7,.84) 100%), url('/assets/18975E71-7037-48FE-81B4-BED6933E6763.png'); background-size: cover; background-position: center 53%; filter: saturate(.72) contrast(1.04); }
+.photo-interlude-caption { position: relative; z-index: 1; min-height: min(78vh,820px); padding: 9vw; margin-left: auto; width: min(610px,50vw); display: flex; flex-direction: column; justify-content: center; align-items: flex-start; background: linear-gradient(90deg,transparent,rgba(8,10,10,.36)); }
+.photo-interlude-caption h2 { margin: 18px 0 24px; font: clamp(52px,6vw,92px)/.9 var(--display); letter-spacing: -.05em; }
+.photo-interlude-caption p:not(.kicker) { max-width: 500px; color: rgba(244,240,231,.78); line-height: 1.55; margin-bottom: 30px; }
 .home-v2 .about { border-top: 1px solid rgba(238,233,222,.08); }
 .home-v2 .about-copy { max-width: 900px; }
 .home-v2 .about h2 { margin-bottom: 34px; }
 .home-v2 .bio-text p { max-width: 760px; }
-
-/* Closing rhythm: the postscript is a quiet invitation, not another chapter. */
 .home-v2 .newsletter { min-height: 0 !important; padding: 64px 9vw 68px !important; border-top: 1px solid rgba(238,233,222,.10); }
 .home-v2 .newsletter h2 { max-width: 900px; margin: 14px 0 16px !important; font-size: clamp(42px,5.4vw,78px) !important; line-height: .94 !important; }
 .home-v2 .newsletter .form-note { max-width: 650px; margin: 0; color: var(--muted); }
-
-/* Andrea Morel remains the identity; HES is only a production credit. */
 .home-v2 footer { min-height: 0 !important; padding: 48px 4vw 38px !important; align-items: end; }
 .home-v2 footer .footer-name { font-size: clamp(30px,3.5vw,52px) !important; line-height: .95; }
 .home-v2 footer > div { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 18px 28px; }
 .home-v2 footer .hes-credit { order: 20; display: inline-flex; align-items: baseline; gap: 7px; opacity: .42; font: 8px var(--sans) !important; letter-spacing: .14em; text-transform: uppercase; white-space: nowrap; }
 .home-v2 footer .hes-mark { font: 10px var(--display) !important; letter-spacing: 0; }
-
 @media (max-width: 900px) {
-  .home-trust,.featured-flow { grid-template-columns: 1fr; gap: 45px; }
+  .home-trust { grid-template-columns: 1fr; gap: 45px; }
   .collection-grid { grid-template-columns: 1fr; }
   .collection-card { min-height: 390px; }
   .reading-hint { align-items: flex-start; }
+  .photo-interlude-caption { width: 62vw; padding: 8vw 7vw; }
   .home-v2 .newsletter { padding: 54px 7vw 58px !important; }
   .home-v2 footer { padding: 40px 5vw 32px !important; }
 }
@@ -72,6 +64,9 @@
   .collections { padding: 65px 5vw 85px; }
   .collections-intro { margin: 0 2vw 42px; }
   .featured-flow { padding: 80px 7vw; }
+  .photo-interlude { min-height: 680px; }
+  .photo-interlude-image { background-position: 42% center; }
+  .photo-interlude-caption { width: 100%; min-height: 680px; padding: 58% 7vw 9vw; justify-content: flex-end; background: linear-gradient(0deg,rgba(8,10,10,.96) 0%,rgba(8,10,10,.5) 52%,transparent 78%); }
   .home-v2 .newsletter { padding: 44px 7vw 48px !important; }
   .home-v2 footer { display: block; }
   .home-v2 footer > div { justify-content: flex-start; margin-top: 28px; gap: 14px 20px; }
