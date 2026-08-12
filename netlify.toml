@@ -3,6 +3,18 @@
   publish = "."
 
 [[redirects]]
+  from = "/it"
+  to = "/it/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/it/"
+  to = "/it/index.html"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/index.html"
   to = "/it/"
   status = 301
