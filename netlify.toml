@@ -4,19 +4,19 @@
 
 [[redirects]]
   from = "/it"
-  to = "/it/index.html"
-  status = 200
+  to = "/italiano.html"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/it/"
-  to = "/it/index.html"
-  status = 200
+  to = "/italiano.html"
+  status = 301
   force = true
 
 [[redirects]]
   from = "/index.html"
-  to = "/it/"
+  to = "/italiano.html"
   status = 301
   force = true
 
