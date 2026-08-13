@@ -21,8 +21,8 @@
     siteFavicon.rel = 'icon';
     document.head.appendChild(siteFavicon);
   }
-  siteFavicon.type = 'image/png';
-  siteFavicon.href = '/assets/andrea-morel-favicon.png?v=20260813-final2';
+  siteFavicon.type = 'image/svg+xml';
+  siteFavicon.href = '/favicon.svg?v=20260813-circular';
 
   if (!document.querySelector('#andrea-morel-global-brand-styles')) {
     const brandStyle = document.createElement('style');
