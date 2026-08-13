@@ -49,6 +49,52 @@
     document.head.appendChild(brandStyle);
   }
 
+  // Photography watermark: visual overlay only; original image files remain untouched.
+  if (document.body.classList.contains('photography-page') && !document.querySelector('#andrea-morel-watermark-styles')) {
+    const watermarkStyle = document.createElement('style');
+    watermarkStyle.id = 'andrea-morel-watermark-styles';
+    watermarkStyle.textContent = `
+      .photo-entry-image,
+      .photo-detail-figure {
+        position: relative;
+      }
+      .photo-entry-image::after,
+      .photo-detail-figure::after {
+        content: "";
+        position: absolute;
+        pointer-events: none;
+        z-index: 3;
+        background: url('/assets/andrea-morel-watermark.png?v=20260813-final') center / contain no-repeat;
+        opacity: .48;
+      }
+      .photo-entry-image::after {
+        width: 25%;
+        aspect-ratio: 1.48 / 1;
+        right: 16px;
+        bottom: 14px;
+      }
+      .photo-detail-figure::after {
+        width: min(240px, 23vw);
+        aspect-ratio: 1.48 / 1;
+        right: max(6vw, 28px);
+        bottom: 68px;
+      }
+      @media (max-width: 700px) {
+        .photo-entry-image::after {
+          width: 30%;
+          right: 12px;
+          bottom: 10px;
+        }
+        .photo-detail-figure::after {
+          width: min(180px, 34vw);
+          right: 18px;
+          bottom: 54px;
+        }
+      }
+    `;
+    document.head.appendChild(watermarkStyle);
+  }
+
   const GA_ID = 'G-YG1ES87T2H';
   const STORAGE_KEY = 'andrea-morel-analytics-consent';
 
