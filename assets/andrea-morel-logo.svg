@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" role="img" aria-label="Andrea Morel logo">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4dfb3"/><stop offset=".48" stop-color="#c99652"/><stop offset="1" stop-color="#7f5429"/></linearGradient><linearGradient id="s" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#29323b"/><stop offset="1" stop-color="#090b0b"/></linearGradient></defs>
+<rect width="1600" height="1000" fill="#090b0b"/>
+<path d="M165 700L430 160l210 540h-78l-52-145H292l-62 145h-65zm160-220h158l-72-208-86 208z" fill="url(#g)"/>
+<path d="M585 700V215h70l120 285 120-285h70v485h-72V376l-92 220h-52l-92-220v324h-72z" fill="url(#g)"/>
+<path d="M652 235h245v445H652z" fill="url(#s)" opacity=".95"/>
+<path d="M652 235L710 278v355l-58 47z" fill="#17110d" stroke="#8f6031" stroke-width="5"/>
+<path d="M774 290v250" stroke="#c99652" stroke-width="12" stroke-linecap="round"/><path d="M744 305h60l-12 42h-36z" fill="#e9c77f"/><circle cx="774" cy="335" r="20" fill="#ffd98a" opacity=".9"/>
+<path d="M700 680L775 455l80 225z" fill="#15191e" opacity=".9"/>
+<path d="M700 680L775 510M855 680L775 510" stroke="#b98547" stroke-width="4" opacity=".7"/>
+<path d="M875 305l-52 38v150l52-20M875 365l-52 30M875 425l-52 25" stroke="#58534d" stroke-width="9" opacity=".75"/>
+<path d="M130 560C360 420 545 425 730 548c145 96 295 104 430 30" fill="none" stroke="url(#g)" stroke-width="14" stroke-linecap="round"/>
+<text x="800" y="825" text-anchor="middle" fill="url(#g)" font-family="Georgia, 'Times New Roman', serif" font-size="88" letter-spacing="22">ANDREA MOREL</text>
+<path d="M635 870h330" stroke="#c99652" stroke-width="3"/>
+</svg>
