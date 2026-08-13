@@ -1,6 +1,54 @@
 (() => {
   'use strict';
 
+  // Global brand fallback. This script is loaded by photography pages too,
+  // so the final uploaded Andrea Morel logo and favicon stay consistent site-wide.
+  const isItalianPage = document.documentElement.lang.toLowerCase().startsWith('it');
+  const brand = document.querySelector('.brand');
+  const brandImage = brand?.querySelector('img');
+  if (brand) {
+    brand.href = isItalianPage ? '/it/' : '/';
+    brand.setAttribute('aria-label', 'Andrea Morel — Home');
+  }
+  if (brandImage) {
+    brandImage.src = '/assets/andrea-morel-logo.png?v=20260813-final2';
+    brandImage.alt = 'Andrea Morel';
+  }
+
+  let siteFavicon = document.querySelector('link[rel="icon"]');
+  if (!siteFavicon) {
+    siteFavicon = document.createElement('link');
+    siteFavicon.rel = 'icon';
+    document.head.appendChild(siteFavicon);
+  }
+  siteFavicon.type = 'image/png';
+  siteFavicon.href = '/assets/andrea-morel-favicon.png?v=20260813-final2';
+
+  if (!document.querySelector('#andrea-morel-global-brand-styles')) {
+    const brandStyle = document.createElement('style');
+    brandStyle.id = 'andrea-morel-global-brand-styles';
+    brandStyle.textContent = `
+      .brand {
+        width: 108px !important;
+        height: 108px !important;
+        border-radius: 0 !important;
+        overflow: visible !important;
+        box-shadow: none !important;
+        display: block !important;
+      }
+      .brand img {
+        width: 100% !important;
+        height: 100% !important;
+        object-fit: contain !important;
+        display: block !important;
+      }
+      @media (max-width: 700px) {
+        .brand { width: 86px !important; height: 86px !important; }
+      }
+    `;
+    document.head.appendChild(brandStyle);
+  }
+
   const GA_ID = 'G-YG1ES87T2H';
   const STORAGE_KEY = 'andrea-morel-analytics-consent';
 
