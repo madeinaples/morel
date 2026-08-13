@@ -2,34 +2,50 @@ const canonical = document.querySelector('link[rel="canonical"]');
 const shareUrl = canonical?.href || window.location.href;
 const shareTitle = document.querySelector('h1')?.textContent.trim() || document.title;
 
-// Global Andrea Morel brand mark: use the new doorway monogram everywhere
-// and give it enough scale to read as a proper brand rather than a tiny favicon.
-const brandImage = document.querySelector('.brand img');
-if (brandImage) {
-  brandImage.src = '/assets/andrea-morel-mark.svg?v=20260813-4';
-  brandImage.width = 84;
-  brandImage.height = 84;
+// Global Andrea Morel brand: use the final uploaded logo everywhere.
+const brand = document.querySelector('.brand');
+const brandImage = brand?.querySelector('img');
+if (brand) {
+  brand.href = '/';
+  brand.setAttribute('aria-label', 'Andrea Morel — Home');
 }
+if (brandImage) {
+  brandImage.src = '/assets/andrea-morel-logo.png?v=20260813-final';
+  brandImage.alt = 'Andrea Morel';
+}
+
+// Use the final uploaded favicon on every page, overriding older page-specific icons.
+let favicon = document.querySelector('link[rel="icon"]');
+if (!favicon) {
+  favicon = document.createElement('link');
+  favicon.rel = 'icon';
+  document.head.appendChild(favicon);
+}
+favicon.type = 'image/png';
+favicon.href = '/assets/andrea-morel-favicon.png?v=20260813-final';
+
 if (!document.querySelector('#andrea-morel-brand-styles')) {
   const brandStyles = document.createElement('style');
   brandStyles.id = 'andrea-morel-brand-styles';
   brandStyles.textContent = `
     .brand {
-      width: 84px !important;
-      height: 84px !important;
+      width: 108px !important;
+      height: 108px !important;
       border-radius: 0 !important;
       overflow: visible !important;
       box-shadow: none !important;
+      display: block !important;
     }
     .brand img {
       width: 100% !important;
       height: 100% !important;
       object-fit: contain !important;
+      display: block !important;
     }
     @media (max-width: 700px) {
       .brand {
-        width: 70px !important;
-        height: 70px !important;
+        width: 86px !important;
+        height: 86px !important;
       }
     }
   `;
