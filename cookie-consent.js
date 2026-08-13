@@ -49,7 +49,8 @@
     document.head.appendChild(brandStyle);
   }
 
-  // Photography watermark: visual overlay only; original image files remain untouched.
+  // Photography watermark: subtle visual overlay only; original files remain untouched.
+  // Keep the mark proportional and discreet on both portrait and landscape photographs.
   if (document.body.classList.contains('photography-page') && !document.querySelector('#andrea-morel-watermark-styles')) {
     const watermarkStyle = document.createElement('style');
     watermarkStyle.id = 'andrea-morel-watermark-styles';
@@ -64,31 +65,24 @@
         position: absolute;
         pointer-events: none;
         z-index: 3;
+        width: 7%;
+        min-width: 54px;
+        max-width: 92px;
+        aspect-ratio: 1.48 / 1;
+        right: 24px;
+        bottom: 24px;
         background: url('/assets/andrea-morel-watermark.png?v=20260813-final') center / contain no-repeat;
-        opacity: .48;
-      }
-      .photo-entry-image::after {
-        width: 25%;
-        aspect-ratio: 1.48 / 1;
-        right: 16px;
-        bottom: 14px;
-      }
-      .photo-detail-figure::after {
-        width: min(240px, 23vw);
-        aspect-ratio: 1.48 / 1;
-        right: max(6vw, 28px);
-        bottom: 68px;
+        opacity: .22;
       }
       @media (max-width: 700px) {
-        .photo-entry-image::after {
-          width: 30%;
-          right: 12px;
-          bottom: 10px;
-        }
+        .photo-entry-image::after,
         .photo-detail-figure::after {
-          width: min(180px, 34vw);
-          right: 18px;
-          bottom: 54px;
+          width: 9%;
+          min-width: 42px;
+          max-width: 68px;
+          right: 14px;
+          bottom: 14px;
+          opacity: .20;
         }
       }
     `;
