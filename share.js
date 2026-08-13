@@ -2,6 +2,40 @@ const canonical = document.querySelector('link[rel="canonical"]');
 const shareUrl = canonical?.href || window.location.href;
 const shareTitle = document.querySelector('h1')?.textContent.trim() || document.title;
 
+// Global Andrea Morel brand mark: use the new doorway monogram everywhere
+// and give it enough scale to read as a proper brand rather than a tiny favicon.
+const brandImage = document.querySelector('.brand img');
+if (brandImage) {
+  brandImage.src = '/assets/andrea-morel-mark.svg?v=20260813-4';
+  brandImage.width = 84;
+  brandImage.height = 84;
+}
+if (!document.querySelector('#andrea-morel-brand-styles')) {
+  const brandStyles = document.createElement('style');
+  brandStyles.id = 'andrea-morel-brand-styles';
+  brandStyles.textContent = `
+    .brand {
+      width: 84px !important;
+      height: 84px !important;
+      border-radius: 0 !important;
+      overflow: visible !important;
+      box-shadow: none !important;
+    }
+    .brand img {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: contain !important;
+    }
+    @media (max-width: 700px) {
+      .brand {
+        width: 70px !important;
+        height: 70px !important;
+      }
+    }
+  `;
+  document.head.appendChild(brandStyles);
+}
+
 document.querySelector('[data-share="facebook"]')?.addEventListener('click', (event) => {
   event.preventDefault();
   const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
@@ -59,9 +93,6 @@ if (mainNav) {
     mainNav.insertBefore(archiveLink, languageLink || null);
   }
 
-  // Manifesto is part of the static home navigation. Normalise any legacy/runtime
-  // variants first, then keep exactly one link. This prevents duplicates whether
-  // the source uses /manifesto, /manifesto.html or an absolute URL.
   const expectedManifestoPath = normalizePath(manifestoHref);
   const manifestoLinks = Array.from(mainNav.querySelectorAll('a')).filter(
     (link) => normalizePath(link.getAttribute('href') || link.href) === expectedManifestoPath
