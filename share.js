@@ -10,19 +10,19 @@ if (brand) {
   brand.setAttribute('aria-label', 'Andrea Morel — Home');
 }
 if (brandImage) {
-  brandImage.src = '/assets/andrea-morel-logo.png?v=20260813-final';
+  brandImage.src = '/assets/andrea-morel-logo.png?v=20260813-final3';
   brandImage.alt = 'Andrea Morel';
 }
 
-// Use the final uploaded favicon on every page, overriding older page-specific icons.
+// Use the circular favicon everywhere and force a fresh browser request.
 let favicon = document.querySelector('link[rel="icon"]');
 if (!favicon) {
   favicon = document.createElement('link');
   favicon.rel = 'icon';
   document.head.appendChild(favicon);
 }
-favicon.type = 'image/png';
-favicon.href = '/assets/andrea-morel-favicon.png?v=20260813-final';
+favicon.type = 'image/svg+xml';
+favicon.href = '/favicon.svg?v=20260813-circular2';
 
 if (!document.querySelector('#andrea-morel-brand-styles')) {
   const brandStyles = document.createElement('style');
