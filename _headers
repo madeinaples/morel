@@ -6,3 +6,7 @@
   Cache-Control: no-cache, no-store, must-revalidate
 /stories/*
   Cache-Control: no-cache, no-store, must-revalidate
+/favicon.svg
+  Cache-Control: no-cache, no-store, must-revalidate
+/assets/andrea-morel-favicon.png
+  Cache-Control: no-cache, no-store, must-revalidate
