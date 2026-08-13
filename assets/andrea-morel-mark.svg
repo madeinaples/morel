@@ -1,1 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><rect width="512" height="512" rx="92" fill="#090b0b"/><path d="M80 392 190 104 266 392" fill="none" stroke="#e7cf9e" stroke-width="22" stroke-linecap="round" stroke-linejoin="round"/><path d="M232 392V178c0-54 35-86 86-86s82 36 82 92v208" fill="none" stroke="#c99652" stroke-width="22" stroke-linecap="round"/><path d="M255 392V196c0-31 19-50 49-50h23c30 0 50 20 50 52v194" fill="#111315" stroke="#2a2018" stroke-width="6"/><path d="M255 196l56-25v221h-56z" fill="#17120f" stroke="#7a5732" stroke-width="5"/><circle cx="284" cy="283" r="7" fill="#c99652"/><path d="M70 305c88-77 196-73 268-17 36 28 68 36 106 17" fill="none" stroke="#e7cf9e" stroke-width="10" stroke-linecap="round"/><circle cx="318" cy="226" r="8" fill="#f3c36c"/><path d="M318 234v36" stroke="#f3c36c" stroke-width="5" stroke-linecap="round"/></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 500" role="img" aria-label="Andrea Morel">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff0c9"/><stop offset=".42" stop-color="#e7c88c"/><stop offset="1" stop-color="#a96b2d"/></linearGradient>
+    <clipPath id="door"><path d="M242 392V170c0-61 37-102 96-102s96 41 96 102v222z"/></clipPath>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+  </defs>
+  <rect width="520" height="500" rx="44" fill="#050606"/>
+  <g clip-path="url(#door)"><image href="/assets/andrea-london-portrait.webp?v=20260812-2" x="210" y="45" width="285" height="395" preserveAspectRatio="xMidYMid slice"/><rect x="220" y="45" width="275" height="400" fill="rgba(0,0,0,.22)"/></g>
+  <path d="M55 402 176 72 286 402" fill="none" stroke="url(#gold)" stroke-width="19" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  <path d="M241 402V171c0-63 38-104 97-104s97 42 97 104v231" fill="none" stroke="url(#gold)" stroke-width="18" stroke-linecap="round" filter="url(#glow)"/>
+  <path d="M242 173l57-30v250h-57z" fill="#0e0c0a" stroke="#6e4926" stroke-width="4"/><circle cx="279" cy="282" r="6" fill="#dca75b"/>
+  <path d="M38 319c92-80 208-78 300-18 52 34 102 43 151 13" fill="none" stroke="url(#gold)" stroke-width="8" stroke-linecap="round"/>
+  <path d="M478 306c14-14 27-17 37-8-14 2-22 8-27 18 8-5 17-5 27-1-12 8-24 8-37-9z" fill="#e9cf9a"/>
+</svg>
