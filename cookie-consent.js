@@ -11,7 +11,7 @@
     brand.setAttribute('aria-label', 'Andrea Morel — Home');
   }
   if (brandImage) {
-    brandImage.src = '/assets/andrea-morel-logo.png?v=20260813-final3';
+    brandImage.src = '/assets/andrea-morel-logo-transparent.png?v=20260814-transparent1';
     brandImage.alt = 'Andrea Morel';
   }
 
@@ -21,8 +21,8 @@
     siteFavicon.rel = 'icon';
     document.head.appendChild(siteFavicon);
   }
-  siteFavicon.type = 'image/svg+xml';
-  siteFavicon.href = '/favicon.svg?v=20260813-circular2';
+  siteFavicon.type = 'image/png';
+  siteFavicon.href = '/assets/andrea-morel-favicon-transparent.png?v=20260814-transparent1';
 
   if (!document.querySelector('#andrea-morel-global-brand-styles')) {
     const brandStyle = document.createElement('style');
