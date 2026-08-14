@@ -3,12 +3,12 @@
   "short_name": "AM",
   "icons": [
     {
-      "src": "/assets/andrea-morel-favicon-transparent.png?v=20260814-final2",
+      "src": "/assets/andrea-morel-favicon-transparent.png?v=20260814-ios-final1",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/assets/andrea-morel-favicon-transparent.png?v=20260814-final2",
+      "src": "/assets/andrea-morel-favicon-transparent.png?v=20260814-ios-final1",
       "sizes": "512x512",
       "type": "image/png"
     }
