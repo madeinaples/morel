@@ -29,8 +29,8 @@
     brandStyle.id = 'andrea-morel-global-brand-styles';
     brandStyle.textContent = `
       .brand {
-        width: 108px !important;
-        height: 108px !important;
+        width: 138px !important;
+        height: 138px !important;
         border-radius: 0 !important;
         overflow: visible !important;
         box-shadow: none !important;
@@ -43,7 +43,7 @@
         display: block !important;
       }
       @media (max-width: 700px) {
-        .brand { width: 86px !important; height: 86px !important; }
+        .brand { width: 110px !important; height: 110px !important; }
       }
     `;
     document.head.appendChild(brandStyle);
