@@ -3,12 +3,17 @@
   "short_name": "AM",
   "icons": [
     {
-      "src": "/assets/andrea-morel-favicon-transparent.png?v=20260814-ios-final1",
+      "src": "/assets/andrea-morel-apple-touch-icon.png?v=20260814-am-logo",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/andrea-morel-apple-touch-icon.png?v=20260814-am-logo",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "/assets/andrea-morel-favicon-transparent.png?v=20260814-ios-final1",
+      "src": "/assets/andrea-morel-apple-touch-icon.png?v=20260814-am-logo",
       "sizes": "512x512",
       "type": "image/png"
     }
