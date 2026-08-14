@@ -22,7 +22,7 @@ if (!favicon) {
   document.head.appendChild(favicon);
 }
 favicon.type = 'image/png';
-favicon.href = '/assets/andrea-morel-favicon-transparent.png?v=20260814-transparent1';
+favicon.href = '/assets/andrea-morel-favicon-transparent.png?v=20260814-favicon-final';
 
 if (!document.querySelector('#andrea-morel-brand-styles')) {
   const brandStyles = document.createElement('style');
