@@ -29,8 +29,8 @@ if (!document.querySelector('#andrea-morel-brand-styles')) {
   brandStyles.id = 'andrea-morel-brand-styles';
   brandStyles.textContent = `
     .brand {
-      width: 108px !important;
-      height: 108px !important;
+      width: 138px !important;
+      height: 138px !important;
       border-radius: 0 !important;
       overflow: visible !important;
       box-shadow: none !important;
@@ -44,8 +44,8 @@ if (!document.querySelector('#andrea-morel-brand-styles')) {
     }
     @media (max-width: 700px) {
       .brand {
-        width: 86px !important;
-        height: 86px !important;
+        width: 110px !important;
+        height: 110px !important;
       }
     }
   `;
