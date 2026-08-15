@@ -117,7 +117,7 @@ body {
   position: absolute;
   z-index: 0;
   inset: 0;
-  background: url("assets/andrea-london-portrait.webp?v=20260812-2") 58% center / cover no-repeat;
+  background: url("assets/andrea-london-portrait.webp?v=20260815-1") 58% center / cover no-repeat;
   transform: scale(1.035);
   filter: saturate(0.88) contrast(1.03);
   animation: drift 14s ease-out forwards;

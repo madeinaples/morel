@@ -5,7 +5,7 @@
     <filter id="glow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
   </defs>
   <rect width="520" height="500" rx="44" fill="#050606"/>
-  <g clip-path="url(#door)"><image href="/assets/andrea-london-portrait.webp?v=20260812-2" x="210" y="45" width="285" height="395" preserveAspectRatio="xMidYMid slice"/><rect x="220" y="45" width="275" height="400" fill="rgba(0,0,0,.22)"/></g>
+  <g clip-path="url(#door)"><image href="/assets/andrea-london-portrait.webp?v=20260815-1" x="210" y="45" width="285" height="395" preserveAspectRatio="xMidYMid slice"/><rect x="220" y="45" width="275" height="400" fill="rgba(0,0,0,.22)"/></g>
   <path d="M55 402 176 72 286 402" fill="none" stroke="url(#gold)" stroke-width="19" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
   <path d="M241 402V171c0-63 38-104 97-104s97 42 97 104v231" fill="none" stroke="url(#gold)" stroke-width="18" stroke-linecap="round" filter="url(#glow)"/>
   <path d="M242 173l57-30v250h-57z" fill="#0e0c0a" stroke="#6e4926" stroke-width="4"/><circle cx="279" cy="282" r="6" fill="#dca75b"/>
