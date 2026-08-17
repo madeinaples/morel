@@ -261,3 +261,13 @@
     showBanner();
   }
 })();
+
+// Reactions and comments are deliberately kept separate from analytics consent.
+// They use first-party site storage and only load on pages where the UI can appear.
+if ((document.body.classList.contains('article-page') || document.body.classList.contains('home-v2')) && !document.querySelector('script[data-morel-engagement]')) {
+  const engagementScript = document.createElement('script');
+  engagementScript.src = '/engagement.js?v=20260817-1';
+  engagementScript.defer = true;
+  engagementScript.dataset.morelEngagement = 'true';
+  document.body.appendChild(engagementScript);
+}
