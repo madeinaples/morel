@@ -1,0 +1,9 @@
+{
+  "name": "andrea-morel-site",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Andrea Morel editorial site",
+  "dependencies": {
+    "@netlify/blobs": "^10.0.0"
+  }
+}
