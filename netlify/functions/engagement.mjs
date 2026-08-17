@@ -1,6 +1,8 @@
 import { getStore } from '@netlify/blobs';
 
-const store = getStore('morel-engagement');
+// Engagement needs read-after-write consistency: a freshly posted comment
+// must still be visible after an immediate page refresh.
+const store = getStore({ name: 'morel-engagement', consistency: 'strong' });
 const MAX_COMMENTS = 100;
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), {
