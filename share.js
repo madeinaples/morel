@@ -52,6 +52,61 @@ if (!document.querySelector('#andrea-morel-brand-styles')) {
   document.head.appendChild(brandStyles);
 }
 
+// Article pages use a compact header on mobile. The global mobile menu rule
+// must not turn an article's simple section/language navigation into a full-screen overlay.
+if (document.body.classList.contains('article-page') && !document.querySelector('#article-mobile-nav-fix')) {
+  const articleMobileNavFix = document.createElement('style');
+  articleMobileNavFix.id = 'article-mobile-nav-fix';
+  articleMobileNavFix.textContent = `
+    @media (max-width: 900px) {
+      body.article-page .article-header {
+        min-height: 92px;
+        height: auto;
+        padding: 14px 18px;
+        align-items: flex-start;
+      }
+      body.article-page .article-header nav,
+      body.article-page .article-header nav.open {
+        position: static !important;
+        inset: auto !important;
+        z-index: auto !important;
+        display: flex !important;
+        width: auto !important;
+        min-height: 0 !important;
+        padding: 8px 0 0 !important;
+        flex-direction: column !important;
+        align-items: flex-end !important;
+        justify-content: flex-start !important;
+        gap: 8px !important;
+        background: transparent !important;
+      }
+      body.article-page .article-header nav > a {
+        font-size: 9px !important;
+        line-height: 1.25 !important;
+        text-align: right;
+      }
+      body.article-page .article-language-switch {
+        display: flex !important;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 5px;
+        white-space: nowrap;
+        font-size: 12px;
+      }
+      body.article-page .article-language-switch a,
+      body.article-page .article-language-switch span {
+        font-size: 12px !important;
+        line-height: 1.2;
+      }
+      body.article-page .article-main {
+        position: relative;
+        z-index: 1;
+      }
+    }
+  `;
+  document.head.appendChild(articleMobileNavFix);
+}
+
 document.querySelector('[data-share="facebook"]')?.addEventListener('click', (event) => {
   event.preventDefault();
   const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
