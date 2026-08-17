@@ -238,11 +238,31 @@ if (aboutCopy) {
   }
 }
 
+// Keep the Sweet Revenge editorial aside in the same language as the page.
+const articleAside = document.querySelector('.article-aside');
+if (articleAside) {
+  const editorialAside = Array.from(articleAside.querySelectorAll('p')).find((p) =>
+    /Music, images and pop culture as doorways|Musica, immagini e cultura pop come porte d’ingresso/i.test(p.textContent || '')
+  );
+  if (editorialAside) {
+    editorialAside.textContent = isItalian
+      ? 'Musica, immagini e cultura pop come porte d’ingresso. Non recensioni: modi diversi di guardare ciò che ci riguarda.'
+      : 'Music, images and pop culture as doorways. Not reviews: different ways of looking at what concerns us.';
+  }
+}
+
 const footer = document.querySelector('footer');
 const footerMeta = footer?.querySelector(':scope > div');
-const footerCredit = footerMeta?.querySelector(':scope > span');
-if (footer && footerMeta && footerCredit) {
+if (footer && footerMeta) {
   footer.querySelector('.human-edit-signature')?.remove();
+
+  const footerSpans = Array.from(footerMeta.querySelectorAll(':scope > span'));
+  let footerCredit = footerSpans[0];
+  if (!footerCredit) {
+    footerCredit = document.createElement('span');
+    footerMeta.prepend(footerCredit);
+  }
+  footerSpans.slice(1).forEach((span) => span.remove());
 
   const expectedAiPath = aiNoticeHref.replace(/\.html$/, '');
   const hasAiNoticeLink = Array.from(footerMeta.querySelectorAll('a')).some((link) => {
@@ -266,8 +286,8 @@ if (footer && footerMeta && footerCredit) {
   const logo = document.createElement('img');
   logo.src = '/assets/human-edit-studio-white.svg';
   logo.alt = 'Human Edit Studio';
-  logo.width = 220;
-  logo.height = 110;
+  logo.width = 150;
+  logo.height = 75;
   logo.loading = 'lazy';
 
   const tagline = document.createElement('p');
@@ -287,14 +307,14 @@ if (footer && footerMeta && footerCredit) {
     style.textContent = `
       .human-edit-signature {
         width: 100%;
-        margin: 64px auto 34px;
+        margin: 42px auto 28px;
         padding: 0;
         border: 0;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        gap: 18px;
+        gap: 12px;
         color: inherit;
         text-align: center;
         text-transform: none;
@@ -302,16 +322,16 @@ if (footer && footerMeta && footerCredit) {
       }
       .human-edit-signature img {
         display: block;
-        width: min(210px, 52vw);
+        width: min(145px, 34vw);
         height: auto;
         margin: 0 auto;
-        opacity: .94;
+        opacity: .76;
       }
       .human-edit-signature p {
         margin: 0;
-        color: #9b9d97;
-        font: 10px/1.4 "DM Sans", Arial, sans-serif;
-        letter-spacing: .22em;
+        color: #797d79;
+        font: 9px/1.4 "DM Sans", Arial, sans-serif;
+        letter-spacing: .2em;
         text-align: center;
         text-transform: uppercase;
       }
@@ -320,11 +340,16 @@ if (footer && footerMeta && footerCredit) {
       }
       @media (max-width: 700px) {
         .human-edit-signature {
-          margin: 54px auto 42px;
-          gap: 20px;
+          margin: 38px auto 34px;
+          gap: 10px;
         }
         .human-edit-signature img {
-          width: min(190px, 56vw);
+          width: min(122px, 32vw);
+          opacity: .72;
+        }
+        .human-edit-signature p {
+          font-size: 8px;
+          letter-spacing: .18em;
         }
         footer > .human-edit-footer-meta {
           display: grid;
