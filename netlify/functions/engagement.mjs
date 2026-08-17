@@ -1,7 +1,6 @@
 import { getStore } from '@netlify/blobs';
 
-// Engagement needs read-after-write consistency: a freshly posted comment
-// must still be visible after an immediate page refresh.
+// Strong consistency is required because comments must survive an immediate refresh.
 const store = getStore({ name: 'morel-engagement', consistency: 'strong' });
 const MAX_COMMENTS = 100;
 
@@ -9,7 +8,9 @@ const json = (data, status = 200) => new Response(JSON.stringify(data), {
   status,
   headers: {
     'content-type': 'application/json; charset=utf-8',
-    'cache-control': 'no-store',
+    'cache-control': 'no-store, no-cache, must-revalidate',
+    'pragma': 'no-cache',
+    'expires': '0',
     'x-content-type-options': 'nosniff'
   }
 });
@@ -39,19 +40,20 @@ function normalizeId(value) {
 
 const segment = (content) => encodeURIComponent(content);
 const likePrefix = (content) => `likes/${segment(content)}/`;
-const commentPrefix = (content) => `comments/${segment(content)}/`;
+const legacyCommentPrefix = (content) => `comments/${segment(content)}/`;
+const commentListKey = (content) => `comment-lists/${segment(content)}.json`;
 
 async function getLikeCount(content) {
   const { blobs } = await store.list({ prefix: likePrefix(content) });
   return blobs.length;
 }
 
-async function getCommentRows(content, limit = MAX_COMMENTS) {
-  const { blobs } = await store.list({ prefix: commentPrefix(content) });
+async function getLegacyCommentRows(content, limit = MAX_COMMENTS) {
+  const { blobs } = await store.list({ prefix: legacyCommentPrefix(content) });
   const selected = blobs.slice(-limit);
   const rows = await Promise.all(selected.map(async ({ key }) => {
     try {
-      const item = await store.get(key, { consistency: 'strong', type: 'json' });
+      const item = await store.get(key, { type: 'json' });
       return item ? { key, item } : null;
     } catch {
       return null;
@@ -61,26 +63,37 @@ async function getCommentRows(content, limit = MAX_COMMENTS) {
 }
 
 async function getComments(content) {
-  const rows = await getCommentRows(content);
-  return rows.map(({ item }) => item);
+  const key = commentListKey(content);
+  const direct = await store.get(key, { type: 'json' }).catch(() => null);
+  if (Array.isArray(direct)) return direct.slice(-MAX_COMMENTS);
+
+  // One-time migration path for comments written by the first implementation.
+  const legacyRows = await getLegacyCommentRows(content);
+  const migrated = legacyRows.map(({ item }) => item).slice(-MAX_COMMENTS);
+  if (migrated.length) await store.setJSON(key, migrated);
+  return migrated;
+}
+
+async function saveComments(content, comments) {
+  const list = comments.slice(-MAX_COMMENTS);
+  await store.setJSON(commentListKey(content), list);
+  return list;
 }
 
 async function snapshot(content, visitor, summaryOnly = false) {
   const [likeCount, comments] = await Promise.all([
     getLikeCount(content),
-    summaryOnly ? Promise.resolve([]) : getComments(content)
+    getComments(content)
   ]);
   let liked = false;
-  if (visitor) liked = Boolean(await store.getMetadata(`${likePrefix(content)}${visitor}`, { consistency: 'strong' }));
-
-  let commentCount;
-  if (summaryOnly) {
-    const listed = await store.list({ prefix: commentPrefix(content) });
-    commentCount = listed.blobs.length;
-  } else {
-    commentCount = comments.length;
-  }
-  return { content, likeCount, commentCount, liked, comments };
+  if (visitor) liked = Boolean(await store.getMetadata(`${likePrefix(content)}${visitor}`));
+  return {
+    content,
+    likeCount,
+    commentCount: comments.length,
+    liked,
+    comments: summaryOnly ? [] : comments
+  };
 }
 
 function adminTokenFrom(req) {
@@ -94,11 +107,12 @@ function isAdmin(req) {
 }
 
 async function adminListComments() {
+  // Use the legacy per-comment records as an index for the moderation dashboard.
   const { blobs } = await store.list({ prefix: 'comments/' });
   const selected = blobs.slice(-300).reverse();
   const rows = await Promise.all(selected.map(async ({ key }) => {
     try {
-      const item = await store.get(key, { consistency: 'strong', type: 'json' });
+      const item = await store.get(key, { type: 'json' });
       const encoded = key.slice('comments/'.length).split('/')[0];
       const content = decodeURIComponent(encoded);
       return item ? { ...item, content } : null;
@@ -110,21 +124,25 @@ async function adminListComments() {
 }
 
 async function deleteCommentTree(content, targetId) {
-  const rows = await getCommentRows(content, 500);
+  const comments = await getComments(content);
   const ids = new Set([targetId]);
   let changed = true;
   while (changed) {
     changed = false;
-    rows.forEach(({ item }) => {
+    comments.forEach((item) => {
       if (item.parentId && ids.has(item.parentId) && !ids.has(item.id)) {
         ids.add(item.id);
         changed = true;
       }
     });
   }
-  const matches = rows.filter(({ item }) => ids.has(item.id));
-  await Promise.all(matches.map(({ key }) => store.delete(key)));
-  return matches.length;
+  const remaining = comments.filter((item) => !ids.has(item.id));
+  await saveComments(content, remaining);
+
+  const legacyRows = await getLegacyCommentRows(content, 500);
+  const legacyMatches = legacyRows.filter(({ item }) => ids.has(item.id));
+  await Promise.all(legacyMatches.map(({ key }) => store.delete(key)));
+  return comments.length - remaining.length;
 }
 
 export default async (req) => {
@@ -166,7 +184,7 @@ export default async (req) => {
     if (action === 'like' || action === 'unlike') {
       const key = `${likePrefix(content)}${visitorId}`;
       const before = await getLikeCount(content);
-      const existed = Boolean(await store.getMetadata(key, { consistency: 'strong' }));
+      const existed = Boolean(await store.getMetadata(key));
 
       if (action === 'like' && !existed) await store.setJSON(key, { createdAt: new Date().toISOString() }, { onlyIfNew: true });
       if (action === 'unlike' && existed) await store.delete(key);
@@ -174,7 +192,6 @@ export default async (req) => {
       const likeCount = action === 'like'
         ? before + (existed ? 0 : 1)
         : Math.max(0, before - (existed ? 1 : 0));
-
       return json({ content, likeCount, liked: action === 'like' });
     }
 
@@ -186,27 +203,26 @@ export default async (req) => {
       const parentId = body.parentId ? normalizeId(body.parentId) : null;
       if (name.length < 2 || message.length < 2 || (body.parentId && !parentId)) return json({ error: 'invalid_comment' }, 400);
 
-      if (parentId) {
-        const existing = await getComments(content);
-        if (!existing.some((item) => item.id === parentId)) return json({ error: 'parent_not_found' }, 404);
-      }
+      const comments = await getComments(content);
+      if (parentId && !comments.some((item) => item.id === parentId)) return json({ error: 'parent_not_found' }, 404);
 
       const rateKey = `rates/${segment(content)}/${visitorId}`;
-      const last = await store.get(rateKey, { consistency: 'strong', type: 'json' }).catch(() => null);
+      const last = await store.get(rateKey, { type: 'json' }).catch(() => null);
       const now = Date.now();
       if (last?.at && now - last.at < 15000) return json({ error: 'rate_limited', code: 'rate_limited' }, 429);
-
       await store.setJSON(rateKey, { at: now });
+
       const id = crypto.randomUUID();
       const comment = { id, name, message, createdAt: new Date(now).toISOString(), parentId: parentId || null };
-      await store.setJSON(`${commentPrefix(content)}${now}-${id}`, comment, { onlyIfNew: true });
+
+      // Canonical storage: a directly-addressable JSON list. Direct strong reads are
+      // reliable immediately after a write, so refresh cannot lose the new comment.
+      await saveComments(content, [...comments, comment]);
+
+      // Secondary per-comment record keeps the moderation index working.
+      await store.setJSON(`${legacyCommentPrefix(content)}${now}-${id}`, comment, { onlyIfNew: true });
 
       const data = await snapshot(content, visitorId);
-      if (!data.comments.some((item) => item.id === id)) {
-        data.comments.push(comment);
-        data.comments.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-        data.commentCount += 1;
-      }
       return json(data, 201);
     }
 
