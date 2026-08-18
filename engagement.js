@@ -23,18 +23,29 @@
         title: 'Reactions'
       };
 
+  function newVisitorId() {
+    return crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  }
+
+  function getCookieVisitorId(key) {
+    const prefix = `${encodeURIComponent(key)}=`;
+    const row = document.cookie.split('; ').find((item) => item.startsWith(prefix));
+    return row ? decodeURIComponent(row.slice(prefix.length)) : null;
+  }
+
+  function persistVisitorId(key, id) {
+    try { localStorage.setItem(key, id); } catch { /* cookie fallback below */ }
+    document.cookie = `${encodeURIComponent(key)}=${encodeURIComponent(id)}; Max-Age=31536000; Path=/; SameSite=Lax; Secure`;
+  }
+
   function getVisitorId() {
     const key = 'morel-visitor-id-v1';
-    try {
-      let id = localStorage.getItem(key);
-      if (!id) {
-        id = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-        localStorage.setItem(key, id);
-      }
-      return id;
-    } catch {
-      return `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-    }
+    let id = null;
+    try { id = localStorage.getItem(key); } catch { /* use first-party cookie */ }
+    if (!id) id = getCookieVisitorId(key);
+    if (!id) id = newVisitorId();
+    persistVisitorId(key, id);
+    return id;
   }
 
   function contentKeyFromUrl(url) {
@@ -85,14 +96,7 @@
       .morel-comment-status{grid-column:1/-1;margin:1px 0 0;font-size:10px;min-height:14px;opacity:.65}
       .morel-hp{position:absolute!important;left:-9999px!important;width:1px!important;height:1px!important;overflow:hidden!important}
       .morel-inline-counts{display:inline-flex;align-items:center;gap:9px;margin-top:12px;font:400 10px/1 "DM Sans",Arial,sans-serif;letter-spacing:.04em;opacity:.62}
-      @media(max-width:700px){
-        .morel-engagement{margin:52px auto 20px;padding-top:24px}
-        .morel-engagement-head{align-items:flex-start;flex-direction:column}
-        .morel-comment.morel-reply{margin-left:14px;padding-left:12px}
-        .morel-comment-form{grid-template-columns:1fr}
-        .morel-comment-status{grid-column:1}
-        .morel-comment-submit{justify-self:start}
-      }
+      @media(max-width:700px){.morel-engagement{margin:52px auto 20px;padding-top:24px}.morel-engagement-head{align-items:flex-start;flex-direction:column}.morel-comment.morel-reply{margin-left:14px;padding-left:12px}.morel-comment-form{grid-template-columns:1fr}.morel-comment-status{grid-column:1}.morel-comment-submit{justify-self:start}}
     `;
     document.head.appendChild(style);
   }
@@ -102,71 +106,30 @@
     if (payload) options.body = JSON.stringify(payload);
     const response = await fetch(`${API}${query}`, options);
     const data = await response.json().catch(() => ({}));
-    if (!response.ok) {
-      const error = new Error(data.error || 'request_failed');
-      error.code = data.code;
-      throw error;
-    }
+    if (!response.ok) { const error = new Error(data.error || 'request_failed'); error.code = data.code; throw error; }
     return data;
   }
 
   function formatDate(iso) {
-    try {
-      return new Intl.DateTimeFormat(lang === 'it' ? 'it-IT' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso));
-    } catch {
-      return '';
-    }
+    try { return new Intl.DateTimeFormat(lang === 'it' ? 'it-IT' : 'en-GB', { day: 'numeric', month: 'short', year: 'numeric' }).format(new Date(iso)); } catch { return ''; }
   }
 
   function renderComments(list, comments, onReply) {
     list.innerHTML = '';
-    if (!comments.length) {
-      const empty = document.createElement('p');
-      empty.className = 'morel-comment-empty';
-      empty.textContent = copy.empty;
-      list.appendChild(empty);
-      return;
-    }
-
+    if (!comments.length) { const empty = document.createElement('p'); empty.className = 'morel-comment-empty'; empty.textContent = copy.empty; list.appendChild(empty); return; }
     const byParent = new Map();
-    comments.forEach((item) => {
-      const parent = item.parentId || '__root__';
-      if (!byParent.has(parent)) byParent.set(parent, []);
-      byParent.get(parent).push(item);
-    });
-
+    comments.forEach((item) => { const parent = item.parentId || '__root__'; if (!byParent.has(parent)) byParent.set(parent, []); byParent.get(parent).push(item); });
     const appendComment = (item, depth = 0) => {
-      const article = document.createElement('article');
-      article.className = depth > 0 ? 'morel-comment morel-reply' : 'morel-comment';
-      article.dataset.commentId = item.id;
-
-      const meta = document.createElement('div');
-      meta.className = 'morel-comment-meta';
-      const name = document.createElement('strong');
-      name.className = 'morel-comment-name';
-      name.textContent = item.name;
-      const date = document.createElement('time');
-      date.className = 'morel-comment-date';
-      date.dateTime = item.createdAt;
-      date.textContent = formatDate(item.createdAt);
-      const text = document.createElement('p');
-      text.className = 'morel-comment-text';
-      text.textContent = item.message;
-      const tools = document.createElement('div');
-      tools.className = 'morel-comment-tools';
-      const reply = document.createElement('button');
-      reply.type = 'button';
-      reply.className = 'morel-reply-button';
-      reply.textContent = `↳ ${copy.reply}`;
-      reply.addEventListener('click', () => onReply(item));
-      tools.appendChild(reply);
-      meta.append(name, date);
-      article.append(meta, text, tools);
-      list.appendChild(article);
-
+      const article = document.createElement('article'); article.className = depth > 0 ? 'morel-comment morel-reply' : 'morel-comment'; article.dataset.commentId = item.id;
+      const meta = document.createElement('div'); meta.className = 'morel-comment-meta';
+      const name = document.createElement('strong'); name.className = 'morel-comment-name'; name.textContent = item.name;
+      const date = document.createElement('time'); date.className = 'morel-comment-date'; date.dateTime = item.createdAt; date.textContent = formatDate(item.createdAt);
+      const text = document.createElement('p'); text.className = 'morel-comment-text'; text.textContent = item.message;
+      const tools = document.createElement('div'); tools.className = 'morel-comment-tools';
+      const reply = document.createElement('button'); reply.type = 'button'; reply.className = 'morel-reply-button'; reply.textContent = `↳ ${copy.reply}`; reply.addEventListener('click', () => onReply(item));
+      tools.appendChild(reply); meta.append(name, date); article.append(meta, text, tools); list.appendChild(article);
       (byParent.get(item.id) || []).forEach((child) => appendComment(child, Math.min(depth + 1, 1)));
     };
-
     (byParent.get('__root__') || []).forEach((item) => appendComment(item, 0));
   }
 
@@ -174,155 +137,29 @@
     injectStyles();
     const articleBody = document.querySelector('.article-body');
     if (!articleBody || document.querySelector('.morel-engagement')) return;
-
     const canonical = document.querySelector('link[rel="canonical"]')?.href || window.location.href;
     const content = contentKeyFromUrl(canonical);
     let replyingTo = null;
-
-    const section = document.createElement('section');
-    section.className = 'morel-engagement';
-    section.setAttribute('aria-label', copy.title);
-    section.innerHTML = `
-      <div class="morel-engagement-head">
-        <p class="morel-engagement-title">${copy.title}</p>
-        <div class="morel-engagement-actions">
-          <button class="morel-react-button" type="button" data-morel-like aria-pressed="false"><span class="morel-heart">♡</span><span>${copy.like}</span><b data-like-count>0</b></button>
-          <button class="morel-react-button" type="button" data-morel-comment-jump><span>💬</span><span>${copy.comments}</span><b data-comment-count>0</b></button>
-        </div>
-      </div>
-      <div class="morel-comments" data-morel-comments>
-        <div class="morel-comment-list" data-comment-list></div>
-        <div class="morel-reply-banner" data-reply-banner><span data-reply-label></span><button type="button" class="morel-reply-cancel" data-reply-cancel>${copy.cancelReply}</button></div>
-        <form class="morel-comment-form" data-comment-form>
-          <label class="morel-hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label>
-          <input name="name" maxlength="40" autocomplete="name" placeholder="${copy.name}" aria-label="${copy.name}" required>
-          <textarea name="message" maxlength="800" placeholder="${copy.message}" aria-label="${copy.message}" required></textarea>
-          <button class="morel-comment-submit" type="submit">${copy.send}</button>
-          <p class="morel-comment-status" data-comment-status aria-live="polite"></p>
-        </form>
-      </div>
-    `;
-
-    const end = articleBody.querySelector('.article-end');
-    if (end) articleBody.insertBefore(section, end);
-    else articleBody.appendChild(section);
-
-    const likeButton = section.querySelector('[data-morel-like]');
-    const likeCount = section.querySelector('[data-like-count]');
-    const commentCount = section.querySelector('[data-comment-count]');
-    const commentList = section.querySelector('[data-comment-list]');
-    const commentForm = section.querySelector('[data-comment-form]');
-    const commentStatus = section.querySelector('[data-comment-status]');
-    const jump = section.querySelector('[data-morel-comment-jump]');
-    const replyBanner = section.querySelector('[data-reply-banner]');
-    const replyLabel = section.querySelector('[data-reply-label]');
-    const replyCancel = section.querySelector('[data-reply-cancel]');
-
-    const clearReply = () => {
-      replyingTo = null;
-      replyBanner.classList.remove('active');
-      replyLabel.textContent = '';
-    };
-
-    const beginReply = (item) => {
-      replyingTo = item;
-      replyLabel.textContent = `${copy.replyingTo} ${item.name}`;
-      replyBanner.classList.add('active');
-      const textarea = commentForm.querySelector('textarea');
-      commentForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      setTimeout(() => textarea.focus({ preventScroll: true }), 250);
-    };
-
-    const refresh = async () => {
-      const data = await request('GET', null, `?content=${encodeURIComponent(content)}&visitor=${encodeURIComponent(visitorId)}`);
-      likeCount.textContent = data.likeCount;
-      commentCount.textContent = data.commentCount;
-      likeButton.setAttribute('aria-pressed', data.liked ? 'true' : 'false');
-      likeButton.querySelector('.morel-heart').textContent = data.liked ? '♥' : '♡';
-      likeButton.querySelector('span:nth-child(2)').textContent = data.liked ? copy.liked : copy.like;
-      renderComments(commentList, data.comments || [], beginReply);
-      return data;
-    };
-
-    likeButton.addEventListener('click', async () => {
-      if (likeButton.disabled) return;
-      likeButton.disabled = true;
-      const liked = likeButton.getAttribute('aria-pressed') === 'true';
-      try {
-        const data = await request('POST', { action: liked ? 'unlike' : 'like', content, visitorId });
-        likeCount.textContent = data.likeCount;
-        likeButton.setAttribute('aria-pressed', data.liked ? 'true' : 'false');
-        likeButton.querySelector('.morel-heart').textContent = data.liked ? '♥' : '♡';
-        likeButton.querySelector('span:nth-child(2)').textContent = data.liked ? copy.liked : copy.like;
-      } catch {
-        commentStatus.textContent = copy.error;
-      } finally {
-        likeButton.disabled = false;
-      }
-    });
-
-    jump.addEventListener('click', () => {
-      clearReply();
-      commentForm.querySelector('textarea').focus({ preventScroll: true });
-      commentForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    });
-
+    const section = document.createElement('section'); section.className = 'morel-engagement'; section.setAttribute('aria-label', copy.title);
+    section.innerHTML = `<div class="morel-engagement-head"><p class="morel-engagement-title">${copy.title}</p><div class="morel-engagement-actions"><button class="morel-react-button" type="button" data-morel-like aria-pressed="false"><span class="morel-heart">♡</span><span>${copy.like}</span><b data-like-count>0</b></button><button class="morel-react-button" type="button" data-morel-comment-jump><span>💬</span><span>${copy.comments}</span><b data-comment-count>0</b></button></div></div><div class="morel-comments" data-morel-comments><div class="morel-comment-list" data-comment-list></div><div class="morel-reply-banner" data-reply-banner><span data-reply-label></span><button type="button" class="morel-reply-cancel" data-reply-cancel>${copy.cancelReply}</button></div><form class="morel-comment-form" data-comment-form><label class="morel-hp" aria-hidden="true">Website<input name="website" tabindex="-1" autocomplete="off"></label><input name="name" maxlength="40" autocomplete="name" placeholder="${copy.name}" aria-label="${copy.name}" required><textarea name="message" maxlength="800" placeholder="${copy.message}" aria-label="${copy.message}" required></textarea><button class="morel-comment-submit" type="submit">${copy.send}</button><p class="morel-comment-status" data-comment-status aria-live="polite"></p></form></div>`;
+    const end = articleBody.querySelector('.article-end'); if (end) articleBody.insertBefore(section, end); else articleBody.appendChild(section);
+    const likeButton = section.querySelector('[data-morel-like]'), likeCount = section.querySelector('[data-like-count]'), commentCount = section.querySelector('[data-comment-count]'), commentList = section.querySelector('[data-comment-list]'), commentForm = section.querySelector('[data-comment-form]'), commentStatus = section.querySelector('[data-comment-status]'), jump = section.querySelector('[data-morel-comment-jump]'), replyBanner = section.querySelector('[data-reply-banner]'), replyLabel = section.querySelector('[data-reply-label]'), replyCancel = section.querySelector('[data-reply-cancel]');
+    const clearReply = () => { replyingTo = null; replyBanner.classList.remove('active'); replyLabel.textContent = ''; };
+    const beginReply = (item) => { replyingTo = item; replyLabel.textContent = `${copy.replyingTo} ${item.name}`; replyBanner.classList.add('active'); const textarea = commentForm.querySelector('textarea'); commentForm.scrollIntoView({ behavior: 'smooth', block: 'center' }); setTimeout(() => textarea.focus({ preventScroll: true }), 250); };
+    const refresh = async () => { const data = await request('GET', null, `?content=${encodeURIComponent(content)}&visitor=${encodeURIComponent(visitorId)}`); likeCount.textContent = data.likeCount; commentCount.textContent = data.commentCount; likeButton.setAttribute('aria-pressed', data.liked ? 'true' : 'false'); likeButton.querySelector('.morel-heart').textContent = data.liked ? '♥' : '♡'; likeButton.querySelector('span:nth-child(2)').textContent = data.liked ? copy.liked : copy.like; renderComments(commentList, data.comments || [], beginReply); return data; };
+    likeButton.addEventListener('click', async () => { if (likeButton.disabled) return; likeButton.disabled = true; const liked = likeButton.getAttribute('aria-pressed') === 'true'; try { const data = await request('POST', { action: liked ? 'unlike' : 'like', content, visitorId }); likeCount.textContent = data.likeCount; likeButton.setAttribute('aria-pressed', data.liked ? 'true' : 'false'); likeButton.querySelector('.morel-heart').textContent = data.liked ? '♥' : '♡'; likeButton.querySelector('span:nth-child(2)').textContent = data.liked ? copy.liked : copy.like; } catch { commentStatus.textContent = copy.error; } finally { likeButton.disabled = false; } });
+    jump.addEventListener('click', () => { clearReply(); commentForm.querySelector('textarea').focus({ preventScroll: true }); commentForm.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
     replyCancel.addEventListener('click', clearReply);
-
-    commentForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-      const submit = commentForm.querySelector('button[type="submit"]');
-      const formData = new FormData(commentForm);
-      const payload = {
-        action: 'comment', content, visitorId,
-        name: String(formData.get('name') || '').trim(),
-        message: String(formData.get('message') || '').trim(),
-        website: String(formData.get('website') || '').trim(),
-        parentId: replyingTo?.id || null
-      };
-      if (!payload.name || !payload.message) return;
-      submit.disabled = true;
-      commentStatus.textContent = copy.sending;
-      try {
-        const data = await request('POST', payload);
-        commentForm.querySelector('textarea').value = '';
-        commentStatus.textContent = '';
-        commentCount.textContent = data.commentCount;
-        clearReply();
-        renderComments(commentList, data.comments || [], beginReply);
-      } catch (error) {
-        commentStatus.textContent = error.code === 'rate_limited' ? copy.tooFast : copy.error;
-      } finally {
-        submit.disabled = false;
-      }
-    });
-
+    commentForm.addEventListener('submit', async (event) => { event.preventDefault(); const submit = commentForm.querySelector('button[type="submit"]'); const formData = new FormData(commentForm); const payload = { action: 'comment', content, visitorId, name: String(formData.get('name') || '').trim(), message: String(formData.get('message') || '').trim(), website: String(formData.get('website') || '').trim(), parentId: replyingTo?.id || null }; if (!payload.name || !payload.message) return; submit.disabled = true; commentStatus.textContent = copy.sending; try { const data = await request('POST', payload); commentForm.querySelector('textarea').value = ''; commentStatus.textContent = ''; commentCount.textContent = data.commentCount; clearReply(); renderComments(commentList, data.comments || [], beginReply); } catch (error) { commentStatus.textContent = error.code === 'rate_limited' ? copy.tooFast : copy.error; } finally { submit.disabled = false; } });
     try { await refresh(); } catch { commentStatus.textContent = copy.error; }
   }
 
   async function mountHomeCounts() {
     injectStyles();
-    const links = Array.from(document.querySelectorAll('a[href^="/storie/"], a[href^="/stories/"]'));
+    const links = Array.from(document.querySelectorAll('a[href^="/storie/"], a[href^="/stories/"], a[href^="/small-codes/"]'));
     const unique = new Map();
-    links.forEach((link) => {
-      const key = contentKeyFromUrl(link.href);
-      if (!unique.has(key)) unique.set(key, []);
-      unique.get(key).push(link);
-    });
-    await Promise.all(Array.from(unique.entries()).map(async ([content, contentLinks]) => {
-      try {
-        const data = await request('GET', null, `?content=${encodeURIComponent(content)}&summary=1`);
-        contentLinks.forEach((link) => {
-          const host = link.closest('article, .reveal, .featured-flow > div') || link.parentElement;
-          if (!host || host.querySelector(`.morel-inline-counts[data-content="${CSS.escape(content)}"]`)) return;
-          const counts = document.createElement('span');
-          counts.className = 'morel-inline-counts';
-          counts.dataset.content = content;
-          counts.innerHTML = `<span>♡ ${data.likeCount}</span><span>💬 ${data.commentCount}</span>`;
-          link.insertAdjacentElement('afterend', counts);
-        });
-      } catch { /* keep homepage clean if the API is temporarily unavailable */ }
-    }));
+    links.forEach((link) => { const key = contentKeyFromUrl(link.href); if (!unique.has(key)) unique.set(key, []); unique.get(key).push(link); });
+    await Promise.all(Array.from(unique.entries()).map(async ([content, contentLinks]) => { try { const data = await request('GET', null, `?content=${encodeURIComponent(content)}&summary=1`); contentLinks.forEach((link) => { const host = link.closest('article, .reveal, .featured-flow > div') || link.parentElement; if (!host || host.querySelector(`.morel-inline-counts[data-content="${CSS.escape(content)}"]`)) return; const counts = document.createElement('span'); counts.className = 'morel-inline-counts'; counts.dataset.content = content; counts.innerHTML = `<span>♡ ${data.likeCount}</span><span>💬 ${data.commentCount}</span>`; link.insertAdjacentElement('afterend', counts); }); } catch { /* keep homepage clean if the API is temporarily unavailable */ } }));
   }
 
   if (isArticle) mountArticle();

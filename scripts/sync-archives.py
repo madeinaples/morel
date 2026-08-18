@@ -14,6 +14,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SECTIONS = ("andrea", "pensieri", "altri")
+PUBLISHING_SECTIONS = (*SECTIONS, "small-codes")
 
 MONTHS = {
     "it": ("", "gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"),
@@ -89,26 +90,53 @@ def canonical_path(source: str) -> str | None:
     return match.group(1) if match else None
 
 
+def article_language(source: str) -> str | None:
+    match = re.search(r'<html\b[^>]*\blang=["\']([^"\']+)["\']', source, re.IGNORECASE)
+    if not match:
+        return None
+    lang = match.group(1).lower()
+    return "it" if lang.startswith("it") else "en" if lang.startswith("en") else None
+
+
+def article_summary(source: str) -> str | None:
+    for class_name in ("article-deck", "code-deck"):
+        value = element_text(source, class_name, "p")
+        if value:
+            return value
+    match = re.search(r'<meta\s+name=["\']description["\']\s+content=["\']([^"\']+)["\']\s*/?>', source, re.IGNORECASE)
+    return html_lib.unescape(match.group(1).strip()) if match else None
+
+
+def article_minutes(source: str, section: str) -> int | None:
+    kicker = element_text(source, "kicker", "p") or ""
+    minutes_match = re.search(r"(\d+)\s+min", kicker, re.IGNORECASE)
+    if minutes_match:
+        return int(minutes_match.group(1))
+    if section == "small-codes":
+        return 1
+    return None
+
+
 def read_articles(language: str) -> list[Article]:
-    directory = ROOT / ("storie" if language == "it" else "stories")
+    directories = (ROOT / ("storie" if language == "it" else "stories"), ROOT / "small-codes")
     articles: list[Article] = []
-    for path in sorted(directory.glob("*.html")):
-        source = path.read_text(encoding="utf-8")
-        section = meta(source, "article:section")
-        if section not in SECTIONS:
-            continue
-        published_text = meta(source, "article:published_time")
-        url = canonical_path(source)
-        title = first_heading(source)
-        summary = element_text(source, "article-deck", "p")
-        kicker = element_text(source, "kicker", "p") or ""
-        minutes_match = re.search(r"(\d+)\s+min", kicker, re.IGNORECASE)
-        missing = [name for name, value in (("published date", published_text), ("canonical URL", url), ("title", title), ("summary", summary), ("reading time", minutes_match)) if not value]
-        if missing:
-            raise ValueError(f"{path.relative_to(ROOT)}: missing {', '.join(missing)}")
-        articles.append(Article(language, section, url, title, summary, date.fromisoformat(published_text), int(minutes_match.group(1))))
-    # Newer dates first; for stories published on the same day, reverse URL order
-    # keeps newly-added entries such as no-drama-please ahead of older same-day pages.
+    for directory in directories:
+        for path in sorted(directory.glob("*.html")):
+            source = path.read_text(encoding="utf-8")
+            if article_language(source) != language:
+                continue
+            section = meta(source, "article:section")
+            if section not in PUBLISHING_SECTIONS:
+                continue
+            published_text = meta(source, "article:published_time")
+            url = canonical_path(source)
+            title = first_heading(source)
+            summary = article_summary(source)
+            minutes = article_minutes(source, section)
+            missing = [name for name, value in (("published date", published_text), ("canonical URL", url), ("title", title), ("summary", summary), ("reading time", minutes)) if value is None]
+            if missing:
+                raise ValueError(f"{path.relative_to(ROOT)}: missing {', '.join(missing)}")
+            articles.append(Article(language, section, url, title, summary, date.fromisoformat(published_text), minutes))
     return sorted(articles, key=lambda item: (item.published.toordinal(), item.url), reverse=True)
 
 

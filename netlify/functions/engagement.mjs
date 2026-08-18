@@ -1,6 +1,6 @@
 import { getStore } from '@netlify/blobs';
 
-// Strong consistency is required because comments must survive an immediate refresh.
+// Strong consistency is required because engagement must survive an immediate refresh.
 const store = getStore({ name: 'morel-engagement', consistency: 'strong' });
 const MAX_COMMENTS = 100;
 
@@ -40,12 +40,29 @@ function normalizeId(value) {
 
 const segment = (content) => encodeURIComponent(content);
 const likePrefix = (content) => `likes/${segment(content)}/`;
+const likeCountKey = (content) => `like-counts/${segment(content)}.json`;
 const legacyCommentPrefix = (content) => `comments/${segment(content)}/`;
 const commentListKey = (content) => `comment-lists/${segment(content)}.json`;
 
-async function getLikeCount(content) {
+async function countLikeBlobs(content) {
   const { blobs } = await store.list({ prefix: likePrefix(content) });
   return blobs.length;
+}
+
+async function getLikeCount(content) {
+  const direct = await store.get(likeCountKey(content), { type: 'json' }).catch(() => null);
+  if (Number.isInteger(direct?.count) && direct.count >= 0) return direct.count;
+
+  // One-time migration path for likes written by the first implementation.
+  const count = await countLikeBlobs(content);
+  await store.setJSON(likeCountKey(content), { count });
+  return count;
+}
+
+async function saveLikeCount(content, count) {
+  const safeCount = Math.max(0, Number(count) || 0);
+  await store.setJSON(likeCountKey(content), { count: safeCount });
+  return safeCount;
 }
 
 async function getLegacyCommentRows(content, limit = MAX_COMMENTS) {
@@ -107,7 +124,6 @@ function isAdmin(req) {
 }
 
 async function adminListComments() {
-  // Use the legacy per-comment records as an index for the moderation dashboard.
   const { blobs } = await store.list({ prefix: 'comments/' });
   const selected = blobs.slice(-300).reverse();
   const rows = await Promise.all(selected.map(async ({ key }) => {
@@ -183,15 +199,17 @@ export default async (req) => {
 
     if (action === 'like' || action === 'unlike') {
       const key = `${likePrefix(content)}${visitorId}`;
-      const before = await getLikeCount(content);
       const existed = Boolean(await store.getMetadata(key));
+      let likeCount = await getLikeCount(content);
 
-      if (action === 'like' && !existed) await store.setJSON(key, { createdAt: new Date().toISOString() }, { onlyIfNew: true });
-      if (action === 'unlike' && existed) await store.delete(key);
+      if (action === 'like' && !existed) {
+        await store.setJSON(key, { createdAt: new Date().toISOString() }, { onlyIfNew: true });
+        likeCount = await saveLikeCount(content, likeCount + 1);
+      } else if (action === 'unlike' && existed) {
+        await store.delete(key);
+        likeCount = await saveLikeCount(content, likeCount - 1);
+      }
 
-      const likeCount = action === 'like'
-        ? before + (existed ? 0 : 1)
-        : Math.max(0, before - (existed ? 1 : 0));
       return json({ content, likeCount, liked: action === 'like' });
     }
 
@@ -214,12 +232,7 @@ export default async (req) => {
 
       const id = crypto.randomUUID();
       const comment = { id, name, message, createdAt: new Date(now).toISOString(), parentId: parentId || null };
-
-      // Canonical storage: a directly-addressable JSON list. Direct strong reads are
-      // reliable immediately after a write, so refresh cannot lose the new comment.
       await saveComments(content, [...comments, comment]);
-
-      // Secondary per-comment record keeps the moderation index working.
       await store.setJSON(`${legacyCommentPrefix(content)}${now}-${id}`, comment, { onlyIfNew: true });
 
       const data = await snapshot(content, visitorId);
