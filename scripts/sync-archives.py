@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Keep the bilingual archives, section pages and latest links in sync."""
+"""Keep the bilingual archives and section pages in sync."""
 
 from __future__ import annotations
 
@@ -190,14 +190,6 @@ def replace_section_list(source: str, rendered: str) -> str:
     return updated
 
 
-def replace_latest_link(source: str, url: str) -> str:
-    pattern = re.compile(r'(<a\s+class="hero-button primary"\s+href=")[^"]+("[^>]*>)')
-    updated, count = pattern.subn(rf'\1{url}\2', source, count=1)
-    if count != 1:
-        raise ValueError("latest-article link not found")
-    return updated
-
-
 def replace_sitemap_lastmod(source: str, url: str, modified: date) -> str:
     pattern = re.compile(rf'(<loc>{re.escape(url)}</loc>\s*<lastmod>)[^<]+(</lastmod>)')
     updated, count = pattern.subn(lambda match: f"{match.group(1)}{modified.isoformat()}{match.group(2)}", source, count=1)
@@ -229,11 +221,8 @@ def sync(check: bool) -> bool:
         if archive_source != ARCHIVE_FILES[language].read_text(encoding="utf-8"):
             changed[ARCHIVE_FILES[language]] = archive_source
 
-        homepage = ROOT / ("index.html" if language == "it" else "index-en.html")
-        homepage_source = homepage.read_text(encoding="utf-8")
-        homepage_updated = replace_latest_link(homepage_source, articles[0].url)
-        if homepage_updated != homepage_source:
-            changed[homepage] = homepage_updated
+        # MOREL 2.0 homepage entry points are intentional editorial doors,
+        # not "latest article" links. Do not rewrite the primary hero CTA here.
 
     sitemap = ROOT / "sitemap.xml"
     sitemap_source = sitemap.read_text(encoding="utf-8")
