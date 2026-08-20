@@ -180,3 +180,11 @@ if ((document.body.classList.contains('article-page') || document.body.classList
   engagementScript.dataset.morelEngagement = 'true';
   document.body.appendChild(engagementScript);
 }
+
+// MOREL 2.0: article journeys are driven by a separate editorial route map.
+if (document.body.classList.contains('article-page') && !document.querySelector('script[data-morel-thread-engine], script[src^="/morel-thread-engine.js"]')) {
+  const threadEngineScript = document.createElement('script');
+  threadEngineScript.src = '/morel-thread-engine.js?v=20260820-1';
+  threadEngineScript.dataset.morelThreadEngine = 'true';
+  document.body.appendChild(threadEngineScript);
+}
