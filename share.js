@@ -370,10 +370,3 @@ if (footer && footerMeta) {
     document.head.appendChild(style);
   }
 }
-
-if (document.querySelector('section.about')) {
-  const afterReadingScript = document.createElement('script');
-  afterReadingScript.src = '/after-reading-home.js';
-  afterReadingScript.defer = true;
-  document.body.appendChild(afterReadingScript);
-}
