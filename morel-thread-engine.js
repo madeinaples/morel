@@ -1,4 +1,7 @@
 (() => {
+  if (window.__morelThreadEngineMounted) return;
+  window.__morelThreadEngineMounted = true;
+
   const normalizePath = (value) => {
     try {
       const url = new URL(value, window.location.origin);
@@ -22,6 +25,42 @@
       lang: 'en',
       question: "Maybe we're not really worried about where other people are looking. We're worried about what we imagine they're thinking when they do.",
       next: '/stories/the-body-is-not-a-cv.html',
+      archive: '/archive.html',
+      label: 'Continue the thought',
+      cta: 'Continue',
+      archiveLabel: 'Archive'
+    },
+    '/storie/il-corpo-non-e-un-curriculum': {
+      lang: 'it',
+      question: 'Se pensiamo continuamente a quello che gli altri vedono, prima o poi impariamo a mostrare quello che vogliono vedere. Ma essere scelti significa essere desiderati?',
+      next: '/storie/ti-mando-il-mio-paypal.html',
+      archive: '/archivio.html',
+      label: 'Continua il pensiero',
+      cta: 'Continua',
+      archiveLabel: 'Archivio'
+    },
+    '/stories/the-body-is-not-a-cv': {
+      lang: 'en',
+      question: 'If we keep thinking about what other people see, sooner or later we learn to show them what they want to see. But does being chosen mean being desired?',
+      next: '/stories/ill-send-you-my-paypal.html',
+      archive: '/archive.html',
+      label: 'Continue the thought',
+      cta: 'Continue',
+      archiveLabel: 'Archive'
+    },
+    '/storie/ti-mando-il-mio-paypal': {
+      lang: 'it',
+      question: 'Essere desiderati può farci sentire vivi. Ma quanto di me hai realmente incontrato?',
+      next: '/storie/dietro-il-muro.html',
+      archive: '/archivio.html',
+      label: 'Continua il pensiero',
+      cta: 'Continua',
+      archiveLabel: 'Archivio'
+    },
+    '/stories/ill-send-you-my-paypal': {
+      lang: 'en',
+      question: 'Being desired can make us feel alive. But how much of me have you actually met?',
+      next: '/stories/behind-the-wall.html',
       archive: '/archive.html',
       label: 'Continue the thought',
       cta: 'Continue',
