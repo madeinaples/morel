@@ -65,6 +65,24 @@
       label: 'Continue the thought',
       cta: 'Continue',
       archiveLabel: 'Archive'
+    },
+    '/storie/dietro-il-muro': {
+      lang: 'it',
+      question: 'Puoi essere molto vicino a qualcuno senza riuscire davvero a raggiungerlo. E puoi conoscere una persona per anni senza averla mai capita.',
+      next: '/storie/perche-non-mi-hai-capita-amanda-lear-dali.html',
+      archive: '/archivio.html',
+      label: 'Continua il pensiero',
+      cta: 'Continua',
+      archiveLabel: 'Archivio'
+    },
+    '/stories/behind-the-wall': {
+      lang: 'en',
+      question: 'You can be incredibly close to someone without ever truly reaching them. And you can know someone for years without ever understanding them.',
+      next: '/stories/why-didnt-you-understand-me-amanda-lear-dali.html',
+      archive: '/archive.html',
+      label: 'Continue the thought',
+      cta: 'Continue',
+      archiveLabel: 'Archive'
     }
   };
 
