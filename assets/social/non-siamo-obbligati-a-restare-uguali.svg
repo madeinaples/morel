@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <radialGradient id="glow" cx="82%" cy="20%" r="70%">
+      <stop offset="0%" stop-color="#26332e" stop-opacity="0.82"/>
+      <stop offset="55%" stop-color="#121514" stop-opacity="0.26"/>
+      <stop offset="100%" stop-color="#090b0b" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="edge" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c4ae79" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#7f432f" stop-opacity="0.45"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#090b0b"/>
+  <rect width="1200" height="630" fill="url(#glow)"/>
+  <path d="M0 566 C275 510 430 605 666 546 C865 496 1005 424 1200 454" fill="none" stroke="url(#edge)" stroke-width="2" opacity="0.72"/>
+  <rect x="84" y="82" width="42" height="2" fill="#c4ae79" opacity="0.9"/>
+  <text x="84" y="126" fill="#9b9d97" font-family="Arial, Helvetica, sans-serif" font-size="17" letter-spacing="5">MOREL · PENSIERI SENZA FILTRO</text>
+  <text x="82" y="250" fill="#eee9de" font-family="Georgia, 'Times New Roman', serif" font-size="72" letter-spacing="-2">
+    <tspan x="82" dy="0">NON SIAMO OBBLIGATI</tspan>
+    <tspan x="82" dy="82">A RESTARE UGUALI</tspan>
+  </text>
+  <text x="86" y="410" fill="#c8c5bd" font-family="Georgia, 'Times New Roman', serif" font-size="31" font-style="italic">Il personaggio deve essere coerente. La persona no.</text>
+  <text x="86" y="548" fill="#eee9de" font-family="Georgia, 'Times New Roman', serif" font-size="23" letter-spacing="6">ANDREA MOREL</text>
+  <text x="1040" y="548" fill="#9b9d97" font-family="Arial, Helvetica, sans-serif" font-size="15" letter-spacing="3">2026</text>
+</svg>
