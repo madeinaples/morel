@@ -32,7 +32,7 @@ jobs:
           PY
       - name: Commit rendered cards
         run: |
-          if git diff --quiet -- assets/social/*.png; then
+          if [ -z "$(git status --porcelain -- assets/social/*.png)" ]; then
             echo "No rendered changes"
             exit 0
           fi
