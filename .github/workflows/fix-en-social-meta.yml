@@ -1,0 +1,40 @@
+name: Fix English social metadata
+
+on:
+  push:
+    paths:
+      - '.github/workflows/fix-en-social-meta.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Add English Open Graph metadata
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          p = Path('stories/we-are-not-obliged-to-stay-the-same.html')
+          s = p.read_text()
+          s = s.replace('https://www.andreamorel.com/stories/we-are-not-obliged-to-stay-the-same.html', 'https://andreamorel.com/stories/we-are-not-obliged-to-stay-the-same.html')
+          s = s.replace('https://www.andreamorel.com/storie/non-siamo-obbligati-a-restare-uguali.html', 'https://andreamorel.com/storie/non-siamo-obbligati-a-restare-uguali.html')
+          old = '<meta property="og:type" content="article"><meta property="og:site_name" content="Andrea Morel"><meta property="og:locale" content="en_GB"><meta property="og:title" content="We Are Not Obliged to Stay the Same — Andrea Morel"><meta property="og:description" content="The character has to be consistent. The person does not."><meta property="article:author" content="Andrea Morel"><meta property="article:published_time" content="2026-08-20"><meta property="article:section" content="thoughts">'
+          new = '<meta property="og:type" content="article"><meta property="og:site_name" content="Andrea Morel"><meta property="og:locale" content="en_GB"><meta property="og:title" content="We Are Not Obliged to Stay the Same — Andrea Morel"><meta property="og:description" content="The character has to be consistent. The person does not."><meta property="og:url" content="https://andreamorel.com/stories/we-are-not-obliged-to-stay-the-same.html"><meta property="og:image" content="https://andreamorel.com/assets/social/we-are-not-obliged-to-stay-the-same.png?v=20260821-1"><meta property="og:image:secure_url" content="https://andreamorel.com/assets/social/we-are-not-obliged-to-stay-the-same.png?v=20260821-1"><meta property="og:image:type" content="image/png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630"><meta property="og:image:alt" content="We Are Not Obliged to Stay the Same — The character has to be consistent. The person does not."><meta property="article:author" content="Andrea Morel"><meta property="article:published_time" content="2026-08-20"><meta property="article:section" content="thoughts">\n<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="We Are Not Obliged to Stay the Same — Andrea Morel"><meta name="twitter:description" content="The character has to be consistent. The person does not."><meta name="twitter:image" content="https://andreamorel.com/assets/social/we-are-not-obliged-to-stay-the-same.png?v=20260821-1"><meta name="twitter:image:alt" content="We Are Not Obliged to Stay the Same — The character has to be consistent. The person does not.">'
+          if old not in s:
+              raise SystemExit('Expected OG block not found; refusing to modify article')
+          p.write_text(s.replace(old, new))
+          PY
+      - name: Commit article metadata
+        run: |
+          if git diff --quiet -- stories/we-are-not-obliged-to-stay-the-same.html; then
+            echo "No changes"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add stories/we-are-not-obliged-to-stay-the-same.html
+          git commit -m "Add English social preview metadata [skip ci]"
+          git push
