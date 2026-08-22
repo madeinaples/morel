@@ -151,7 +151,7 @@
     jump.addEventListener('click', () => { clearReply(); commentForm.querySelector('textarea').focus({ preventScroll: true }); commentForm.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
     replyCancel.addEventListener('click', clearReply);
     commentForm.addEventListener('submit', async (event) => { event.preventDefault(); const submit = commentForm.querySelector('button[type="submit"]'); const formData = new FormData(commentForm); const payload = { action: 'comment', content, visitorId, name: String(formData.get('name') || '').trim(), message: String(formData.get('message') || '').trim(), website: String(formData.get('website') || '').trim(), parentId: replyingTo?.id || null }; if (!payload.name || !payload.message) return; submit.disabled = true; commentStatus.textContent = copy.sending; try { const data = await request('POST', payload); commentForm.querySelector('textarea').value = ''; commentStatus.textContent = ''; commentCount.textContent = data.commentCount; clearReply(); renderComments(commentList, data.comments || [], beginReply); } catch (error) { commentStatus.textContent = error.code === 'rate_limited' ? copy.tooFast : copy.error; } finally { submit.disabled = false; } });
-    try { await refresh(); } catch { commentStatus.textContent = copy.error; }
+    try { await refresh(); } catch { section.remove(); }
   }
 
   async function mountHomeCounts() {
