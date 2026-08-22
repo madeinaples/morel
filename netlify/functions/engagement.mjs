@@ -1,7 +1,14 @@
 import { getStore } from '@netlify/blobs';
 
 // Strong consistency is required because engagement must survive an immediate refresh.
-const store = getStore({ name: 'morel-engagement', consistency: 'strong' });
+// Initialise the store lazily inside the function runtime so Netlify has already
+// provided the site context used by Blobs.
+let store;
+const ensureStore = () => {
+  if (!store) store = getStore({ name: 'morel-engagement', consistency: 'strong' });
+  return store;
+};
+
 const MAX_COMMENTS = 100;
 
 const json = (data, status = 200) => new Response(JSON.stringify(data), {
@@ -45,32 +52,31 @@ const legacyCommentPrefix = (content) => `comments/${segment(content)}/`;
 const commentListKey = (content) => `comment-lists/${segment(content)}.json`;
 
 async function countLikeBlobs(content) {
-  const { blobs } = await store.list({ prefix: likePrefix(content) });
+  const { blobs } = await ensureStore().list({ prefix: likePrefix(content) });
   return blobs.length;
 }
 
 async function getLikeCount(content) {
-  const direct = await store.get(likeCountKey(content), { type: 'json' }).catch(() => null);
+  const direct = await ensureStore().get(likeCountKey(content), { type: 'json' }).catch(() => null);
   if (Number.isInteger(direct?.count) && direct.count >= 0) return direct.count;
 
-  // One-time migration path for likes written by the first implementation.
   const count = await countLikeBlobs(content);
-  await store.setJSON(likeCountKey(content), { count });
+  await ensureStore().setJSON(likeCountKey(content), { count });
   return count;
 }
 
 async function saveLikeCount(content, count) {
   const safeCount = Math.max(0, Number(count) || 0);
-  await store.setJSON(likeCountKey(content), { count: safeCount });
+  await ensureStore().setJSON(likeCountKey(content), { count: safeCount });
   return safeCount;
 }
 
 async function getLegacyCommentRows(content, limit = MAX_COMMENTS) {
-  const { blobs } = await store.list({ prefix: legacyCommentPrefix(content) });
+  const { blobs } = await ensureStore().list({ prefix: legacyCommentPrefix(content) });
   const selected = blobs.slice(-limit);
   const rows = await Promise.all(selected.map(async ({ key }) => {
     try {
-      const item = await store.get(key, { type: 'json' });
+      const item = await ensureStore().get(key, { type: 'json' });
       return item ? { key, item } : null;
     } catch {
       return null;
@@ -81,19 +87,18 @@ async function getLegacyCommentRows(content, limit = MAX_COMMENTS) {
 
 async function getComments(content) {
   const key = commentListKey(content);
-  const direct = await store.get(key, { type: 'json' }).catch(() => null);
+  const direct = await ensureStore().get(key, { type: 'json' }).catch(() => null);
   if (Array.isArray(direct)) return direct.slice(-MAX_COMMENTS);
 
-  // One-time migration path for comments written by the first implementation.
   const legacyRows = await getLegacyCommentRows(content);
   const migrated = legacyRows.map(({ item }) => item).slice(-MAX_COMMENTS);
-  if (migrated.length) await store.setJSON(key, migrated);
+  if (migrated.length) await ensureStore().setJSON(key, migrated);
   return migrated;
 }
 
 async function saveComments(content, comments) {
   const list = comments.slice(-MAX_COMMENTS);
-  await store.setJSON(commentListKey(content), list);
+  await ensureStore().setJSON(commentListKey(content), list);
   return list;
 }
 
@@ -103,7 +108,7 @@ async function snapshot(content, visitor, summaryOnly = false) {
     getComments(content)
   ]);
   let liked = false;
-  if (visitor) liked = Boolean(await store.getMetadata(`${likePrefix(content)}${visitor}`));
+  if (visitor) liked = Boolean(await ensureStore().getMetadata(`${likePrefix(content)}${visitor}`));
   return {
     content,
     likeCount,
@@ -124,11 +129,11 @@ function isAdmin(req) {
 }
 
 async function adminListComments() {
-  const { blobs } = await store.list({ prefix: 'comments/' });
+  const { blobs } = await ensureStore().list({ prefix: 'comments/' });
   const selected = blobs.slice(-300).reverse();
   const rows = await Promise.all(selected.map(async ({ key }) => {
     try {
-      const item = await store.get(key, { type: 'json' });
+      const item = await ensureStore().get(key, { type: 'json' });
       const encoded = key.slice('comments/'.length).split('/')[0];
       const content = decodeURIComponent(encoded);
       return item ? { ...item, content } : null;
@@ -157,12 +162,14 @@ async function deleteCommentTree(content, targetId) {
 
   const legacyRows = await getLegacyCommentRows(content, 500);
   const legacyMatches = legacyRows.filter(({ item }) => ids.has(item.id));
-  await Promise.all(legacyMatches.map(({ key }) => store.delete(key)));
+  await Promise.all(legacyMatches.map(({ key }) => ensureStore().delete(key)));
   return comments.length - remaining.length;
 }
 
 export default async (req) => {
   try {
+    ensureStore();
+
     if (req.method === 'GET') {
       const url = new URL(req.url);
       if (url.searchParams.get('admin') === '1') {
@@ -199,14 +206,14 @@ export default async (req) => {
 
     if (action === 'like' || action === 'unlike') {
       const key = `${likePrefix(content)}${visitorId}`;
-      const existed = Boolean(await store.getMetadata(key));
+      const existed = Boolean(await ensureStore().getMetadata(key));
       let likeCount = await getLikeCount(content);
 
       if (action === 'like' && !existed) {
-        await store.setJSON(key, { createdAt: new Date().toISOString() }, { onlyIfNew: true });
+        await ensureStore().setJSON(key, { createdAt: new Date().toISOString() }, { onlyIfNew: true });
         likeCount = await saveLikeCount(content, likeCount + 1);
       } else if (action === 'unlike' && existed) {
-        await store.delete(key);
+        await ensureStore().delete(key);
         likeCount = await saveLikeCount(content, likeCount - 1);
       }
 
@@ -225,15 +232,15 @@ export default async (req) => {
       if (parentId && !comments.some((item) => item.id === parentId)) return json({ error: 'parent_not_found' }, 404);
 
       const rateKey = `rates/${segment(content)}/${visitorId}`;
-      const last = await store.get(rateKey, { type: 'json' }).catch(() => null);
+      const last = await ensureStore().get(rateKey, { type: 'json' }).catch(() => null);
       const now = Date.now();
       if (last?.at && now - last.at < 15000) return json({ error: 'rate_limited', code: 'rate_limited' }, 429);
-      await store.setJSON(rateKey, { at: now });
+      await ensureStore().setJSON(rateKey, { at: now });
 
       const id = crypto.randomUUID();
       const comment = { id, name, message, createdAt: new Date(now).toISOString(), parentId: parentId || null };
       await saveComments(content, [...comments, comment]);
-      await store.setJSON(`${legacyCommentPrefix(content)}${now}-${id}`, comment, { onlyIfNew: true });
+      await ensureStore().setJSON(`${legacyCommentPrefix(content)}${now}-${id}`, comment, { onlyIfNew: true });
 
       const data = await snapshot(content, visitorId);
       return json(data, 201);
