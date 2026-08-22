@@ -210,8 +210,10 @@ if (document.body.classList.contains('article-page') && !document.querySelector(
 
 // MOREL audio: a short editorial voice-over for selected articles.
 (() => {
-  const path = window.location.pathname.replace(/\/$/, '');
-  if (path !== '/storie/non-siamo-obbligati-a-restare-uguali.html') return;
+  const path = window.location.pathname
+    .replace(/\.html$/, '')
+    .replace(/\/$/, '');
+  if (path !== '/storie/non-siamo-obbligati-a-restare-uguali') return;
   if (document.querySelector('.morel-audio')) return;
 
   const hero = document.querySelector('.article-hero');
