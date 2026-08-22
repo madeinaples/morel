@@ -12,19 +12,28 @@ from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-SECTIONS = ("andrea", "pensieri", "altri")
+
+# MOREL now has two editorial publishing rooms: Stories and Traces.
+# Entrusted lives are stories: who lived the event changes the point of view,
+# not the nature of the narrative room.
+SECTIONS = ("andrea", "pensieri")
 PUBLISHING_SECTIONS = (*SECTIONS, "small-codes")
 SECTION_ALIASES = {
     "andrea": "andrea",
     "storie": "andrea",
     "storie-di-andrea": "andrea",
     "stories": "andrea",
+    # Legacy entrusted-lives labels intentionally fold into Stories.
+    "altri": "andrea",
+    "storie-degli-altri": "andrea",
+    "entrusted-lives": "andrea",
+    "other-peoples-stories": "andrea",
+    # Traces keeps legacy URLs/metadata compatible while the public label evolves.
     "pensieri": "pensieri",
     "pensieri-senza-filtro": "pensieri",
     "thoughts": "pensieri",
-    "altri": "altri",
-    "storie-degli-altri": "altri",
-    "entrusted-lives": "altri",
+    "tracce": "pensieri",
+    "traces": "pensieri",
     "small-codes": "small-codes",
 }
 
@@ -44,13 +53,13 @@ ARTICLE_FALLBACKS = {
     "/stories/the-lights-that-stay-on.html": ("andrea", "2026-07-24"),
     "/stories/earls-court-before-london-became-kind.html": ("andrea", "2026-07-30"),
     "/stories/the-place-i-wasnt-looking-for.html": ("andrea", "2026-07-30"),
+    "/stories/the-wedding-his-mother-will-never-know-about.html": ("andrea", "2026-07-29"),
     "/stories/the-body-is-not-a-cv.html": ("pensieri", "2026-08-04"),
     "/stories/loneliness-isnt-always-about-being-alone.html": ("pensieri", "2026-07-29"),
     "/stories/ill-send-you-my-paypal.html": ("pensieri", "2026-08-04"),
     "/stories/the-avoidable-return.html": ("pensieri", "2026-08-08"),
     "/stories/where-do-men-look-at-the-urinal.html": ("pensieri", "2026-08-04"),
     "/stories/sweet-revenge-amanda-lear.html": ("pensieri", "2026-08-16"),
-    "/stories/the-wedding-his-mother-will-never-know-about.html": ("altri", "2026-07-29"),
 }
 
 MONTHS = {
@@ -60,19 +69,17 @@ MONTHS = {
 
 ARCHIVE_FILES = {"it": ROOT / "archivio.html", "en": ROOT / "archive.html"}
 ARCHIVE_IDS = {
-    "it": {"andrea": "andrea", "pensieri": "pensieri", "altri": "altri"},
-    "en": {"andrea": "andrea", "pensieri": "thoughts", "altri": "others"},
+    "it": {"andrea": "andrea", "pensieri": "pensieri"},
+    "en": {"andrea": "andrea", "pensieri": "thoughts"},
 }
 SECTION_FILES = {
     "it": {
         "andrea": ROOT / "storie/storie-di-andrea.html",
         "pensieri": ROOT / "storie/pensieri-senza-filtro.html",
-        "altri": ROOT / "storie/storie-degli-altri.html",
     },
     "en": {
         "andrea": ROOT / "stories/andreas-stories.html",
         "pensieri": ROOT / "stories/unfiltered-thoughts.html",
-        "altri": ROOT / "stories/other-peoples-stories.html",
     },
 }
 
@@ -210,21 +217,25 @@ def replace_sitemap_lastmod(source: str, url: str, modified: date) -> str:
 def sync(check: bool) -> bool:
     changed: dict[Path, str] = {}
     articles_by_language: dict[str, list[Article]] = {}
+
     for language in ("it", "en"):
         articles = read_articles(language)
         articles_by_language[language] = articles
         archive_source = ARCHIVE_FILES[language].read_text(encoding="utf-8")
+
         for section in SECTIONS:
             section_articles = [item for item in articles if item.section == section]
             extras = [item for item in SPECIAL_ARCHIVE_ITEMS[language] if item.section == section]
             rendered = "\n".join(archive_item(item) for item in section_articles + extras)
             archive_source = replace_archive_section(archive_source, ARCHIVE_IDS[language][section], rendered)
+
             section_source = SECTION_FILES[language][section].read_text(encoding="utf-8")
             count = len(section_articles)
             teaser_html = "\n".join(teaser(item, count - index) for index, item in enumerate(section_articles))
             section_updated = replace_section_list(section_source, teaser_html)
             if section_updated != section_source:
                 changed[SECTION_FILES[language][section]] = section_updated
+
         if archive_source != ARCHIVE_FILES[language].read_text(encoding="utf-8"):
             changed[ARCHIVE_FILES[language]] = archive_source
 
@@ -232,14 +243,32 @@ def sync(check: bool) -> bool:
     sitemap_source = sitemap.read_text(encoding="utf-8")
     sitemap_updated = sitemap_source
     sitemap_urls = {
-        "it": {"archive": "https://www.andreamorel.com/archivio.html", "andrea": "https://www.andreamorel.com/storie/storie-di-andrea.html", "pensieri": "https://www.andreamorel.com/storie/pensieri-senza-filtro.html", "altri": "https://www.andreamorel.com/storie/storie-degli-altri.html"},
-        "en": {"archive": "https://www.andreamorel.com/archive.html", "andrea": "https://www.andreamorel.com/stories/andreas-stories.html", "pensieri": "https://www.andreamorel.com/stories/unfiltered-thoughts.html", "altri": "https://www.andreamorel.com/stories/other-peoples-stories.html"},
+        "it": {
+            "archive": "https://www.andreamorel.com/archivio.html",
+            "andrea": "https://www.andreamorel.com/storie/storie-di-andrea.html",
+            "pensieri": "https://www.andreamorel.com/storie/pensieri-senza-filtro.html",
+        },
+        "en": {
+            "archive": "https://www.andreamorel.com/archive.html",
+            "andrea": "https://www.andreamorel.com/stories/andreas-stories.html",
+            "pensieri": "https://www.andreamorel.com/stories/unfiltered-thoughts.html",
+        },
     }
+
     for language, articles in articles_by_language.items():
-        sitemap_updated = replace_sitemap_lastmod(sitemap_updated, sitemap_urls[language]["archive"], max(item.published for item in articles))
+        sitemap_updated = replace_sitemap_lastmod(
+            sitemap_updated,
+            sitemap_urls[language]["archive"],
+            max(item.published for item in articles),
+        )
         for section in SECTIONS:
             section_articles = [item for item in articles if item.section == section]
-            sitemap_updated = replace_sitemap_lastmod(sitemap_updated, sitemap_urls[language][section], max(item.published for item in section_articles))
+            sitemap_updated = replace_sitemap_lastmod(
+                sitemap_updated,
+                sitemap_urls[language][section],
+                max(item.published for item in section_articles),
+            )
+
     if sitemap_updated != sitemap_source:
         changed[sitemap] = sitemap_updated
 
