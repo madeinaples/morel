@@ -93,6 +93,55 @@ Ogni contenuto va valutato come:
 
 Un contenuto non deve sopravvivere come articolo per forza. Può diventare una scena, tre righe, una battuta, una citazione interna o un frammento.
 
+## Mappa editoriale attuale
+
+Questa è una fotografia di lavoro, non una classifica definitiva.
+
+### PILASTRI — RESTA
+
+- **Il diritto di…** — racconto madre e laboratorio permanente del progetto.
+- **Non siamo obbligati a restare uguali** — identità, trasformazione, personaggio e libertà di cambiare.
+- **La giuria invisibile / Il corpo non è un curriculum** — corpo, giudizio e performance.
+- **Il locale che non stavo cercando** — esperienza personale che diventa fiducia in sé, possibilità e trasformazione.
+- **Earl’s Court, prima che Londra diventasse gentile** — luogo, memoria, libertà e prezzo della libertà.
+- **Behind the Wall** — desiderio, anonimato, riconoscimento e identità.
+- **Il matrimonio che sua madre non saprà** — storia individuale che apre a famiglia, appartenenza e diritto alla propria felicità.
+- **Le cose che restano accese** — atmosfera, memoria e capacità di lasciare spazio al lettore senza dover sempre sostenere una tesi.
+
+### RESTA, MA VA RITARATO
+
+- **La solitudine non è sempre stare da soli** — tema pienamente MOREL; da rendere meno assertivo e più narrativo.
+- **Non sei invisibile. Sei diventato più selettivo** — tema forte su età, desiderio e visibilità; da avvicinare al tono attuale evitando la formula da tesi motivazionale.
+- **Sweet Revenge: Amanda Lear aveva già visto il nostro futuro** — resta come deviazione culturale; non deve competere con il ruolo più ampio che Amanda ha nel racconto sull'identità.
+
+### SI TRASFORMA
+
+- **Dove guardano gli uomini all'orinatoio** — l'orinatoio resta come scena iniziale. Il vero tema è: quanto cambiamo quando sappiamo di essere osservati?
+- **Hai mangiato?** — recuperare il nucleo sull'affetto espresso attraverso piccoli gesti; il resto può essere accorciato o assorbito altrove.
+- **La vita che non è successa** — da trasformare in un nodo del futuro *diritto di cambiare sogno*: le vite immaginate che non siamo obbligati a vivere.
+
+### ARCHIVIO / CONTRAPPUNTO
+
+- **Le Olimpiadi delle app** — utile come riserva di ironia e osservazione sul desiderio, sulle app e sul bisogno di piacere; non deve stare al centro dell'identità editoriale.
+- **Ti mando il mio PayPal** — da conservare come contrappunto ironico e materiale riutilizzabile quando il racconto rischia di diventare troppo solenne.
+
+### PRINCIPIO DI PESO
+
+Non tutto ciò che resta deve avere la stessa visibilità.
+
+MOREL non è un deposito di articoli. È un racconto con una gerarchia: alcuni testi sono pilastri, altri stanze laterali, altri frammenti da richiamare quando servono.
+
+## Architettura futura del sito
+
+La tassonomia attuale può restare finché serve, ma la direzione editoriale è:
+
+**IL DIRITTO DI…** — il racconto madre in evoluzione.  
+**STORIE** — vite, luoghi, incontri, memoria.  
+**TRACCE** — persone, immagini, frasi ed esperienze che continuano a lasciare qualcosa.  
+**CAPSULE** — gusto, dettagli, piccoli oggetti e ironia quotidiana.
+
+La fotografia resta un linguaggio parallelo: non compete con la scrittura, la accompagna.
+
 ## MOREL può cambiare
 
 Il progetto deve praticare ciò che racconta.
