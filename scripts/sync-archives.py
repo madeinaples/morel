@@ -11,7 +11,6 @@ from dataclasses import dataclass
 from datetime import date
 from pathlib import Path
 
-
 ROOT = Path(__file__).resolve().parents[1]
 SECTIONS = ("andrea", "pensieri", "altri")
 PUBLISHING_SECTIONS = (*SECTIONS, "small-codes")
@@ -19,11 +18,39 @@ SECTION_ALIASES = {
     "andrea": "andrea",
     "storie": "andrea",
     "storie-di-andrea": "andrea",
+    "stories": "andrea",
     "pensieri": "pensieri",
     "pensieri-senza-filtro": "pensieri",
+    "thoughts": "pensieri",
     "altri": "altri",
     "storie-degli-altri": "altri",
+    "entrusted-lives": "altri",
     "small-codes": "small-codes",
+}
+
+# Editorial entry pages belong to the architecture but not to chronological
+# generated listings. They are linked manually from homepage/archive intros.
+EXCLUDED_URLS = {
+    "/storie/il-diritto-di.html",
+    "/stories/the-right-to.html",
+}
+
+# Some legacy/rewritten pages predate consistent article metadata. Keep the
+# generator deterministic until every historical page has been normalised.
+ARTICLE_FALLBACKS = {
+    "/stories/behind-the-wall.html": ("andrea", "2026-08-02"),
+    "/stories/have-you-eaten.html": ("andrea", "2026-08-06"),
+    "/stories/the-app-olympics.html": ("andrea", "2026-07-25"),
+    "/stories/the-lights-that-stay-on.html": ("andrea", "2026-07-24"),
+    "/stories/earls-court-before-london-became-kind.html": ("andrea", "2026-07-30"),
+    "/stories/the-place-i-wasnt-looking-for.html": ("andrea", "2026-07-30"),
+    "/stories/the-body-is-not-a-cv.html": ("pensieri", "2026-08-04"),
+    "/stories/loneliness-isnt-always-about-being-alone.html": ("pensieri", "2026-07-29"),
+    "/stories/ill-send-you-my-paypal.html": ("pensieri", "2026-08-04"),
+    "/stories/the-avoidable-return.html": ("pensieri", "2026-08-08"),
+    "/stories/where-do-men-look-at-the-urinal.html": ("pensieri", "2026-08-04"),
+    "/stories/sweet-revenge-amanda-lear.html": ("pensieri", "2026-08-16"),
+    "/stories/the-wedding-his-mother-will-never-know-about.html": ("altri", "2026-07-29"),
 }
 
 MONTHS = {
@@ -49,7 +76,6 @@ SECTION_FILES = {
     },
 }
 
-
 @dataclass(frozen=True)
 class Article:
     language: str
@@ -62,22 +88,19 @@ class Article:
     date_label: str | None = None
     reading_label: str | None = None
 
-
 SPECIAL_ARCHIVE_ITEMS = {
     "it": [
-        Article("it", "pensieri", "/non-sei-invisibile.html", "Non sei invisibile. Sei diventato più selettivo", "Età, desiderio e visibilità senza chiedere scusa.", date(2026, 1, 1), 0, "2026", "Riflessione"),
+        Article("it", "pensieri", "/non-sei-invisibile.html", "Non sei invisibile. Hai smesso di fare provini.", "Il dovere di piacere. Il diritto di scegliere.", date(2026, 1, 1), 0, "2026", "Riflessione"),
     ],
     "en": [
-        Article("en", "pensieri", "/non-sei-invisibile.html", "You’re Not Invisible. You’ve Become More Selective", "Age, desire and visibility without apologising.", date(2026, 1, 1), 0, "2026", "Reflection"),
+        Article("en", "pensieri", "/non-sei-invisibile.html", "You’re Not Invisible. You’ve Stopped Auditioning.", "The duty to be liked. The right to choose.", date(2026, 1, 1), 0, "2026", "Reflection"),
     ],
 }
-
 
 def meta(source: str, property_name: str) -> str | None:
     pattern = rf'<meta\s+property=["\']{re.escape(property_name)}["\']\s+content=["\']([^"\']+)["\']\s*/?>'
     match = re.search(pattern, source, re.IGNORECASE)
     return html_lib.unescape(match.group(1).strip()) if match else None
-
 
 def element_text(source: str, class_name: str, tag: str) -> str | None:
     pattern = rf'<{tag}\b[^>]*class=["\'][^"\']*\b{re.escape(class_name)}\b[^"\']*["\'][^>]*>(.*?)</{tag}>'
@@ -87,18 +110,15 @@ def element_text(source: str, class_name: str, tag: str) -> str | None:
     without_tags = re.sub(r"<[^>]+>", "", match.group(1))
     return html_lib.unescape(re.sub(r"\s+", " ", without_tags).strip())
 
-
 def first_heading(source: str) -> str | None:
     match = re.search(r"<h1\b[^>]*>(.*?)</h1>", source, re.IGNORECASE | re.DOTALL)
     if not match:
         return None
     return html_lib.unescape(re.sub(r"\s+", " ", re.sub(r"<[^>]+>", "", match.group(1))).strip())
 
-
 def canonical_path(source: str) -> str | None:
     match = re.search(r'<link\s+rel=["\']canonical["\']\s+href=["\']https?://[^/]+(/[^"\']*)["\']\s*/?>', source, re.IGNORECASE)
     return match.group(1) if match else None
-
 
 def article_language(source: str) -> str | None:
     match = re.search(r'<html\b[^>]*\blang=["\']([^"\']+)["\']', source, re.IGNORECASE)
@@ -107,7 +127,6 @@ def article_language(source: str) -> str | None:
     lang = match.group(1).lower()
     return "it" if lang.startswith("it") else "en" if lang.startswith("en") else None
 
-
 def article_summary(source: str) -> str | None:
     for class_name in ("article-deck", "code-deck"):
         value = element_text(source, class_name, "p")
@@ -115,7 +134,6 @@ def article_summary(source: str) -> str | None:
             return value
     match = re.search(r'<meta\s+name=["\']description["\']\s+content=["\']([^"\']+)["\']\s*/?>', source, re.IGNORECASE)
     return html_lib.unescape(match.group(1).strip()) if match else None
-
 
 def article_minutes(source: str, section: str) -> int | None:
     kicker = element_text(source, "kicker", "p") or ""
@@ -126,7 +144,6 @@ def article_minutes(source: str, section: str) -> int | None:
         return 1
     return None
 
-
 def read_articles(language: str) -> list[Article]:
     directories = (ROOT / ("storie" if language == "it" else "stories"), ROOT / "small-codes")
     articles: list[Article] = []
@@ -135,12 +152,15 @@ def read_articles(language: str) -> list[Article]:
             source = path.read_text(encoding="utf-8")
             if article_language(source) != language:
                 continue
-            raw_section = meta(source, "article:section")
+            url = canonical_path(source)
+            if not url or url in EXCLUDED_URLS:
+                continue
+            fallback = ARTICLE_FALLBACKS.get(url)
+            raw_section = meta(source, "article:section") or (fallback[0] if fallback else "")
             section = SECTION_ALIASES.get(raw_section or "")
             if section not in PUBLISHING_SECTIONS:
                 continue
-            published_text = meta(source, "article:published_time")
-            url = canonical_path(source)
+            published_text = meta(source, "article:published_time") or (fallback[1] if fallback else None)
             title = first_heading(source)
             summary = article_summary(source)
             minutes = article_minutes(source, section)
@@ -150,47 +170,27 @@ def read_articles(language: str) -> list[Article]:
             articles.append(Article(language, section, url, title, summary, date.fromisoformat(published_text), minutes))
     return sorted(articles, key=lambda item: (item.published.toordinal(), item.url), reverse=True)
 
-
 def display_date(article: Article) -> str:
     if article.date_label:
         return article.date_label
     month = MONTHS[article.language][article.published.month]
     return f"{article.published.day} {month} {article.published.year}"
 
-
 def archive_item(article: Article) -> str:
     reading = article.reading_label or f"{article.minutes} min"
-    return (
-        f'        <a class="archive-item" href="{article.url}">'
-        f'<span class="archive-meta">{display_date(article)}<br>{reading}</span>'
-        f'<span class="archive-copy"><h3>{html_lib.escape(article.title)}</h3>'
-        f'<p>{html_lib.escape(article.summary)}</p></span>'
-        f'<span class="archive-arrow">↗</span></a>'
-    )
-
+    return (f'        <a class="archive-item" href="{article.url}"><span class="archive-meta">{display_date(article)}<br>{reading}</span><span class="archive-copy"><h3>{html_lib.escape(article.title)}</h3><p>{html_lib.escape(article.summary)}</p></span><span class="archive-arrow">↗</span></a>')
 
 def replace_archive_section(source: str, section_id: str, rendered: str) -> str:
-    pattern = re.compile(
-        rf'(<section\s+class="archive-section"\s+id="{re.escape(section_id)}"[^>]*>.*?<div\s+class="archive-list">).*?(</div>\s*</section>)',
-        re.DOTALL,
-    )
+    pattern = re.compile(rf'(<section\s+class="archive-section"\s+id="{re.escape(section_id)}"[^>]*>.*?<div\s+class="archive-list">).*?(</div>\s*</section>)', re.DOTALL)
     replacement = rf'\1\n        <!-- AUTO-GENERATED: scripts/sync-archives.py -->\n{rendered}\n        <!-- END AUTO-GENERATED -->\n      \2'
     updated, count = pattern.subn(replacement, source, count=1)
     if count != 1:
         raise ValueError(f"archive section #{section_id} not found")
     return updated
 
-
 def teaser(article: Article, number: int) -> str:
     label = f"Articolo {number} · {article.minutes} min di lettura" if article.language == "it" else f"Article {number} · {article.minutes} min read"
-    return (
-        f'          <a class="article-teaser" href="{article.url}">\n'
-        f'            <p class="kicker">{label}</p>\n'
-        f'            <h2>{html_lib.escape(article.title)}</h2>\n'
-        f'            <p>{html_lib.escape(article.summary)}</p>\n'
-        f'          </a>'
-    )
-
+    return (f'          <a class="article-teaser" href="{article.url}">\n            <p class="kicker">{label}</p>\n            <h2>{html_lib.escape(article.title)}</h2>\n            <p>{html_lib.escape(article.summary)}</p>\n          </a>')
 
 def replace_section_list(source: str, rendered: str) -> str:
     pattern = re.compile(r'(<div\s+class="article-list"[^>]*>).*?(</div>\s*<div\s+class="article-end">)', re.DOTALL)
@@ -200,14 +200,12 @@ def replace_section_list(source: str, rendered: str) -> str:
         raise ValueError("section article list not found")
     return updated
 
-
 def replace_sitemap_lastmod(source: str, url: str, modified: date) -> str:
     pattern = re.compile(rf'(<loc>{re.escape(url)}</loc>\s*<lastmod>)[^<]+(</lastmod>)')
     updated, count = pattern.subn(lambda match: f"{match.group(1)}{modified.isoformat()}{match.group(2)}", source, count=1)
     if count != 1:
         raise ValueError(f"sitemap entry not found: {url}")
     return updated
-
 
 def sync(check: bool) -> bool:
     changed: dict[Path, str] = {}
@@ -221,36 +219,21 @@ def sync(check: bool) -> bool:
             extras = [item for item in SPECIAL_ARCHIVE_ITEMS[language] if item.section == section]
             rendered = "\n".join(archive_item(item) for item in section_articles + extras)
             archive_source = replace_archive_section(archive_source, ARCHIVE_IDS[language][section], rendered)
-
             section_source = SECTION_FILES[language][section].read_text(encoding="utf-8")
             count = len(section_articles)
             teaser_html = "\n".join(teaser(item, count - index) for index, item in enumerate(section_articles))
             section_updated = replace_section_list(section_source, teaser_html)
             if section_updated != section_source:
                 changed[SECTION_FILES[language][section]] = section_updated
-
         if archive_source != ARCHIVE_FILES[language].read_text(encoding="utf-8"):
             changed[ARCHIVE_FILES[language]] = archive_source
-
-        # MOREL 2.0 homepage entry points are intentional editorial doors,
-        # not "latest article" links. Do not rewrite the primary hero CTA here.
 
     sitemap = ROOT / "sitemap.xml"
     sitemap_source = sitemap.read_text(encoding="utf-8")
     sitemap_updated = sitemap_source
     sitemap_urls = {
-        "it": {
-            "archive": "https://www.andreamorel.com/archivio.html",
-            "andrea": "https://www.andreamorel.com/storie/storie-di-andrea.html",
-            "pensieri": "https://www.andreamorel.com/storie/pensieri-senza-filtro.html",
-            "altri": "https://www.andreamorel.com/storie/storie-degli-altri.html",
-        },
-        "en": {
-            "archive": "https://www.andreamorel.com/archive.html",
-            "andrea": "https://www.andreamorel.com/stories/andreas-stories.html",
-            "pensieri": "https://www.andreamorel.com/stories/unfiltered-thoughts.html",
-            "altri": "https://www.andreamorel.com/stories/other-peoples-stories.html",
-        },
+        "it": {"archive": "https://www.andreamorel.com/archivio.html", "andrea": "https://www.andreamorel.com/storie/storie-di-andrea.html", "pensieri": "https://www.andreamorel.com/storie/pensieri-senza-filtro.html", "altri": "https://www.andreamorel.com/storie/storie-degli-altri.html"},
+        "en": {"archive": "https://www.andreamorel.com/archive.html", "andrea": "https://www.andreamorel.com/stories/andreas-stories.html", "pensieri": "https://www.andreamorel.com/stories/unfiltered-thoughts.html", "altri": "https://www.andreamorel.com/stories/other-peoples-stories.html"},
     }
     for language, articles in articles_by_language.items():
         sitemap_updated = replace_sitemap_lastmod(sitemap_updated, sitemap_urls[language]["archive"], max(item.published for item in articles))
@@ -274,7 +257,6 @@ def sync(check: bool) -> bool:
         print(path.relative_to(ROOT))
     return True
 
-
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check", action="store_true", help="fail if generated listings are stale")
@@ -284,7 +266,6 @@ def main() -> int:
     except ValueError as error:
         print(f"sync-archives: {error}", file=sys.stderr)
         return 1
-
 
 if __name__ == "__main__":
     raise SystemExit(main())
