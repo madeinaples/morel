@@ -1,38 +1,53 @@
 # Catalogo editoriale
 
-Ultimo aggiornamento: 4 agosto 2026
+Ultimo aggiornamento: 22 agosto 2026
+
+## Principio
+
+MOREL non divide più le storie in base a chi le ha vissute.
+
+Una pagina può partire da Andrea, da una persona incontrata, da una città o da una figura pubblica. La domanda editoriale resta la stessa: **dove quella storia incontra qualcosa che riguarda anche chi legge?**
+
+Le vite affidate richiedono più attenzione a privacy, dettagli identificativi e punto di vista, ma non hanno bisogno di una stanza separata.
+
+## Architettura attuale
+
+- **IL DIRITTO DI…** — il racconto madre in evoluzione. Doveri, aspettative e diritti che ci concediamo per restare vivi, cambiare e respirare.
+- **STORIE** — vite, luoghi, incontri, memoria, desiderio. Comprende sia esperienza personale sia vite affidate.
+- **TRACCE** — persone, opere, immagini, idee e contraddizioni che lasciano qualcosa e aprono un pensiero più ampio.
+- **MOREL’S CAPSULE** — dettagli, piccoli oggetti, gesti e ossessioni leggere.
+- **FOTOGRAFIA** — linguaggio parallelo alla scrittura, non categoria concorrente.
 
 ## Stati
 
-- **READY** — testo già forte e quasi pronto per una raccolta.
-- **REVISION** — selezionato, ma richiede revisione per il libro.
-- **POSSIBLE** — valido sul sito; da valutare nel disegno complessivo.
-- **SITE ONLY** — utile online, ma non necessario nel libro.
+- **PILASTRO** — regge direttamente l’architettura concettuale di MOREL.
+- **RESTA** — storia o traccia forte, con una funzione precisa nel progetto.
+- **LATERALE** — stanza laterale utile per ritmo, atmosfera o deviazione culturale.
+- **ARCHIVIO** — materiale da conservare senza attribuirgli lo stesso peso dei testi centrali.
 
-## Prima selezione provvisoria
+## Mappa editoriale corrente
 
-| Ordine | Italiano | English | Area | Stato | Nota |
-|---|---|---|---|---|---|
-| 01 | La giuria invisibile | The Invisible Jury | Corpo, immagine, valore | READY | Articolo-manifesto; testo appena rifinito. |
-| 02 | Dietro il muro | Behind the Wall | Desiderio, consenso, identità | REVISION | Forte e riconoscibile; verificare ritmo e collocazione. |
-| 03 | Il locale che non stavo cercando | The Place I Wasn't Looking For | Vinarium, destino, trasformazione | REVISION | Possibile apertura della sezione autobiografica. |
-| 04 | Earl’s Court, prima che Londra diventasse gentile | Earl’s Court, Before London Became Polite | Londra, libertà, memoria | REVISION | Forte contesto generazionale e geografico. |
-| 05 | La solitudine non è sempre stare da soli | Loneliness Isn’t Always About Being Alone | Solitudine, luogo, appartenenza | POSSIBLE | Da valutare per evitare sovrapposizioni tematiche. |
-| 06 | Le cose che restano accese | The Things That Stay Lit | Voce, atmosfera, identità autoriale | POSSIBLE | Può funzionare come prologo o interludio. |
-| 07 | Il matrimonio che sua madre non saprà | The Wedding His Mother Will Never Know About | Famiglia, rifiuto, dignità | POSSIBLE | Storia degli altri; decidere se entra nella raccolta autobiografica o in una raccolta separata. |
+| Italiano | English | Stanza | Stato | Funzione |
+|---|---|---|---|---|
+| Il diritto di… | The right to… | Racconto madre | PILASTRO | Tiene insieme doveri, aspettative e diritti. |
+| Non siamo obbligati a restare uguali | We Are Not Obliged to Stay the Same | Tracce / asse centrale | PILASTRO | Identità, personaggio, corpo, cambiamento. |
+| La giuria invisibile | The Invisible Jury | Tracce | PILASTRO | Corpo, performance, approvazione, diritto di abitarsi. |
+| Il locale che non stavo cercando | The Place I Wasn’t Looking For | Storie | RESTA | Valore, competenza costruita, fiducia in sé. |
+| Earl’s Court, prima che Londra diventasse gentile | Earl’s Court, Before London Became Kind | Storie | RESTA | Libertà, memoria, gentrificazione, tracce. |
+| Behind the Wall | Behind the Wall | Storie | RESTA | Confini, consenso, avvicinarsi senza forzare. |
+| Il matrimonio che sua madre non saprà | The Wedding His Mother Will Never Know About | Storie | RESTA | Famiglia, rifiuto, felicità protetta. È una vita affidata, non una sezione separata. |
+| Hai mangiato? | Have You Eaten? | Storie | RESTA | Linguaggi dell’affetto e interpretazione dell’amore. |
+| No Drama, Please | No Drama, Please | Storie | RESTA | Amicizia, responsabilità emotiva, diritto di non essere comodi. |
+| Le Olimpiadi delle app | The App Olympics | Storie | LATERALE | Desiderio, chiarezza, consenso, diritto al no. |
+| Le cose che restano accese | The Lights That Stay On | Storie | LATERALE | Atmosfera, memoria, desiderio e selettività. |
+| Sweet Revenge | Sweet Revenge | Tracce | LATERALE | Deviazione culturale su visibilità, personaggio e metriche. |
 
-## Ipotesi di architettura
+## Direzione per il futuro eBook
 
-### Parte I — Essere guardati
-Corpo, desiderio, età, giudizio, apparenza.
+La raccolta non sarà un “best of” del sito. **Il diritto di…** deve crescere online come un racconto madre e, in seguito, essere rimontato in un manoscritto coerente con transizioni, richiami e capitoli.
 
-### Parte II — Abitare una città
-Londra, Earl’s Court, solitudine, appartenenza, partenze.
+Schema narrativo di riferimento:
 
-### Parte III — Il salotto della città dormiente
-Vinarium, clienti, amore, successo, perdita e trasformazione.
+**Quello che ci hanno insegnato a dovere essere → quello che la vita ci ha mostrato → quello che oggi ci concediamo il diritto di essere.**
 
-### Parte IV — Dietro le vite degli altri
-Confessioni, incontri e storie affidate ad Andrea Morel.
-
-Questa struttura è provvisoria. Verrà giudicata leggendo le bozze complete, non soltanto i singoli articoli.
+La classificazione serve a orientare il progetto, non a irrigidirlo. MOREL deve poter cambiare senza fingere di essere sempre stato nella forma che mostra oggi.
