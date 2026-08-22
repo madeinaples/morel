@@ -207,3 +207,172 @@ if (document.body.classList.contains('article-page') && !document.querySelector(
   threadEngineScript.dataset.morelThreadEngine = 'true';
   document.body.appendChild(threadEngineScript);
 }
+
+// MOREL audio: a short editorial voice-over for selected articles.
+(() => {
+  const path = window.location.pathname.replace(/\/$/, '');
+  if (path !== '/storie/non-siamo-obbligati-a-restare-uguali.html') return;
+  if (document.querySelector('.morel-audio')) return;
+
+  const hero = document.querySelector('.article-hero');
+  if (!hero) return;
+
+  const style = document.createElement('style');
+  style.id = 'morel-audio-styles';
+  style.textContent = `
+    .morel-audio {
+      width: min(1180px, calc(100% - 48px));
+      margin: 0 auto 54px;
+      border-top: 1px solid rgba(238,233,222,.16);
+      border-bottom: 1px solid rgba(238,233,222,.16);
+      padding: 22px 0;
+      color: #eee9de;
+    }
+    .morel-audio__meta {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 20px;
+      margin-bottom: 16px;
+    }
+    .morel-audio__label {
+      margin: 0;
+      font: 500 9px/1.2 "DM Sans", Arial, sans-serif;
+      letter-spacing: .24em;
+      text-transform: uppercase;
+      color: rgba(238,233,222,.72);
+    }
+    .morel-audio__note {
+      margin: 0;
+      font: 300 15px/1.4 "Newsreader", Georgia, serif;
+      color: rgba(238,233,222,.58);
+    }
+    .morel-audio__controls {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 18px;
+    }
+    .morel-audio__play {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: 1px solid rgba(238,233,222,.48);
+      background: transparent;
+      color: #eee9de;
+      font: 14px/1 "DM Sans", Arial, sans-serif;
+      cursor: pointer;
+      transition: background .2s ease, color .2s ease, border-color .2s ease;
+    }
+    .morel-audio__play:hover,
+    .morel-audio__play:focus-visible {
+      background: #eee9de;
+      color: #090b0b;
+      border-color: #eee9de;
+      outline: none;
+    }
+    .morel-audio__progress {
+      width: 100%;
+      accent-color: #eee9de;
+      cursor: pointer;
+    }
+    .morel-audio__time {
+      min-width: 82px;
+      margin: 0;
+      font: 400 10px/1 "DM Sans", Arial, sans-serif;
+      letter-spacing: .12em;
+      color: rgba(238,233,222,.58);
+      text-align: right;
+    }
+    @media (max-width: 700px) {
+      .morel-audio {
+        width: calc(100% - 36px);
+        margin-bottom: 38px;
+        padding: 18px 0;
+      }
+      .morel-audio__meta {
+        display: block;
+      }
+      .morel-audio__note {
+        margin-top: 7px;
+        font-size: 14px;
+      }
+      .morel-audio__controls {
+        grid-template-columns: auto 1fr;
+        gap: 14px;
+      }
+      .morel-audio__time {
+        grid-column: 2;
+        min-width: 0;
+        text-align: left;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+
+  const section = document.createElement('section');
+  section.className = 'morel-audio';
+  section.setAttribute('aria-label', 'Ascolta il voice-over di questo articolo');
+  section.innerHTML = `
+    <div class="morel-audio__meta">
+      <p class="morel-audio__label">Ascolta · Voce MOREL</p>
+      <p class="morel-audio__note">Una traccia vocale da questo racconto</p>
+    </div>
+    <div class="morel-audio__controls">
+      <button class="morel-audio__play" type="button" aria-label="Riproduci">▶</button>
+      <input class="morel-audio__progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Avanzamento audio">
+      <p class="morel-audio__time"><span class="morel-audio__current">0:00</span> / <span class="morel-audio__duration">--:--</span></p>
+    </div>
+  `;
+
+  const audio = document.createElement('audio');
+  audio.preload = 'metadata';
+  audio.src = '/assets/audio/non-siamo-obbligati-a-restare-uguali.mp3';
+  section.appendChild(audio);
+  hero.insertAdjacentElement('afterend', section);
+
+  const play = section.querySelector('.morel-audio__play');
+  const progress = section.querySelector('.morel-audio__progress');
+  const current = section.querySelector('.morel-audio__current');
+  const duration = section.querySelector('.morel-audio__duration');
+
+  const formatTime = (seconds) => {
+    if (!Number.isFinite(seconds)) return '--:--';
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60).toString().padStart(2, '0');
+    return `${minutes}:${secs}`;
+  };
+
+  audio.addEventListener('loadedmetadata', () => {
+    duration.textContent = formatTime(audio.duration);
+  });
+
+  audio.addEventListener('timeupdate', () => {
+    current.textContent = formatTime(audio.currentTime);
+    progress.value = audio.duration ? (audio.currentTime / audio.duration) * 100 : 0;
+  });
+
+  play.addEventListener('click', async () => {
+    if (audio.paused) {
+      await audio.play();
+      play.textContent = '❚❚';
+      play.setAttribute('aria-label', 'Pausa');
+    } else {
+      audio.pause();
+      play.textContent = '▶';
+      play.setAttribute('aria-label', 'Riproduci');
+    }
+  });
+
+  progress.addEventListener('input', () => {
+    if (!audio.duration) return;
+    audio.currentTime = (Number(progress.value) / 100) * audio.duration;
+  });
+
+  audio.addEventListener('ended', () => {
+    play.textContent = '▶';
+    play.setAttribute('aria-label', 'Riproduci');
+    progress.value = 0;
+    current.textContent = '0:00';
+  });
+})();
