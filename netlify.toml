@@ -21,6 +21,18 @@
   force = true
 
 [[redirects]]
+  from = "/storie/storie-degli-altri.html"
+  to = "/storie/storie-di-andrea.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/stories/other-peoples-stories.html"
+  to = "/stories/andreas-stories.html"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/"
   to = "/index-en.html"
   status = 200
