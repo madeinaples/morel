@@ -15,6 +15,16 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SECTIONS = ("andrea", "pensieri", "altri")
 PUBLISHING_SECTIONS = (*SECTIONS, "small-codes")
+SECTION_ALIASES = {
+    "andrea": "andrea",
+    "storie": "andrea",
+    "storie-di-andrea": "andrea",
+    "pensieri": "pensieri",
+    "pensieri-senza-filtro": "pensieri",
+    "altri": "altri",
+    "storie-degli-altri": "altri",
+    "small-codes": "small-codes",
+}
 
 MONTHS = {
     "it": ("", "gennaio", "febbraio", "marzo", "aprile", "maggio", "giugno", "luglio", "agosto", "settembre", "ottobre", "novembre", "dicembre"),
@@ -125,7 +135,8 @@ def read_articles(language: str) -> list[Article]:
             source = path.read_text(encoding="utf-8")
             if article_language(source) != language:
                 continue
-            section = meta(source, "article:section")
+            raw_section = meta(source, "article:section")
+            section = SECTION_ALIASES.get(raw_section or "")
             if section not in PUBLISHING_SECTIONS:
                 continue
             published_text = meta(source, "article:published_time")
