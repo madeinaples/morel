@@ -49,6 +49,25 @@
     document.head.appendChild(brandStyle);
   }
 
+  // share.js may add global navigation entries for older pages. Normalise archive
+  // URLs and keep only one Archive/Archivio item in the main navigation.
+  const mainNav = document.querySelector('#main-nav');
+  if (mainNav) {
+    const archivePath = isItalianPage ? '/archivio' : '/archive';
+    const archiveLinks = Array.from(mainNav.querySelectorAll('a')).filter((link) => {
+      try {
+        const path = new URL(link.getAttribute('href') || link.href, window.location.origin).pathname
+          .replace(/\/index\.html$/, '')
+          .replace(/\.html$/, '')
+          .replace(/\/$/, '');
+        return path === archivePath;
+      } catch {
+        return false;
+      }
+    });
+    archiveLinks.slice(1).forEach((link) => link.remove());
+  }
+
   // Photography watermark: subtle visual overlay only; original files remain untouched.
   // Keep the mark proportional and discreet on both portrait and landscape photographs.
   if (document.body.classList.contains('photography-page') && !document.querySelector('#andrea-morel-watermark-styles')) {
