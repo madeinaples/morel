@@ -213,11 +213,34 @@ if (document.body.classList.contains('article-page') && !document.querySelector(
   const path = window.location.pathname
     .replace(/\.html$/, '')
     .replace(/\/$/, '');
-  if (path !== '/storie/non-siamo-obbligati-a-restare-uguali') return;
+
+  const isItalianAudio = path === '/storie/non-siamo-obbligati-a-restare-uguali';
+  const isEnglishAudio = path === '/stories/we-are-not-obliged-to-stay-the-same';
+  if (!isItalianAudio && !isEnglishAudio) return;
   if (document.querySelector('.morel-audio')) return;
 
   const hero = document.querySelector('.article-hero');
   if (!hero) return;
+
+  const strings = isEnglishAudio
+    ? {
+        aria: 'Listen to the voice-over for this article',
+        label: 'Listen · MOREL Voice',
+        note: 'A short voice track from this story',
+        play: 'Play',
+        pause: 'Pause',
+        progress: 'Audio progress',
+        src: '/assets/audio/ElevenLabs_2026-08-22T20_47_53_Miguel - Deep, Rich and Cinematic_pvc_sp104_s68_sb75_se11_b_m2.mp3',
+      }
+    : {
+        aria: 'Ascolta il voice-over di questo articolo',
+        label: 'Ascolta · Voce MOREL',
+        note: 'Una traccia vocale da questo racconto',
+        play: 'Riproduci',
+        pause: 'Pausa',
+        progress: 'Avanzamento audio',
+        src: '/assets/audio/non-siamo-obbligati-a-restare-uguali.mp3',
+      };
 
   const style = document.createElement('style');
   style.id = 'morel-audio-styles';
@@ -314,22 +337,22 @@ if (document.body.classList.contains('article-page') && !document.querySelector(
 
   const section = document.createElement('section');
   section.className = 'morel-audio';
-  section.setAttribute('aria-label', 'Ascolta il voice-over di questo articolo');
+  section.setAttribute('aria-label', strings.aria);
   section.innerHTML = `
     <div class="morel-audio__meta">
-      <p class="morel-audio__label">Ascolta · Voce MOREL</p>
-      <p class="morel-audio__note">Una traccia vocale da questo racconto</p>
+      <p class="morel-audio__label">${strings.label}</p>
+      <p class="morel-audio__note">${strings.note}</p>
     </div>
     <div class="morel-audio__controls">
-      <button class="morel-audio__play" type="button" aria-label="Riproduci">▶</button>
-      <input class="morel-audio__progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="Avanzamento audio">
+      <button class="morel-audio__play" type="button" aria-label="${strings.play}">▶</button>
+      <input class="morel-audio__progress" type="range" min="0" max="100" value="0" step="0.1" aria-label="${strings.progress}">
       <p class="morel-audio__time"><span class="morel-audio__current">0:00</span> / <span class="morel-audio__duration">--:--</span></p>
     </div>
   `;
 
   const audio = document.createElement('audio');
   audio.preload = 'metadata';
-  audio.src = '/assets/audio/non-siamo-obbligati-a-restare-uguali.mp3';
+  audio.src = strings.src;
   section.appendChild(audio);
   hero.insertAdjacentElement('afterend', section);
 
@@ -358,11 +381,11 @@ if (document.body.classList.contains('article-page') && !document.querySelector(
     if (audio.paused) {
       await audio.play();
       play.textContent = '❚❚';
-      play.setAttribute('aria-label', 'Pausa');
+      play.setAttribute('aria-label', strings.pause);
     } else {
       audio.pause();
       play.textContent = '▶';
-      play.setAttribute('aria-label', 'Riproduci');
+      play.setAttribute('aria-label', strings.play);
     }
   });
 
@@ -373,7 +396,7 @@ if (document.body.classList.contains('article-page') && !document.querySelector(
 
   audio.addEventListener('ended', () => {
     play.textContent = '▶';
-    play.setAttribute('aria-label', 'Riproduci');
+    play.setAttribute('aria-label', strings.play);
     progress.value = 0;
     current.textContent = '0:00';
   });
