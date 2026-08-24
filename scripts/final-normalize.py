@@ -17,10 +17,7 @@ for path in ROOT.rglob('*.html'):
     is_en = bool(re.search(r'<html[^>]*\blang=["\']en', source, re.I))
     home = '/index-en.html' if is_en else '/index.html'
     privacy = '/privacy-en.html' if is_en else '/privacy.html'
-    manifesto_href = '/manifesto-en.html' if is_en else '/manifesto.html'
 
-    # Load the footer adjustment as a separate stylesheet so the main design
-    # system is never overwritten while we refine footer proportions.
     if 'footer-refine.css' not in source:
         source = re.sub(r'</head>', '  <link rel="stylesheet" href="/footer-refine.css?v=1">\n</head>', source, count=1, flags=re.I)
 
@@ -35,12 +32,6 @@ for path in ROOT.rglob('*.html'):
         body = re.sub(
             r'<a\b[^>]*href=["\'][^"\']*manifesto(?:-en)?\.html(?:#[^"\']*)?["\'][^>]*>.*?</a>',
             '', body, flags=re.I | re.S)
-        lang = re.search(r'<a\b[^>]*class=["\'][^"\']*\blanguage\b[^"\']*["\'][^>]*>.*?</a>', body, re.I | re.S)
-        manifest = f'<a href="{manifesto_href}">Manifesto</a>'
-        if lang:
-            body = body[:lang.start()] + manifest + body[lang.start():]
-        else:
-            body += manifest
         source = source[:nav.start()] + nav.group(1) + body + nav.group(3) + source[nav.end():]
 
     footer = (f'<footer><a class="footer-name" href="{home}">Andrea Morel</a><div>'
@@ -59,9 +50,9 @@ for path in ROOT.rglob('*.html'):
     if nav:
         nav_after = re.search(r'<nav\b[^>]*\bid=["\']main-nav["\'][^>]*>(.*?)</nav>', source, re.I | re.S)
         manifesto_count = len(re.findall(r'href=["\'][^"\']*manifesto(?:-en)?\.html', nav_after.group(1), re.I)) if nav_after else 0
-        if manifesto_count != 1:
-            raise RuntimeError(f'Expected 1 Manifesto link in {path.relative_to(ROOT)}, found {manifesto_count}')
+        if manifesto_count != 0:
+            raise RuntimeError(f'Expected no Manifesto links in {path.relative_to(ROOT)}, found {manifesto_count}')
     if footer_count and 'Human Edit Studio' not in source:
         raise RuntimeError(f'HES footer missing in {path.relative_to(ROOT)}')
 
-print(f'FINAL NORMALIZER OK — checked production HTML; changed {changed} files; no Cristiano Maiello credits remain; navigation/footer assertions passed.')
+print(f'FINAL NORMALIZER OK — checked production HTML; changed {changed} files; no legacy Manifesto navigation or Cristiano Maiello credits remain.')
