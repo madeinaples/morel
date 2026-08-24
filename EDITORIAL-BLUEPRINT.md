@@ -23,6 +23,15 @@ Real encounters, confidences and lives entrusted to the author, transformed into
 
 Every article belongs to one primary collection. Tags may describe themes, but must never become a second navigation system.
 
+## MOREL Threads
+The three collections orient the reader; MOREL Threads connect individual pieces across them. Every new article must answer two questions before publication: which existing thought does it emerge from, and which thought does it open next?
+
+Use “Continue the Thought” (or the natural Italian equivalent) instead of a generic related-articles label. A connection must be editorially real, not merely based on a shared keyword. If a piece has no honest place in the current map, keep it as a draft and withhold it temporarily rather than forcing a link.
+
+International versions must not assume that readers know Italian television figures, public personalities, programmes, places or cultural references. Add only the context needed to understand why the reference matters, naturally and without turning the article into an explainer.
+
+When a Small Code is conceived through the visual language of a painter, that visual relationship belongs inside the article as well as on the collection page. The image must remain editorial, properly captioned and accessible; the painter’s name must not function as decoration alone.
+
 ## Story-page rhythm
 The story remains the centre. Optional modules can deepen it but must never be compulsory or repeat the same content.
 

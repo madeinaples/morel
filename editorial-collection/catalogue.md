@@ -1,6 +1,6 @@
 # Catalogo editoriale
 
-Ultimo aggiornamento: 22 agosto 2026
+Ultimo aggiornamento: 24 agosto 2026
 
 ## Principio
 
@@ -34,13 +34,13 @@ Le vite affidate richiedono più attenzione a privacy, dettagli identificativi e
 | La giuria invisibile | The Invisible Jury | Tracce | PILASTRO | Corpo, performance, approvazione, diritto di abitarsi. |
 | Il locale che non stavo cercando | The Place I Wasn’t Looking For | Storie | RESTA | Valore, competenza costruita, fiducia in sé. |
 | Earl’s Court, prima che Londra diventasse gentile | Earl’s Court, Before London Became Kind | Storie | RESTA | Libertà, memoria, gentrificazione, tracce. |
-| Behind the Wall | Behind the Wall | Storie | RESTA | Confini, consenso, avvicinarsi senza forzare. |
+| Behind the Wall | Behind the Wall | Storie | RESTA | Presenza, confini e consenso; revisione resa più sensoriale e meno esplicita. |
 | Il matrimonio che sua madre non saprà | The Wedding His Mother Will Never Know About | Storie | RESTA | Famiglia, rifiuto, felicità protetta. È una vita affidata, non una sezione separata. |
 | Hai mangiato? | Have You Eaten? | Storie | RESTA | Linguaggi dell’affetto e interpretazione dell’amore. |
 | No Drama, Please | No Drama, Please | Storie | RESTA | Amicizia, responsabilità emotiva, diritto di non essere comodi. |
 | Le Olimpiadi delle app | The App Olympics | Storie | LATERALE | Desiderio, chiarezza, consenso, diritto al no. |
 | Le cose che restano accese | The Lights That Stay On | Storie | LATERALE | Atmosfera, memoria, desiderio e selettività. |
-| Sweet Revenge | Sweet Revenge | Tracce | LATERALE | Deviazione culturale su visibilità, personaggio e metriche. |
+| Sweet Revenge | Sweet Revenge | Tracce | LATERALE | Thread “Il prezzo della visibilità”; contesto internazionale e passaggio narrativo IT/EN definiti. |
 
 ## Direzione per il futuro eBook
 
