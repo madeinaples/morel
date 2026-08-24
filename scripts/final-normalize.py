@@ -4,8 +4,6 @@ import re
 
 ROOT = Path(__file__).resolve().parents[1]
 
-HES = '''<a class="hes-credit" href="https://humaneditstudio.co.uk/" target="_blank" rel="noopener noreferrer" aria-label="Human Edit Studio" style="display:inline-flex;align-items:center;gap:10px;margin-right:auto;color:#9b9d97;text-decoration:none;font:9px 'DM Sans',Arial,sans-serif;letter-spacing:.16em;text-transform:uppercase;white-space:nowrap"><span class="hes-mark" aria-hidden="true" style="display:inline-grid;place-items:center;width:31px;height:31px;border:1px solid rgba(238,233,222,.38);font:15px 'Libre Caslon Display',Georgia,serif;letter-spacing:-.08em;color:#eee9de">HES</span><span>Human Edit Studio</span></a>'''
-
 changed = 0
 
 for path in ROOT.rglob('*.html'):
@@ -35,11 +33,14 @@ for path in ROOT.rglob('*.html'):
         source = source[:nav.start()] + nav.group(1) + body + nav.group(3) + source[nav.end():]
 
     footer = (f'<footer><a class="footer-name" href="{home}">Andrea Morel</a><div>'
-              f'{HES}<span>© 2026</span>'
+              f'<span>© 2026</span>'
               f'<a href="{privacy}">Privacy</a>'
               f'<a href="https://www.instagram.com/andreamorel.writer/" target="_blank" rel="noopener noreferrer">Instagram</a>'
               f'<a href="mailto:andreamoreluk@gmail.com">Email</a></div></footer>')
     source, footer_count = re.subn(r'<footer\b[^>]*>.*?</footer>', footer, source, flags=re.I | re.S)
+
+    if '/hes-footer-fix.js' not in source:
+        source = re.sub(r'</body>', '<script src="/hes-footer-fix.js?v=1"></script></body>', source, count=1, flags=re.I)
 
     path.write_text(source, encoding='utf-8')
     if source != original:
@@ -52,7 +53,7 @@ for path in ROOT.rglob('*.html'):
         manifesto_count = len(re.findall(r'href=["\'][^"\']*manifesto(?:-en)?\.html', nav_after.group(1), re.I)) if nav_after else 0
         if manifesto_count != 0:
             raise RuntimeError(f'Expected no Manifesto links in {path.relative_to(ROOT)}, found {manifesto_count}')
-    if footer_count and 'Human Edit Studio' not in source:
-        raise RuntimeError(f'HES footer missing in {path.relative_to(ROOT)}')
+    if footer_count and 'hes-footer-fix.js' not in source:
+        raise RuntimeError(f'HES footer fix missing in {path.relative_to(ROOT)}')
 
-print(f'FINAL NORMALIZER OK — checked production HTML; changed {changed} files; no legacy Manifesto navigation or Cristiano Maiello credits remain.')
+print(f'FINAL NORMALIZER OK — checked production HTML; changed {changed} files; single HES signature enforced; no legacy Manifesto navigation or Cristiano Maiello credits remain.')
