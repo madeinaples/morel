@@ -3,6 +3,13 @@
 
   if (!document.body.classList.contains('archive-page')) return;
 
+  if (!document.querySelector('script[src^="/hes-footer-fix.js"]')) {
+    const footerScript = document.createElement('script');
+    footerScript.src = '/hes-footer-fix.js?v=3';
+    footerScript.defer = true;
+    document.body.appendChild(footerScript);
+  }
+
   const API = '/.netlify/functions/engagement';
 
   function contentKeyFromUrl(url) {
