@@ -17,10 +17,10 @@ footer > div {
   flex-wrap: wrap;
   gap: 12px 24px;
 }
+/* HES is already represented by the larger central Human Edit Studio signature.
+   Hide the legacy compact badge so the footer has one visual HES identity only. */
 footer .hes-credit {
-  transform: scale(.88);
-  transform-origin: left center;
-  opacity: .72;
+  display: none !important;
 }
 footer > div > span:not(.hes-credit),
 footer > div > a {
@@ -41,5 +41,4 @@ footer > div > a {
     justify-content: flex-start;
     gap: 14px 20px;
   }
-  footer .hes-credit { width: 100%; }
 }
