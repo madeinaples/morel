@@ -12,6 +12,7 @@ footer {
 }
 footer > div {
   flex: 1;
+  min-width: 340px;
   justify-content: flex-end;
   align-items: center;
   flex-wrap: wrap;
@@ -22,11 +23,36 @@ footer > div {
 footer .hes-credit {
   display: none !important;
 }
+footer > div > span:not(.hes-credit) {
+  min-width: 240px;
+  max-width: 320px;
+  line-height: 1.55;
+  white-space: normal;
+}
 footer > div > span:not(.hes-credit),
 footer > div > a {
   font-size: 9px;
   letter-spacing: .14em;
 }
+footer > div > a {
+  white-space: nowrap;
+}
+
+@media (max-width: 980px) {
+  footer {
+    gap: 30px;
+  }
+  footer > div {
+    min-width: 300px;
+    max-width: 360px;
+    margin-left: auto;
+  }
+  footer > div > span:not(.hes-credit) {
+    min-width: 220px;
+    max-width: 300px;
+  }
+}
+
 @media (max-width: 760px) {
   footer {
     min-height: 0;
@@ -35,10 +61,52 @@ footer > div > a {
     flex-direction: column;
     gap: 28px;
   }
-  .footer-name { font-size: 32px; }
+  .footer-name {
+    font-size: 32px;
+    white-space: normal;
+  }
   footer > div {
     width: 100%;
+    min-width: 0;
+    max-width: none;
+    margin-left: 0;
     justify-content: flex-start;
+    align-items: flex-start;
     gap: 14px 20px;
+  }
+  footer > div > span:not(.hes-credit) {
+    width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    line-height: 1.6;
+  }
+  footer > div > a {
+    white-space: normal;
+  }
+}
+
+@media (max-width: 480px) {
+  footer {
+    padding: 30px 20px 28px;
+    gap: 24px;
+  }
+  .footer-name {
+    font-size: 28px;
+    line-height: 1;
+  }
+  footer > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, auto));
+    justify-content: start;
+    gap: 12px 18px;
+  }
+  footer > div > span:not(.hes-credit) {
+    grid-column: 1 / -1;
+    font-size: 8.5px;
+    letter-spacing: .12em;
+  }
+  footer > div > a {
+    font-size: 8.5px;
+    letter-spacing: .12em;
   }
 }
