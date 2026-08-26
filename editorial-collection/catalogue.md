@@ -32,7 +32,7 @@ Le vite affidate richiedono più attenzione a privacy, dettagli identificativi e
 | Il diritto di… | The right to… | Racconto madre | PILASTRO | Tiene insieme doveri, aspettative e diritti. |
 | Non siamo obbligati a restare uguali | We Are Not Obliged to Stay the Same | Tracce / asse centrale | PILASTRO | Identità, personaggio, corpo, cambiamento. |
 | La giuria invisibile | The Invisible Jury | Tracce | PILASTRO | Corpo, performance, approvazione, diritto di abitarsi. |
-| Io, te e Technogym | — | Tracce | RESTA | Corpo come appartenenza: palestra, confronto, desiderio, moderazione e il diritto di sapere quando basta. |
+| Io, te e Technogym | Me, You and Technogym | Tracce | RESTA | Corpo come appartenenza: palestra, confronto, desiderio, moderazione e il diritto di sapere quando basta. |
 | Il locale che non stavo cercando | The Place I Wasn’t Looking For | Storie | RESTA | Valore, competenza costruita, fiducia in sé. |
 | Earl’s Court, prima che Londra diventasse gentile | Earl’s Court, Before London Became Kind | Storie | RESTA | Libertà, memoria, gentrificazione, tracce. |
 | Behind the Wall | Behind the Wall | Storie | RESTA | Presenza, confini e consenso; revisione resa più sensoriale e meno esplicita. |
