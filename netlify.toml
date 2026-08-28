@@ -1,22 +1,28 @@
 [build]
-  command = "python3 scripts/normalize-no-drama.py && python3 scripts/sync-archives.py && python3 scripts/site-structure.py && python3 scripts/photo-originality.py && python3 scripts/final-normalize.py && python3 scripts/article-style.py"
+  command = "python3 scripts/normalize-no-drama.py && python3 scripts/sync-archives.py && python3 scripts/site-structure.py && python3 scripts/photo-originality.py && python3 scripts/final-normalize.py && python3 scripts/article-style.py && python3 scripts/canonical-redirects.py"
   publish = "."
 
 [[redirects]]
+  from = "/italiano.html"
+  to = "/italiano"
+  status = 301
+  force = true
+
+[[redirects]]
   from = "/it"
-  to = "/italiano.html"
+  to = "/italiano"
   status = 301
   force = true
 
 [[redirects]]
   from = "/it/"
-  to = "/italiano.html"
+  to = "/italiano"
   status = 301
   force = true
 
 [[redirects]]
   from = "/index.html"
-  to = "/italiano.html"
+  to = "/italiano"
   status = 301
   force = true
 
