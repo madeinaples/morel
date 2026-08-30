@@ -11,9 +11,10 @@
 .thread-card h2 { margin: 14px 0 26px; font: clamp(46px, 6vw, 82px) / .9 var(--display); letter-spacing: -.055em; }
 .thread-card p { margin: 0 0 19px; color: var(--muted); font: 18px / 1.68 var(--serif); }
 .thread-card .thread-line { margin-bottom: 34px; color: var(--sand); font: clamp(23px, 2.6vw, 32px) / 1.18 var(--display); letter-spacing: -.02em; }
-.thread-card .thread-start { margin-top: 34px; color: var(--white); font: 12px / 1.55 var(--sans); }
-.thread-start span { color: var(--muted); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
-.thread-start a { color: var(--white); text-decoration-color: rgba(238,233,222,.42); text-underline-offset: .25em; }
+.thread-card .thread-start { margin: 34px 0 10px; color: var(--white); font: 12px / 1.55 var(--sans); }
+.thread-card .thread-continue { margin-bottom: 0; color: var(--white); font: 12px / 1.55 var(--sans); }
+.thread-start span, .thread-continue span { color: var(--muted); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
+.thread-start a, .thread-continue a { color: var(--white); text-decoration-color: rgba(238,233,222,.42); text-underline-offset: .25em; }
 .threads-closing { max-width: 740px; margin: 0 auto; padding: 130px 0 160px 140px; }
 .threads-closing p { margin: 0 0 32px; color: var(--white); font: clamp(29px, 3.3vw, 47px) / 1.12 var(--display); letter-spacing: -.03em; }
 .threads-closing a { color: var(--muted); font: 10px var(--sans); letter-spacing: .15em; text-decoration: none; text-transform: uppercase; }
