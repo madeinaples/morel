@@ -1,7 +1,6 @@
 (() => {
   const isArticle = document.body.classList.contains('article-page');
-  const isHome = document.body.classList.contains('home-v2');
-  if (!isArticle && !isHome) return;
+  if (!isArticle) return;
 
   const API = '/.netlify/functions/engagement';
   const lang = document.documentElement.lang === 'it' ? 'it' : 'en';
@@ -162,6 +161,5 @@
     await Promise.all(Array.from(unique.entries()).map(async ([content, contentLinks]) => { try { const data = await request('GET', null, `?content=${encodeURIComponent(content)}&summary=1`); contentLinks.forEach((link) => { const host = link.closest('article, .reveal, .featured-flow > div') || link.parentElement; if (!host || host.querySelector(`.morel-inline-counts[data-content="${CSS.escape(content)}"]`)) return; const counts = document.createElement('span'); counts.className = 'morel-inline-counts'; counts.dataset.content = content; counts.innerHTML = `<span>♡ ${data.likeCount}</span><span>💬 ${data.commentCount}</span>`; link.insertAdjacentElement('afterend', counts); }); } catch { /* keep homepage clean if the API is temporarily unavailable */ } }));
   }
 
-  if (isArticle) mountArticle();
-  if (isHome) mountHomeCounts();
+  mountArticle();
 })();
