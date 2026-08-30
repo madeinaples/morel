@@ -1,0 +1,14 @@
+.photo-thread-exit { margin: 0 4vw 110px; padding: 42px 5vw; border-top: 1px solid rgba(238,233,222,.16); background: #101312; }
+.photo-thread-exit .kicker { color: #9b9d97; }
+.photo-thread-exit h2 { margin: 14px 0 20px; color: #f4f0e7; font: clamp(31px,4vw,54px)/1 var(--display); letter-spacing: -.04em; }
+.photo-thread-exit p { max-width: 660px; margin: 0 0 28px; color: #c8c4ba; font: 19px/1.5 var(--serif); }
+.photo-thread-exit a { color: #f4f0e7; text-decoration-color: rgba(238,233,222,.45); text-underline-offset: .24em; }
+.photo-thread-nav { display: flex; flex-wrap: wrap; gap: 10px; color: #9b9d97; font: 10px var(--sans); letter-spacing: .15em; text-transform: uppercase; }
+.photo-thread-nav a { color: #9b9d97; text-decoration: none; }
+.photo-thread-nav a:hover { color: #f4f0e7; }
+
+@media (max-width: 760px) {
+  .photo-thread-exit { margin: 0 7vw 80px; padding: 38px 28px; }
+  .photo-thread-exit h2 { font-size: 37px; }
+  .photo-thread-exit p { font-size: 18px; }
+}
