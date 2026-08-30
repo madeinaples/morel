@@ -1,0 +1,35 @@
+.threads-page main { padding: 170px 8vw 0; }
+.threads-intro { max-width: 860px; margin: 0 auto 130px; }
+.threads-intro h1 { margin: 18px 0 14px; font: clamp(72px, 12vw, 172px) / .78 var(--display); letter-spacing: -.065em; }
+.threads-subtitle { margin: 0 0 62px; color: var(--sand); font: clamp(26px, 3.4vw, 42px) / 1.1 var(--display); }
+.threads-copy { max-width: 670px; color: var(--muted); font: 19px / 1.7 var(--serif); }
+.threads-copy p { margin: 0 0 22px; }
+.thread-list { max-width: 1060px; margin: 0 auto; border-top: 1px solid var(--line); }
+.thread-card { display: grid; grid-template-columns: 105px minmax(0, 1fr); gap: 35px; padding: 65px 0 72px; border-bottom: 1px solid var(--line); }
+.thread-number { padding-top: 8px; color: var(--muted); font: 10px var(--sans); letter-spacing: .17em; }
+.thread-card-copy { max-width: 740px; }
+.thread-card h2 { margin: 14px 0 26px; font: clamp(46px, 6vw, 82px) / .9 var(--display); letter-spacing: -.055em; }
+.thread-card p { margin: 0 0 19px; color: var(--muted); font: 18px / 1.68 var(--serif); }
+.thread-card .thread-line { margin-bottom: 34px; color: var(--sand); font: clamp(23px, 2.6vw, 32px) / 1.18 var(--display); letter-spacing: -.02em; }
+.thread-card .thread-start { margin-top: 34px; color: var(--white); font: 12px / 1.55 var(--sans); }
+.thread-start span { color: var(--muted); font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
+.thread-start a { color: var(--white); text-decoration-color: rgba(238,233,222,.42); text-underline-offset: .25em; }
+.threads-closing { max-width: 740px; margin: 0 auto; padding: 130px 0 160px 140px; }
+.threads-closing p { margin: 0 0 32px; color: var(--white); font: clamp(29px, 3.3vw, 47px) / 1.12 var(--display); letter-spacing: -.03em; }
+.threads-closing a { color: var(--muted); font: 10px var(--sans); letter-spacing: .15em; text-decoration: none; text-transform: uppercase; }
+.threads-closing a:hover { color: var(--white); }
+
+@media (max-width: 620px) {
+  .threads-page main { padding: 132px 24px 0; }
+  .threads-intro { margin-bottom: 85px; }
+  .threads-intro h1 { font-size: clamp(76px, 24vw, 110px); }
+  .threads-subtitle { margin-bottom: 42px; font-size: 29px; }
+  .threads-copy { font-size: 18px; }
+  .thread-card { grid-template-columns: 1fr; gap: 24px; padding: 50px 0 56px; }
+  .thread-number { padding: 0; }
+  .thread-card h2 { font-size: clamp(51px, 16vw, 72px); }
+  .thread-card p { font-size: 17px; }
+  .thread-card .thread-line { font-size: 27px; }
+  .threads-closing { padding: 90px 0 120px; }
+  .threads-closing p { font-size: 34px; }
+}
