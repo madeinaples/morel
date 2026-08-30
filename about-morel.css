@@ -1,0 +1,35 @@
+.about-morel-page main { padding: 170px 8vw 0; }
+.about-morel-hero, .about-morel-intro, .about-morel-sections, .about-morel-start { max-width: 1060px; margin-right: auto; margin-left: auto; }
+.about-morel-hero { margin-bottom: 80px; }
+.about-morel-hero h1 { margin: 18px 0 20px; font: clamp(72px, 12vw, 168px) / .78 var(--display); letter-spacing: -.07em; }
+.about-morel-hero > p:last-child { color: var(--sand); font: clamp(27px, 3.5vw, 43px) / 1.12 var(--display); }
+.about-morel-intro { max-width: 780px; margin-bottom: 130px; }
+.about-morel-intro p { margin: 0; color: var(--white); font: clamp(31px, 4.2vw, 54px) / 1.15 var(--display); letter-spacing: -.035em; }
+.about-morel-sections { border-top: 1px solid var(--line); }
+.about-morel-sections article { display: grid; grid-template-columns: 32% minmax(0, 1fr); gap: 36px; padding: 65px 0 72px; border-bottom: 1px solid var(--line); }
+.about-morel-sections .kicker { padding-top: 9px; }
+.about-morel-sections h2 { grid-column: 2; margin: 0 0 10px; font: clamp(43px, 5.5vw, 75px) / .91 var(--display); letter-spacing: -.055em; }
+.about-morel-sections article > p:not(.kicker) { grid-column: 2; max-width: 660px; margin: 0 0 4px; color: var(--muted); font: 19px / 1.68 var(--serif); }
+.about-morel-link { grid-column: 2; margin-top: 22px; color: var(--white); font: 11px var(--sans); letter-spacing: .12em; text-decoration: none; text-transform: uppercase; }
+.about-morel-link span { margin-left: 8px; }
+.about-morel-start { padding: 140px 0 160px 32%; }
+.about-morel-start h2 { margin: 18px 0 55px; font: clamp(42px, 5.5vw, 74px) / .92 var(--display); letter-spacing: -.055em; }
+.about-morel-start div { display: grid; gap: 15px; }
+.about-morel-start a { padding-bottom: 16px; border-bottom: 1px solid var(--line); color: var(--white); font: 22px / 1.35 var(--serif); text-decoration: none; }
+.about-morel-start a span { display: block; margin-bottom: 5px; color: var(--muted); font: 10px var(--sans); letter-spacing: .15em; text-transform: uppercase; }
+
+@media (max-width: 620px) {
+  .about-morel-page main { padding: 132px 24px 0; }
+  .about-morel-hero { margin-bottom: 56px; }
+  .about-morel-hero h1 { font-size: clamp(74px, 22vw, 112px); }
+  .about-morel-hero > p:last-child { font-size: 29px; }
+  .about-morel-intro { margin-bottom: 86px; }
+  .about-morel-intro p { font-size: 35px; }
+  .about-morel-sections article { display: block; padding: 50px 0 55px; }
+  .about-morel-sections .kicker { margin-bottom: 28px; }
+  .about-morel-sections h2 { margin-bottom: 29px; font-size: clamp(48px, 15vw, 68px); }
+  .about-morel-sections article > p:not(.kicker) { font-size: 18px; margin-bottom: 15px; }
+  .about-morel-link { display: inline-block; margin-top: 20px; }
+  .about-morel-start { padding: 90px 0 120px; }
+  .about-morel-start h2 { font-size: 48px; }
+}
