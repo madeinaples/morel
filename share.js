@@ -154,7 +154,8 @@ const normalizePath = (href) => {
 };
 
 const mainNav = document.querySelector('#main-nav');
-if (mainNav) {
+const isPrimaryThreadsNavigation = Boolean(mainNav?.querySelector('a[href="/threads.html"]'));
+if (mainNav && !isPrimaryThreadsNavigation) {
   const languageLink = mainNav.querySelector('.language');
 
   if (!mainNav.querySelector(`a[href="${archiveHref}"]`)) {
