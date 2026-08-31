@@ -108,7 +108,7 @@
     document.head.appendChild(watermarkStyle);
   }
 
-  const GA_ID = 'G-YG1ES87T2H';
+  const GA_ID = 'G-RCQPYK3K3W';
   const STORAGE_KEY = 'andrea-morel-analytics-consent';
 
   const copy = {
