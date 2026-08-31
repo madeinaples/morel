@@ -1,15 +1,17 @@
 const menuButton = document.querySelector('.menu-button');
 const nav = document.querySelector('#main-nav');
 
-menuButton.addEventListener('click', () => {
-  const open = nav.classList.toggle('open');
-  menuButton.setAttribute('aria-expanded', open);
-});
+if (menuButton && nav) {
+  menuButton.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menuButton.setAttribute('aria-expanded', open);
+  });
 
-nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-  nav.classList.remove('open');
-  menuButton.setAttribute('aria-expanded', 'false');
-}));
+  nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
+    nav.classList.remove('open');
+    menuButton.setAttribute('aria-expanded', 'false');
+  }));
+}
 
 const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
   if (entry.isIntersecting) {
@@ -154,16 +156,22 @@ const stories = {
 };
 
 const dialog = document.querySelector('#reader');
-const content = dialog.querySelector('.reader-content');
+if (dialog) {
+  const content = dialog.querySelector('.reader-content');
+  const closeButton = dialog.querySelector('.reader-close');
 
-document.querySelectorAll('[data-article]').forEach((button) => button.addEventListener('click', () => {
-  const story = stories[button.dataset.article];
-  content.innerHTML = `<p class="kicker">${story.tag}</p><h2>${story.title}</h2><p class="intro">${story.intro}</p>${story.body.map((paragraph) => `<p>${paragraph}</p>`).join('')}`;
-  dialog.showModal();
-  content.scrollTop = 0;
-}));
+  if (content) {
+    document.querySelectorAll('[data-article]').forEach((button) => button.addEventListener('click', () => {
+      const story = stories[button.dataset.article];
+      if (!story) return;
+      content.innerHTML = `<p class="kicker">${story.tag}</p><h2>${story.title}</h2><p class="intro">${story.intro}</p>${story.body.map((paragraph) => `<p>${paragraph}</p>`).join('')}`;
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+      content.scrollTop = 0;
+    }));
+  }
 
-dialog.querySelector('.reader-close').addEventListener('click', () => dialog.close());
-dialog.addEventListener('click', (event) => {
-  if (event.target === dialog) dialog.close();
-});
+  if (closeButton) closeButton.addEventListener('click', () => dialog.close());
+  dialog.addEventListener('click', (event) => {
+    if (event.target === dialog) dialog.close();
+  });
+}
