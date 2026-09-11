@@ -107,22 +107,38 @@ if (document.body.classList.contains('article-page') && !document.querySelector(
   document.head.appendChild(articleMobileNavFix);
 }
 
-document.querySelector('[data-share="facebook"]')?.addEventListener('click', (event) => {
+const isItalian = document.documentElement.lang === 'it';
+const articleBody = document.querySelector('.article-page .article-body');
+if (articleBody && document.querySelector('meta[property="article:published_time"]') && !document.querySelector('.share-actions')) {
+  const panel = document.createElement('section');
+  panel.className = 'article-share-panel';
+  panel.setAttribute('aria-label', isItalian ? 'Condividi questo articolo' : 'Share this article');
+  panel.innerHTML = `<p>${isItalian ? 'Se questa storia ti è rimasta dentro, mandala a qualcuno.' : 'If this story stayed with you, send it to someone.'}</p><div class="share-actions"><a class="share-button" href="#" data-share="facebook">${isItalian ? 'Condividi su Facebook' : 'Share on Facebook'} <span>↗</span></a><a class="share-button" href="#" data-share="whatsapp" target="_blank" rel="noopener noreferrer">${isItalian ? 'Invia su WhatsApp' : 'Send on WhatsApp'} <span>↗</span></a><button class="share-button" type="button" data-share="copy">${isItalian ? 'Copia il link' : 'Copy link'} <span>+</span></button></div><p class="copy-status" aria-live="polite"></p>`;
+  const articleEnd = articleBody.querySelector('.article-end');
+  articleEnd ? articleEnd.insertAdjacentElement('beforebegin', panel) : articleBody.appendChild(panel);
+  if (!document.querySelector('#article-share-panel-styles')) {
+    const style = document.createElement('style');
+    style.id = 'article-share-panel-styles';
+    style.textContent = `.article-share-panel{margin:72px 0 0;padding-top:28px;border-top:1px solid var(--line)}.article-share-panel>p:first-child{max-width:34rem;margin:0;color:var(--muted);font:15px/1.5 var(--serif)}.article-share-panel .share-actions{margin-top:20px}.article-share-panel .copy-status{min-height:1.4em;margin:12px 0 0;color:var(--muted);font:10px/1.4 var(--sans);letter-spacing:.12em;text-transform:uppercase}`;
+    document.head.appendChild(style);
+  }
+}
+
+document.querySelectorAll('[data-share="facebook"]').forEach((facebook) => facebook.addEventListener('click', (event) => {
   event.preventDefault();
   const url = `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`;
   window.open(url, 'facebook-share', 'width=680,height=720,noopener,noreferrer');
+}));
+
+document.querySelectorAll('[data-share="whatsapp"]').forEach((whatsapp) => {
+  whatsapp.href = `https://wa.me/?text=${encodeURIComponent(`${shareTitle} — ${shareUrl}`)}`;
 });
 
-const whatsapp = document.querySelector('[data-share="whatsapp"]');
-if (whatsapp) {
-  whatsapp.href = `https://wa.me/?text=${encodeURIComponent(`${shareTitle} — ${shareUrl}`)}`;
-}
-
-document.querySelector('[data-share="copy"]')?.addEventListener('click', async () => {
-  const status = document.querySelector('.copy-status');
+document.querySelectorAll('[data-share="copy"]').forEach((copyButton) => copyButton.addEventListener('click', async () => {
+  const status = copyButton.closest('.article-aside, .article-share-panel')?.querySelector('.copy-status') || document.querySelector('.copy-status');
   try {
     await navigator.clipboard.writeText(shareUrl);
-    status.textContent = document.documentElement.lang === 'it' ? 'Link copiato.' : 'Link copied.';
+    if (status) status.textContent = isItalian ? 'Link copiato.' : 'Link copied.';
   } catch {
     const input = document.createElement('textarea');
     input.value = shareUrl;
@@ -133,11 +149,10 @@ document.querySelector('[data-share="copy"]')?.addEventListener('click', async (
     input.select();
     document.execCommand('copy');
     input.remove();
-    status.textContent = document.documentElement.lang === 'it' ? 'Link copiato.' : 'Link copied.';
+    if (status) status.textContent = isItalian ? 'Link copiato.' : 'Link copied.';
   }
-});
+}));
 
-const isItalian = document.documentElement.lang === 'it';
 const manifestoHref = isItalian ? '/manifesto.html' : '/manifesto-en.html';
 const archiveHref = isItalian ? '/archivio.html' : '/archive.html';
 const aiNoticeHref = isItalian ? '/nota-ai.html' : '/ai-use-notice.html';
