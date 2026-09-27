@@ -134,67 +134,69 @@
   letter-spacing: -0.025em;
   color: #eee9df;
 }
+/* Wisdom pills follow the same dark editorial palette as Capsule. */
 .wisdom-pills {
-  padding: clamp(90px, 11vw, 150px) 7vw;
-  background: #e8e1d5;
-  color: #111311;
+  padding: clamp(68px, 7vw, 104px) 7vw;
+  background: var(--night-soft);
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
 }
 .wisdom-pills__head {
   display: grid;
   grid-template-columns: 1fr 1.35fr;
-  gap: 6vw;
+  gap: 24px 6vw;
   align-items: end;
   max-width: 1180px;
-  margin: 0 auto 70px;
+  margin: 0 auto 44px;
 }
 .wisdom-pills__head .kicker {
   grid-column: 1/-1;
-  color: #777167;
+  color: var(--muted);
 }
 .wisdom-pills__head h2 {
   margin: 0;
-  font: clamp(52px, 7vw, 100px) / 0.84 var(--display);
-  letter-spacing: -0.055em;
+  font: clamp(40px, 4.5vw, 64px) / 1.02 var(--display);
+  letter-spacing: -0.035em;
 }
 .wisdom-pills__head h2 em {
   font-weight: 400;
-  color: #716757;
+  color: #b8a77e;
 }
 .wisdom-pills__head > p:last-child {
   max-width: 500px;
-  margin: 0 0 8px;
-  color: #5e5a53;
+  margin: 0 0 4px;
+  color: var(--muted);
   font: 16px/1.65 var(--sans);
 }
 .wisdom-pills__grid {
   max-width: 1180px;
   margin: 0 auto;
-  border-top: 1px solid rgba(17, 19, 17, 0.22);
+  border-top: 1px solid var(--line);
 }
 .wisdom-pill {
   display: grid;
-  grid-template-columns: 80px 1fr;
-  gap: 28px;
-  padding: 34px 0;
-  border-bottom: 1px solid rgba(17, 19, 17, 0.22);
+  grid-template-columns: 52px minmax(0, 1fr);
+  gap: 20px;
+  padding: 28px 0;
+  border-bottom: 1px solid var(--line);
 }
 .wisdom-pill > span {
+  padding-top: 5px;
   font: 11px/1.4 var(--sans);
   letter-spacing: 0.18em;
-  color: #7b746a;
+  color: var(--muted);
 }
 .wisdom-pill p {
-  max-width: 880px;
+  max-width: 780px;
   margin: 0;
-  font: clamp(27px, 3.2vw, 45px) / 1.08 var(--display);
-  letter-spacing: -0.025em;
+  font: clamp(24px, 2.25vw, 32px) / 1.35 var(--serif);
+  letter-spacing: -0.01em;
 }
 .wisdom-pill small {
   grid-column: 2;
   display: block;
-  margin-top: -12px;
-  color: #756e64;
-  font: 10px/1.4 var(--sans);
+  color: var(--muted);
+  font: 10px/1.5 var(--sans);
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
@@ -392,7 +394,7 @@
     padding: 28px 0;
   }
   .wisdom-pill p {
-    font-size: clamp(26px, 8vw, 38px);
+    font-size: clamp(23px, 5.8vw, 27px);
   }
   .wisdom-pill small {
     grid-column: 2;
