@@ -1,62 +1,153 @@
 .music-release {
-  --release-accent: #b96760;
-  padding: clamp(56px, 7vw, 96px) clamp(24px, 6vw, 96px);
-  border-bottom: 1px solid var(--line);
-  background: var(--night-soft);
+  --release-accent: #ff675c;
+  padding: clamp(64px, 8vw, 120px) clamp(24px, 6vw, 96px);
+  border-bottom: 1px solid #39313a;
+  background: radial-gradient(ellipse at 4% 100%, #2b1724 0, transparent 55%), #0c0d12;
+  color: #f7f1e9;
+  scroll-margin-top: 80px;
 }
-
 .music-release__inner {
-  max-width: 1180px;
+  max-width: 1280px;
   margin: 0 auto;
-  padding-left: clamp(20px, 3vw, 40px);
-  border-left: 2px solid var(--release-accent);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(32px, 5vw, 80px);
+  align-items: center;
 }
-
+.music-release__copy { min-width: 0; }
 .music-release__eyebrow {
-  margin: 0 0 24px;
-  color: var(--release-accent);
-  font: 500 11px/1.5 var(--sans);
-  letter-spacing: .18em;
+  margin: 0 0 32px;
+  color: #ffc2a1;
+  font: 600 12px/1.5 var(--sans);
+  letter-spacing: .2em;
 }
-
-.music-release h2 {
+.music-release h2, .music-release h1 {
   margin: 0;
-  color: var(--ink);
-  font: 300 clamp(38px, 5vw, 68px)/1.05 var(--serif);
-  letter-spacing: -.035em;
-  text-wrap: balance;
+  color: #f7f1e9;
+  font: 700 clamp(48px, 5.5vw, 82px)/1.02 var(--sans);
+  letter-spacing: -.055em;
 }
-
+.music-release h2 span, .music-release h1 span { color: var(--release-accent); }
 .music-release__status {
-  margin: 14px 0 0;
-  color: var(--muted);
-  font: 400 12px/1.5 var(--sans);
-  letter-spacing: .06em;
+  margin: 28px 0 0;
+  color: #d8cbd0;
+  font: 400 clamp(17px, 1.5vw, 21px)/1.5 var(--sans);
 }
-
-.music-release__description {
-  max-width: 42ch;
-  margin: 28px 0 20px;
-  color: var(--ink);
-  font: 300 clamp(22px, 2.5vw, 28px)/1.45 var(--serif);
-}
-
 .music-release__link {
   display: inline-flex;
   align-items: center;
-  min-height: 44px;
-  color: var(--ink);
-  font: 500 13px/1.5 var(--sans);
-  text-decoration: underline;
-  text-decoration-color: var(--release-accent);
-  text-underline-offset: 7px;
+  justify-content: space-between;
+  gap: 28px;
+  min-height: 56px;
+  max-width: 100%;
+  box-sizing: border-box;
+  margin-top: 36px;
+  padding: 16px 23px;
+  background: #ff796a;
+  color: #190e13;
+  border: 1px solid transparent;
+  font: 700 14px/1.4 var(--sans);
+  text-decoration: none;
+  transition: background .18s ease;
+}
+.music-release__link span { font-size: 23px; line-height: 1; }
+.music-release__link:hover { background: #ffa18c; color: #190e13; }
+.music-release__link:focus-visible { outline: 3px solid #fff0d6; outline-offset: 6px; }
+.music-release__panel {
+  position: relative;
+  min-height: 510px;
+  display: flex;
+  align-items: flex-end;
+  isolation: isolate;
+  overflow: hidden;
+  border: 1px solid #704049;
+  background: radial-gradient(ellipse at 85% 15%, #732630 0, transparent 65%), linear-gradient(135deg, #1d2036, #181017 75%);
+  box-shadow: 0 24px 75px #0004;
+}
+.music-release__mark {
+  position: absolute;
+  top: 30px;
+  left: 32px;
+  color: #ffe1ce;
+  font: 700 13px/1.5 var(--sans);
+  letter-spacing: .28em;
+}
+.music-release__beam {
+  position: absolute;
+  inset: -15% auto -15% 64%;
+  width: 11px;
+  transform: rotate(12deg);
+  background: linear-gradient(#ffb18a, #f7544d 45%, #a8244c);
+  box-shadow: 0 0 40px #f64e5a99, 28px 0 100px 34px #ef3a4838;
+  z-index: -2;
+}
+.music-release__panel::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(transparent 12%, #100d16e8 80%);
+  z-index: -1;
+}
+.music-release__tracks {
+  list-style: none;
+  counter-reset: track;
+  width: 100%;
+  margin: 140px 32px 32px;
+  padding: 0;
+}
+.music-release__tracks li {
+  counter-increment: track;
+  padding: 20px 0;
+  border-top: 1px solid #ffffff30;
+  color: #fff3e9;
+  font: 600 clamp(24px, 2.5vw, 36px)/1.15 var(--sans);
+  letter-spacing: -.035em;
+}
+.music-release__tracks li::before {
+  content: "0" counter(track);
+  display: block;
+  margin-bottom: 9px;
+  color: #ffb399;
+  font: 500 11px/1.4 var(--sans);
+  letter-spacing: .15em;
+}
+@media (max-width: 760px) {
+  .music-release__inner { grid-template-columns: 1fr; gap: 44px; }
+  .music-release h2, .music-release h1 { font-size: clamp(48px, 10vw, 72px); }
+  .music-release__panel { min-height: 420px; }
+  .music-release__tracks { margin: 112px 24px 24px; }
+  .music-release__mark { left: 24px; top: 24px; }
+  .music-release__tracks li { font-size: clamp(24px, 6.4vw, 34px); padding: 18px 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .music-release__link { transition: none; }
 }
 
-.music-release__link:hover {
-  color: var(--release-accent);
+/* The landing invitation is the first content below the site header. */
+.music-release--landing { padding-top: 128px; padding-bottom: 56px; }
+.music-release--landing .music-release__panel { min-height: 340px; }
+.music-release--landing .music-release__tracks { margin-top: 80px; margin-bottom: 20px; }
+.music-release--landing .music-release__tracks li { font-size: clamp(23px, 2.1vw, 30px); padding: 13px 0; }
+.music-release--landing .music-release__eyebrow { margin-bottom: 20px; }
+.music-page .music-release { padding-top: 144px; min-height: 85svh; box-sizing: border-box; }
+.music-release__tracks a { color: inherit; text-decoration: none; display: block; }
+.music-release__tracks a span { color: #ffb399; font-size: .7em; white-space: nowrap; }
+.music-release__tracks a:hover { color: #ffb399; }
+.music-release__tracks a:focus-visible { outline: 2px solid #ffb399; outline-offset: 5px; }
+@media(max-width: 760px) {
+  .music-release--landing { padding-top: 100px; padding-bottom: 36px; }
+  .music-release--landing .music-release__inner { gap: 28px; }
+  .music-release--landing h2 { font-size: 48px; }
+  .music-release--landing .music-release__status { margin-top: 18px; }
+  .music-release--landing .music-release__link { margin-top: 22px; }
+  .music-release--landing .music-release__panel { min-height: 290px; }
+  .music-release--landing .music-release__tracks { margin-top: 60px; }
+  .music-release--landing .music-release__tracks li { font-size: 23px; padding: 11px 0; }
+  .music-release--landing .music-release__tracks li::before { margin-bottom: 4px; }
+  .music-page .music-release { padding-top: 112px; }
 }
 
-.music-release__link:focus-visible {
-  outline: 2px solid var(--release-accent);
-  outline-offset: 6px;
-}
+.music-artist-note { margin-top: 32px; max-width: 56ch; }
+.music-release .music-artist-note h2 { font: 500 clamp(25px, 2.3vw, 32px)/1.2 var(--serif); letter-spacing: -.02em; color: #ffb399; }
+.music-artist-note p { margin: 16px 0 0; color: #ded4d7; font: 400 16px/1.65 var(--sans); }
+.music-page .music-release__panel { align-self: stretch; }
