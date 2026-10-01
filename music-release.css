@@ -151,3 +151,14 @@
 .music-release .music-artist-note h2 { font: 500 clamp(25px, 2.3vw, 32px)/1.2 var(--serif); letter-spacing: -.02em; color: #ffb399; }
 .music-artist-note p { margin: 16px 0 0; color: #ded4d7; font: 400 16px/1.65 var(--sans); }
 .music-page .music-release__panel { align-self: stretch; }
+
+/* Editorial invitation on the homepages; release pages retain their track lists. */
+.music-release__story {
+  margin: 110px 32px 32px;
+  color: #fff3e9;
+  font: 500 clamp(24px, 2.3vw, 34px)/1.3 var(--sans);
+  letter-spacing: -.025em;
+}
+@media(max-width: 760px) {
+  .music-release__story { margin: 88px 24px 24px; font-size: 25px; }
+}
