@@ -1,15 +1,26 @@
 const menuButton = document.querySelector('.menu-button');
 const nav = document.querySelector('#main-nav');
 
-menuButton.addEventListener('click', () => {
-  const open = nav.classList.toggle('open');
-  menuButton.setAttribute('aria-expanded', open);
-});
-
-nav.querySelectorAll('a').forEach((link) => link.addEventListener('click', () => {
-  nav.classList.remove('open');
-  menuButton.setAttribute('aria-expanded', 'false');
-}));
+if (menuButton && nav) {
+  const closeMenu = (restoreFocus = false) => {
+    nav.classList.remove('open');
+    menuButton.setAttribute('aria-expanded', 'false');
+    document.body.classList.remove('nav-open');
+    if (restoreFocus) menuButton.focus();
+  };
+  menuButton.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    menuButton.setAttribute('aria-expanded', String(open));
+    document.body.classList.toggle('nav-open', open);
+  });
+  nav.querySelectorAll('a').forEach(link => link.addEventListener('click', () => closeMenu()));
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && nav.classList.contains('open')) closeMenu(true);
+  });
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 900 && nav.classList.contains('open')) closeMenu();
+  });
+}
 
 const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
   if (entry.isIntersecting) {
