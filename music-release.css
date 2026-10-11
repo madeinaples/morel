@@ -129,7 +129,7 @@
 .music-release--landing .music-release__tracks { margin-top: 80px; margin-bottom: 20px; }
 .music-release--landing .music-release__tracks li { font-size: clamp(23px, 2.1vw, 30px); padding: 13px 0; }
 .music-release--landing .music-release__eyebrow { margin-bottom: 20px; }
-.music-page .music-release { padding-top: 144px; min-height: 85svh; box-sizing: border-box; }
+.music-page .music-release { padding-top: 144px; padding-bottom: clamp(52px, 5vw, 80px); min-height: auto; box-sizing: border-box; }
 .music-release__tracks a { color: inherit; text-decoration: none; display: block; }
 .music-release__tracks a span { color: #ffb399; font-size: .7em; white-space: nowrap; }
 .music-release__tracks a:hover { color: #ffb399; }
