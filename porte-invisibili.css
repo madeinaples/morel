@@ -12,7 +12,7 @@
   text-transform: uppercase;
   letter-spacing: .17em;
 }
-.invisible-door h2 {
+.article-body .invisible-door h2 {
   max-width: 790px;
   margin: 0 0 18px;
   color: var(--white, #f4f0e7);
