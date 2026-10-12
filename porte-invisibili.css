@@ -1,0 +1,97 @@
+/* Le Porte Invisibili: prima sperimentazione editoriale su La giuria invisibile.
+   Stili confinati a .invisible-door per non cambiare gli altri articoli. */
+.invisible-door {
+  margin: clamp(65px, 9vw, 115px) 0 42px;
+  padding: 30px 0 12px;
+  border-top: 1px solid var(--line, rgba(238,233,222,.2));
+}
+.invisible-door .kicker {
+  margin: 0 0 24px;
+  color: var(--muted, #9b9d97);
+  font: 500 11px/1.5 var(--sans, Arial, sans-serif);
+  text-transform: uppercase;
+  letter-spacing: .17em;
+}
+.article-body .invisible-door h2 {
+  max-width: 790px;
+  margin: 0 0 18px;
+  color: var(--white, #f4f0e7);
+  font: 400 clamp(34px, 4.2vw, 60px)/1.07 var(--display, Georgia, serif);
+  letter-spacing: -.025em;
+}
+.invisible-door .door-aside {
+  margin: 0 0 30px;
+  color: var(--muted, #9b9d97);
+  font: 14px/1.6 var(--sans, Arial, sans-serif);
+}
+.invisible-door .door-choices {
+  border-top: 1px solid var(--line, rgba(238,233,222,.2));
+}
+.invisible-door .door-choice {
+  border-bottom: 1px solid var(--line, rgba(238,233,222,.2));
+}
+.invisible-door summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 64px;
+  padding: 17px 4px;
+  color: var(--ink, #eee9de);
+  font: 400 clamp(17px, 2vw, 22px)/1.35 var(--serif, Georgia, serif);
+  cursor: pointer;
+}
+.invisible-door summary::-webkit-details-marker { display: none; }
+.invisible-door summary::marker { content: ""; }
+.invisible-door summary:hover,
+.invisible-door summary:focus-visible { color: var(--white, #f4f0e7); }
+.invisible-door summary:focus-visible {
+  outline: 2px solid var(--white, #f4f0e7);
+  outline-offset: 4px;
+}
+.invisible-door .door-arrow {
+  color: var(--muted, #9b9d97);
+  font: 15px/1 var(--sans, Arial, sans-serif);
+  flex: 0 0 auto;
+  transition: transform .2s ease;
+}
+.invisible-door details[open] .door-arrow { transform: rotate(45deg); }
+.invisible-door .door-reveal {
+  padding: 0 8px 30px 4px;
+}
+.invisible-door .door-reveal p {
+  max-width: 620px;
+  margin: 8px 0 20px;
+  color: var(--white, #f4f0e7);
+  font: 400 clamp(22px, 2.6vw, 30px)/1.27 var(--serif, Georgia, serif);
+}
+.invisible-door .door-reveal a {
+  display: inline-block;
+  color: var(--ink, #eee9de);
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+  padding: 3px 0 7px;
+  font: 500 11px/1.6 var(--sans, Arial, sans-serif);
+  text-transform: uppercase;
+  letter-spacing: .12em;
+}
+.invisible-door .door-reveal a:hover,
+.invisible-door .door-reveal a:focus-visible { color: var(--white, #f4f0e7); }
+.invisible-door .door-exit {
+  margin: 24px 0 0;
+  color: var(--muted, #9b9d97);
+  font: 13px/1.6 var(--sans, Arial, sans-serif);
+}
+.invisible-door .door-exit a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+@media (max-width: 620px) {
+  .invisible-door { margin-top: 68px; padding-top: 24px; }
+  .invisible-door summary { min-height: 58px; padding: 16px 4px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .invisible-door .door-arrow { transition: none; }
+}

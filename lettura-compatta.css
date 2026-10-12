@@ -1,0 +1,26 @@
+/* Experimental reading rhythm for La giuria invisibile only.
+   The original text and all Invisible Door interactions remain unchanged. */
+body.reading-compact .article-body > p {
+  margin-top: 0;
+  margin-bottom: .90em;
+  line-height: 1.54;
+}
+body.reading-compact .article-body > p:first-child {
+  margin-bottom: 1.15em;
+  line-height: 1.4;
+}
+body.reading-compact .article-body > h2,
+body.reading-compact .article-body > h3 {
+  margin-top: 1.52em;
+  margin-bottom: .55em;
+}
+body.reading-compact .article-body > blockquote {
+  margin-top: 1.55em;
+  margin-bottom: 1.55em;
+}
+body.reading-compact .invisible-door {
+  margin-top: clamp(62px, 8vw, 100px);
+}
+@media (max-width: 640px) {
+  body.reading-compact .article-body > p { margin-bottom: .95em; line-height: 1.57; }
+}
