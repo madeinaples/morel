@@ -34,7 +34,7 @@
         color: inherit;
         font: 400 10px/1 "DM Sans", Arial, sans-serif;
         letter-spacing: .04em;
-        opacity: .58;
+        opacity: 1;
         white-space: nowrap;
       }
       .archive-engagement span {
@@ -44,7 +44,7 @@
       }
       .archive-item:hover .archive-engagement,
       .archive-item:focus-visible .archive-engagement {
-        opacity: .9;
+        opacity: 1;
       }
       @media (max-width: 700px) {
         .archive-engagement {
