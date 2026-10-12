@@ -40,3 +40,6 @@
  .home-v2 .hero-actions { margin-top: 17px; gap: 9px; }
  .home-v2 .hero-button { min-height: 43px; padding: 12px 14px; }
 }
+
+/* Keep hero copy readable across photographic crops and viewport sizes. */
+.home-v2 .hero-shade { background: linear-gradient(90deg, rgba(3,5,5,.82) 0%, rgba(3,5,5,.68) 60%, rgba(3,5,5,.62) 100%), linear-gradient(0deg, rgba(3,5,5,.68), transparent 42%); }
