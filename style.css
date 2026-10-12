@@ -820,7 +820,7 @@ footer a {
 
 /* SMART NAV V1: a consistent, self-explaining menu across editorial hubs. */
 .site-header nav.smart-nav { align-items:center; gap:clamp(14px,1.8vw,29px); }
-.site-header nav.smart-nav > a { white-space:nowrap; }
+.site-header nav.smart-nav > a { white-space:nowrap; font-size:12px; opacity:1; }
 .site-header nav.smart-nav .nav-hint, .site-header nav.smart-nav .nav-home-only { display:none; }
 .site-header nav.smart-nav a[aria-current="page"] { opacity:1; text-decoration:underline; text-decoration-color:#ffb399; text-decoration-thickness:1px; text-underline-offset:9px; }
 .site-header nav.smart-nav a:focus-visible, .site-header .menu-button:focus-visible { outline:2px solid #ffb399; outline-offset:6px; }

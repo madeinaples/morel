@@ -13,7 +13,8 @@ for path in ROOT.rglob('*.html'):
     source = path.read_text(encoding='utf-8')
     original = source
     is_en = bool(re.search(r'<html[^>]*\blang=["\']en', source, re.I))
-    home = '/index-en.html' if is_en else '/index.html'
+    # Use canonical language homes: Netlify may rewrite index.html links to '/'.
+    home = '/' if is_en else '/italiano'
     privacy = '/privacy-en.html' if is_en else '/privacy.html'
     ai_notice = '/ai-use-notice.html' if is_en else '/nota-ai.html'
     project_copy = 'A project by' if is_en else 'Un progetto di'
