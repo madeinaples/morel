@@ -33,3 +33,13 @@
   .about-morel-start { padding: 90px 0 120px; }
   .about-morel-start h2 { font-size: 48px; }
 }
+
+
+/* Portrait: a real face behind the chosen name */
+.about-morel-portrait{max-width:1060px;margin:0 auto 110px;display:grid;grid-template-columns:minmax(240px,.85fr) minmax(0,1.15fr);gap:clamp(32px,6vw,90px);align-items:center;border-top:1px solid var(--line);padding-top:52px}
+.about-morel-portrait figure{margin:0;max-width:480px}
+.about-morel-portrait img{display:block;width:100%;height:auto;aspect-ratio:1;object-fit:cover;filter:grayscale(1)}
+.about-morel-portrait figcaption{padding-top:12px;color:var(--muted);font:10px var(--sans);letter-spacing:.16em}
+.about-morel-portrait h2{margin:18px 0 24px;font:clamp(44px,6vw,78px)/.95 var(--display);letter-spacing:-.055em}
+.about-morel-portrait div>p:last-child{max-width:520px;color:var(--white);font:clamp(19px,2vw,25px)/1.45 var(--serif)}
+@media(max-width:700px){.about-morel-portrait{grid-template-columns:1fr;gap:30px;margin-bottom:75px}.about-morel-portrait figure{max-width:400px}.about-morel-portrait h2{font-size:clamp(43px,12vw,65px)}}
