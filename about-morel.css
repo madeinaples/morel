@@ -43,3 +43,8 @@
 .about-morel-portrait h2{margin:18px 0 24px;font:clamp(44px,6vw,78px)/.95 var(--display);letter-spacing:-.055em}
 .about-morel-portrait div>p:last-child{max-width:520px;color:var(--white);font:clamp(19px,2vw,25px)/1.45 var(--serif)}
 @media(max-width:700px){.about-morel-portrait{grid-template-columns:1fr;gap:30px;margin-bottom:75px}.about-morel-portrait figure{max-width:400px}.about-morel-portrait h2{font-size:clamp(43px,12vw,65px)}}
+
+/* Keep the temporary compact portrait close to its native resolution until a high-res asset replaces it. */
+.about-morel-portrait figure{max-width:280px}
+.about-morel-portrait div>p:last-child strong{font-weight:600;color:var(--white)}
+@media(max-width:700px){.about-morel-portrait figure{max-width:280px}}
