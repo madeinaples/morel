@@ -123,27 +123,12 @@
   .music-release__link { transition: none; }
 }
 
-/* The landing invitation is the first content below the site header. */
-.music-release--landing { padding-top: 128px; padding-bottom: 56px; }
-.music-release--landing .music-release__panel { min-height: 340px; }
-.music-release--landing .music-release__tracks { margin-top: 80px; margin-bottom: 20px; }
-.music-release--landing .music-release__tracks li { font-size: clamp(23px, 2.1vw, 30px); padding: 13px 0; }
-.music-release--landing .music-release__eyebrow { margin-bottom: 20px; }
 .music-page .music-release { padding-top: 144px; padding-bottom: clamp(52px, 5vw, 80px); min-height: auto; box-sizing: border-box; }
 .music-release__tracks a { color: inherit; text-decoration: none; display: block; }
 .music-release__tracks a span { color: #ffb399; font-size: .7em; white-space: nowrap; }
 .music-release__tracks a:hover { color: #ffb399; }
 .music-release__tracks a:focus-visible { outline: 2px solid #ffb399; outline-offset: 5px; }
 @media(max-width: 760px) {
-  .music-release--landing { padding-top: 100px; padding-bottom: 36px; }
-  .music-release--landing .music-release__inner { gap: 28px; }
-  .music-release--landing h2 { font-size: 48px; }
-  .music-release--landing .music-release__status { margin-top: 18px; }
-  .music-release--landing .music-release__link { margin-top: 22px; }
-  .music-release--landing .music-release__panel { min-height: 290px; }
-  .music-release--landing .music-release__tracks { margin-top: 60px; }
-  .music-release--landing .music-release__tracks li { font-size: 23px; padding: 11px 0; }
-  .music-release--landing .music-release__tracks li::before { margin-bottom: 4px; }
   .music-page .music-release { padding-top: 112px; }
 }
 
@@ -178,3 +163,17 @@
 .music-editorial-bridge a:focus-visible { outline:3px solid #ffb399; outline-offset:4px; }
 .music-editorial-bridge__more { color:#ffb399; font:500 15px/1.5 var(--sans); text-decoration:underline; text-underline-offset:5px; }
 @media(max-width:760px) { .music-editorial-bridge__links { grid-template-columns:1fr; } }
+
+/* Compact EP announcement on the homepages. */
+.music-release--landing { padding-top: 112px; padding-bottom: 32px; background: #0c0d0f; }
+.music-release--landing .music-release__inner { grid-template-columns: minmax(0, 1fr) auto; gap: 28px; max-width: 1280px; }
+.music-release--landing .music-release__eyebrow { margin-bottom: 12px; font-size: 10px; }
+.music-release--landing h2 { font: 400 clamp(28px, 3vw, 42px)/1.15 var(--serif); letter-spacing: -.025em; }
+.music-release--landing .music-release__status { margin-top: 10px; font-size: 16px; }
+.music-release--landing .music-release__link { margin-top: 0; min-height: 44px; padding: 10px 16px; background: transparent; color: #f7f1e9; border-color: #65545a; font-size: 12px; }
+.music-release--landing .music-release__link:hover { border-color: #ffb399; color: #ffb399; }
+@media(max-width: 760px) {
+  .music-release--landing { padding-top: 96px; padding-bottom: 28px; }
+  .music-release--landing .music-release__inner { grid-template-columns: 1fr; gap: 18px; }
+  .music-release--landing .music-release__link { justify-self: start; }
+}
