@@ -29,7 +29,8 @@ for path in ROOT.rglob('*.html'):
     source = re.sub(
         r'\s*[·|—-]?\s*(?:PROGETTO\s+EDITORIALE\s+E\s+SITO\s+CURATI\s+DA|EDITORIAL\s+PROJECT\s+AND\s+SITE\s+CURATED\s+BY)\s+CRISTIANO\s+MAIELLO',
         '', source, flags=re.I | re.S)
-    source = re.sub(r'CRISTIANO\s+MAIELLO', '', source, flags=re.I)
+    if not is_cristiano_preview:
+        source = re.sub(r'CRISTIANO\s+MAIELLO', '', source, flags=re.I)
 
     nav = re.search(r'(<nav\b[^>]*\bid=["\']main-nav["\'][^>]*>)(.*?)(</nav>)', source, re.I | re.S)
     if nav:
@@ -66,7 +67,7 @@ for path in ROOT.rglob('*.html'):
     if source != original:
         changed += 1
 
-    if re.search(r'CRISTIANO\s+MAIELLO', source, re.I):
+    if not is_cristiano_preview and re.search(r'CRISTIANO\s+MAIELLO', source, re.I):
         raise RuntimeError(f'Legacy Cristiano Maiello credit survived in {path.relative_to(ROOT)}')
     if nav:
         nav_after = re.search(r'<nav\b[^>]*\bid=["\']main-nav["\'][^>]*>(.*?)</nav>', source, re.I | re.S)
