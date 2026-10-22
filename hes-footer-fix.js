@@ -146,6 +146,10 @@
     signature.setAttribute('aria-label', 'Human Edit Studio');
 
     const isItalian = document.documentElement.lang.toLowerCase().startsWith('it');
+    const isCristianoPreview = ['/', '/italiano', '/italiano.html', '/index-en.html', '/about-morel.html', '/chi-e-morel.html'].includes(window.location.pathname);
+    const displayName = isCristianoPreview ? 'Cristiano Maiello' : 'Andrea Morel';
+    const footerName = footer.querySelector('.footer-name');
+    if (footerName) footerName.textContent = displayName;
     let credit = footerMeta.querySelector(':scope > span');
     if (!credit) {
       credit = document.createElement('span');
@@ -156,8 +160,8 @@
     });
 
     credit.innerHTML = isItalian
-      ? '© 2026 Andrea Morel · Un progetto di <a href="https://humaneditstudio.co.uk/" target="_blank" rel="noopener noreferrer">Human Edit Studio</a>'
-      : '© 2026 Andrea Morel · A project by <a href="https://humaneditstudio.co.uk/" target="_blank" rel="noopener noreferrer">Human Edit Studio</a>';
+      ? `© 2026 ${displayName} · Un progetto di <a href="https://humaneditstudio.co.uk/" target="_blank" rel="noopener noreferrer">Human Edit Studio</a>`
+      : `© 2026 ${displayName} · A project by <a href="https://humaneditstudio.co.uk/" target="_blank" rel="noopener noreferrer">Human Edit Studio</a>`;
 
     const privacyHref = isItalian ? '/privacy.html' : '/privacy-en.html';
     const aiHref = isItalian ? '/nota-ai.html' : '/ai-use-notice.html';
