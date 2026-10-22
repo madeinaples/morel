@@ -18,6 +18,8 @@ for path in ROOT.rglob('*.html'):
     privacy = '/privacy-en.html' if is_en else '/privacy.html'
     ai_notice = '/ai-use-notice.html' if is_en else '/nota-ai.html'
     project_copy = 'A project by' if is_en else 'Un progetto di'
+    is_cristiano_preview = path.name in {'italiano.html', 'index-en.html', 'chi-e-morel.html', 'about-morel.html'}
+    display_name = 'Cristiano Maiello' if is_cristiano_preview else 'Andrea Morel'
 
     if 'footer-refine.css' not in source:
         source = re.sub(r'</head>', '  <link rel="stylesheet" href="/footer-refine.css?v=3">\n</head>', source, count=1, flags=re.I)
@@ -44,11 +46,11 @@ for path in ROOT.rglob('*.html'):
         '<p>Websites. Content. Care.</p></a>'
     )
     credit = (
-        f'<span>© 2026 Andrea Morel · {project_copy} '
+        f'<span>© 2026 {display_name} · {project_copy} '
         '<a href="https://humaneditstudio.co.uk/" target="_blank" rel="noopener noreferrer">Human Edit Studio</a></span>'
     )
     footer = (
-        f'<footer><a class="footer-name" href="{home}">Andrea Morel</a>'
+        f'<footer><a class="footer-name" href="{home}">{display_name}</a>'
         f'{signature}<div class="human-edit-footer-meta">{credit}'
         f'<a href="{privacy}">Privacy</a>'
         f'<a href="{ai_notice}">{"AI use" if is_en else "Uso dell’AI"}</a>'
