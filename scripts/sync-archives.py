@@ -243,7 +243,7 @@ def sync(check: bool) -> bool:
     for language, home_path in (("it", ROOT / "italiano.html"), ("en", ROOT / "index-en.html")):
         homepage = home_path.read_text(encoding="utf-8")
         latest = articles_by_language[language][0]
-        link_pattern = re.compile(r'(<a\\s+class="hero-button"\\s+data-latest-article\\s+href=")[^"]+(")')
+        link_pattern = re.compile(r'(<a class="hero-button" data-latest-article href=")[^"]+(")')
         refreshed, count = link_pattern.subn(lambda match: match.group(1) + latest.url + match.group(2), homepage, count=1)
         if count != 1:
             raise ValueError(f"latest article link missing in {home_path.name}")
