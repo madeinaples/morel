@@ -239,6 +239,17 @@ def sync(check: bool) -> bool:
         if archive_source != ARCHIVE_FILES[language].read_text(encoding="utf-8"):
             changed[ARCHIVE_FILES[language]] = archive_source
 
+    # Update the visible latest-article link on each language's homepage.
+    for language, home_path in (("it", ROOT / "italiano.html"), ("en", ROOT / "index-en.html")):
+        homepage = home_path.read_text(encoding="utf-8")
+        latest = articles_by_language[language][0]
+        link_pattern = re.compile(r'(<a\\s+class="hero-button"\\s+data-latest-article\\s+href=")[^"]+(")')
+        refreshed, count = link_pattern.subn(lambda match: match.group(1) + latest.url + match.group(2), homepage, count=1)
+        if count != 1:
+            raise ValueError(f"latest article link missing in {home_path.name}")
+        if refreshed != homepage:
+            changed[home_path] = refreshed
+
     sitemap = ROOT / "sitemap.xml"
     sitemap_source = sitemap.read_text(encoding="utf-8")
     sitemap_updated = sitemap_source
