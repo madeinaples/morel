@@ -831,3 +831,7 @@ footer a {
  .site-header nav.smart-nav a.language { padding-top:21px; border-bottom:0; }
  body.nav-open { overflow:hidden; }
 }
+
+/* Cristiano Maiello identity — phase-one preview */
+.site-header .brand .cm-logo{display:grid;place-items:center;width:56px;height:56px;min-width:56px;border:1px solid rgba(238,233,222,.52);border-radius:50%;color:#eee9de;background:#090b0b;font:500 17px/1 'DM Sans',Arial,sans-serif;letter-spacing:.11em}
+.site-header .brand:focus-visible .cm-logo{outline:2px solid #eee9de;outline-offset:4px}

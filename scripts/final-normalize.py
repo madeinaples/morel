@@ -18,6 +18,8 @@ for path in ROOT.rglob('*.html'):
     privacy = '/privacy-en.html' if is_en else '/privacy.html'
     ai_notice = '/ai-use-notice.html' if is_en else '/nota-ai.html'
     project_copy = 'A project by' if is_en else 'Un progetto di'
+    is_cristiano_preview = path.name in {'italiano.html', 'index-en.html', 'chi-e-morel.html', 'about-morel.html'}
+    display_name = 'Cristiano Maiello' if is_cristiano_preview else 'Andrea Morel'
 
     if 'footer-refine.css' not in source:
         source = re.sub(r'</head>', '  <link rel="stylesheet" href="/footer-refine.css?v=3">\n</head>', source, count=1, flags=re.I)
@@ -27,7 +29,8 @@ for path in ROOT.rglob('*.html'):
     source = re.sub(
         r'\s*[·|—-]?\s*(?:PROGETTO\s+EDITORIALE\s+E\s+SITO\s+CURATI\s+DA|EDITORIAL\s+PROJECT\s+AND\s+SITE\s+CURATED\s+BY)\s+CRISTIANO\s+MAIELLO',
         '', source, flags=re.I | re.S)
-    source = re.sub(r'CRISTIANO\s+MAIELLO', '', source, flags=re.I)
+    if not is_cristiano_preview:
+        source = re.sub(r'CRISTIANO\s+MAIELLO', '', source, flags=re.I)
 
     nav = re.search(r'(<nav\b[^>]*\bid=["\']main-nav["\'][^>]*>)(.*?)(</nav>)', source, re.I | re.S)
     if nav:
@@ -44,11 +47,11 @@ for path in ROOT.rglob('*.html'):
         '<p>Websites. Content. Care.</p></a>'
     )
     credit = (
-        f'<span>© 2026 Andrea Morel · {project_copy} '
+        f'<span>© 2026 {display_name} · {project_copy} '
         '<a href="https://humaneditstudio.co.uk/" target="_blank" rel="noopener noreferrer">Human Edit Studio</a></span>'
     )
     footer = (
-        f'<footer><a class="footer-name" href="{home}">Andrea Morel</a>'
+        f'<footer><a class="footer-name" href="{home}">{display_name}</a>'
         f'{signature}<div class="human-edit-footer-meta">{credit}'
         f'<a href="{privacy}">Privacy</a>'
         f'<a href="{ai_notice}">{"AI use" if is_en else "Uso dell’AI"}</a>'
@@ -64,7 +67,7 @@ for path in ROOT.rglob('*.html'):
     if source != original:
         changed += 1
 
-    if re.search(r'CRISTIANO\s+MAIELLO', source, re.I):
+    if not is_cristiano_preview and re.search(r'CRISTIANO\s+MAIELLO', source, re.I):
         raise RuntimeError(f'Legacy Cristiano Maiello credit survived in {path.relative_to(ROOT)}')
     if nav:
         nav_after = re.search(r'<nav\b[^>]*\bid=["\']main-nav["\'][^>]*>(.*?)</nav>', source, re.I | re.S)

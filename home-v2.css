@@ -43,3 +43,8 @@
 
 /* Keep hero copy readable across photographic crops and viewport sizes. */
 .home-v2 .hero-shade { background: linear-gradient(90deg, rgba(3,5,5,.82) 0%, rgba(3,5,5,.68) 60%, rgba(3,5,5,.62) 100%), linear-gradient(0deg, rgba(3,5,5,.68), transparent 42%); }
+
+/* Cristiano Maiello hero: longer first name, responsive, no clipped headline. */
+.home-v2 .hero h1{font-size:clamp(58px,9vw,118px);letter-spacing:-.065em}
+@media(max-width:760px){.home-v2 .hero h1{font-size:clamp(47px,12vw,82px);letter-spacing:-.06em}}
+@media(max-width:420px){.home-v2 .hero h1{font-size:clamp(43px,12vw,63px)}}
